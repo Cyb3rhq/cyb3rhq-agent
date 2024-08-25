@@ -2,12 +2,12 @@
   description: CloudTrail path configurations
   configuration_parameters:
     BUCKET_TYPE: cloudtrail
-    BUCKET_NAME: wazuh-cloudtrail-integration-tests
+    BUCKET_NAME: cyb3rhq-cloudtrail-integration-tests
     PATH: test_prefix
   metadata:
     resource_type: bucket
     bucket_type: cloudtrail
-    bucket_name: wazuh-cloudtrail-integration-tests
+    bucket_name: cyb3rhq-cloudtrail-integration-tests
     only_logs_after: 2022-NOV-20
     path: test_prefix
     expected_results: 1
@@ -16,12 +16,12 @@
   description: CloudTrail path configurations
   configuration_parameters:
     BUCKET_TYPE: cloudtrail
-    BUCKET_NAME: wazuh-cloudtrail-integration-tests
+    BUCKET_NAME: cyb3rhq-cloudtrail-integration-tests
     PATH: empty_prefix
   metadata:
     resource_type: bucket
     bucket_type: cloudtrail
-    bucket_name: wazuh-cloudtrail-integration-tests
+    bucket_name: cyb3rhq-cloudtrail-integration-tests
     only_logs_after: 2022-NOV-20
     path: empty_prefix
     expected_results: 0
@@ -30,12 +30,12 @@
   description: CloudTrail path configurations
   configuration_parameters:
     BUCKET_TYPE: cloudtrail
-    BUCKET_NAME: wazuh-cloudtrail-integration-tests
+    BUCKET_NAME: cyb3rhq-cloudtrail-integration-tests
     PATH: inexistent_prefix
   metadata:
     resource_type: bucket
     bucket_type: cloudtrail
-    bucket_name: wazuh-cloudtrail-integration-tests
+    bucket_name: cyb3rhq-cloudtrail-integration-tests
     only_logs_after: 2022-NOV-20
     path: inexistent_prefix
     expected_results: 0
@@ -44,13 +44,13 @@
   description: VPC path configurations
   configuration_parameters:
     BUCKET_TYPE: vpcflow
-    BUCKET_NAME: wazuh-vpcflow-integration-tests
+    BUCKET_NAME: cyb3rhq-vpcflow-integration-tests
     PATH: test_prefix
   metadata:
     resource_type: bucket
     bucket_type: vpcflow
-    bucket_name: wazuh-vpcflow-integration-tests
-    vpc_name: wazuh-vpc-integration-tests
+    bucket_name: cyb3rhq-vpcflow-integration-tests
+    vpc_name: cyb3rhq-vpc-integration-tests
     only_logs_after: 2022-NOV-20
     path: test_prefix
     expected_results: 1
@@ -59,13 +59,13 @@
   description: VPC path configurations
   configuration_parameters:
     BUCKET_TYPE: vpcflow
-    BUCKET_NAME: wazuh-vpcflow-integration-tests
+    BUCKET_NAME: cyb3rhq-vpcflow-integration-tests
     PATH: empty_prefix
   metadata:
     resource_type: bucket
     bucket_type: vpcflow
-    bucket_name: wazuh-vpcflow-integration-tests
-    vpc_name: wazuh-vpc-integration-tests
+    bucket_name: cyb3rhq-vpcflow-integration-tests
+    vpc_name: cyb3rhq-vpc-integration-tests
     only_logs_after: 2022-NOV-20
     path: empty_prefix
     expected_results: 0
@@ -74,12 +74,12 @@
   description: Umbrella path configurations
   configuration_parameters:
     BUCKET_TYPE: cisco_umbrella
-    BUCKET_NAME: wazuh-umbrella-integration-tests
+    BUCKET_NAME: cyb3rhq-umbrella-integration-tests
     PATH: test_prefix/dnslogs
   metadata:
     resource_type: bucket
     bucket_type: cisco_umbrella
-    bucket_name: wazuh-umbrella-integration-tests
+    bucket_name: cyb3rhq-umbrella-integration-tests
     only_logs_after: 2022-NOV-20
     path: test_prefix/dnslogs
     expected_results: 1
@@ -88,12 +88,12 @@
   description: Umbrella path configurations
   configuration_parameters:
     BUCKET_TYPE: cisco_umbrella
-    BUCKET_NAME: wazuh-umbrella-integration-tests
+    BUCKET_NAME: cyb3rhq-umbrella-integration-tests
     PATH: empty_prefix
   metadata:
     resource_type: bucket
     bucket_type: cisco_umbrella
-    bucket_name: wazuh-umbrella-integration-tests
+    bucket_name: cyb3rhq-umbrella-integration-tests
     only_logs_after: 2022-NOV-20
     path: empty_prefix
     expected_results: 0
@@ -102,13 +102,13 @@
   description: CloudTrail path configurations
   configuration_parameters:
     BUCKET_TYPE: vpcflow
-    BUCKET_NAME: wazuh-vpcflow-integration-tests
+    BUCKET_NAME: cyb3rhq-vpcflow-integration-tests
     PATH: inexistent_prefix
   metadata:
     resource_type: bucket
     bucket_type: vpcflow
-    bucket_name: wazuh-vpcflow-integration-tests
-    vpc_name: wazuh-vpc-integration-tests
+    bucket_name: cyb3rhq-vpcflow-integration-tests
+    vpc_name: cyb3rhq-vpc-integration-tests
     only_logs_after: 2022-NOV-20
     path: inexistent_prefix
     expected_results: 0
@@ -117,12 +117,12 @@
   description: Config path configurations
   configuration_parameters:
     BUCKET_TYPE: config
-    BUCKET_NAME: wazuh-config-integration-tests
+    BUCKET_NAME: cyb3rhq-config-integration-tests
     PATH: test_prefix
   metadata:
     resource_type: bucket
     bucket_type: config
-    bucket_name: wazuh-config-integration-tests
+    bucket_name: cyb3rhq-config-integration-tests
     only_logs_after: 2022-NOV-20
     path: test_prefix
     expected_results: 1
@@ -131,12 +131,12 @@
   description: Config path configurations
   configuration_parameters:
     BUCKET_TYPE: config
-    BUCKET_NAME: wazuh-config-integration-tests
+    BUCKET_NAME: cyb3rhq-config-integration-tests
     PATH: empty_prefix
   metadata:
     resource_type: bucket
     bucket_type: config
-    bucket_name: wazuh-config-integration-tests
+    bucket_name: cyb3rhq-config-integration-tests
     only_logs_after: 2022-NOV-20
     path: empty_prefix
     expected_results: 0
@@ -145,12 +145,12 @@
   description: Config path configurations
   configuration_parameters:
     BUCKET_TYPE: config
-    BUCKET_NAME: wazuh-config-integration-tests
+    BUCKET_NAME: cyb3rhq-config-integration-tests
     PATH: inexistent_prefix
   metadata:
     resource_type: bucket
     bucket_type: config
-    bucket_name: wazuh-config-integration-tests
+    bucket_name: cyb3rhq-config-integration-tests
     only_logs_after: 2022-NOV-20
     path: inexistent_prefix
     expected_results: 0
@@ -159,12 +159,12 @@
   description: ALB path configurations
   configuration_parameters:
     BUCKET_TYPE: alb
-    BUCKET_NAME: wazuh-alb-integration-tests
+    BUCKET_NAME: cyb3rhq-alb-integration-tests
     PATH: test_prefix
   metadata:
     resource_type: bucket
     bucket_type: alb
-    bucket_name: wazuh-alb-integration-tests
+    bucket_name: cyb3rhq-alb-integration-tests
     only_logs_after: 2022-NOV-20
     path: test_prefix
     expected_results: 1
@@ -173,12 +173,12 @@
   description: ALB path configurations
   configuration_parameters:
     BUCKET_TYPE: alb
-    BUCKET_NAME: wazuh-alb-integration-tests
+    BUCKET_NAME: cyb3rhq-alb-integration-tests
     PATH: empty_prefix
   metadata:
     resource_type: bucket
     bucket_type: alb
-    bucket_name: wazuh-alb-integration-tests
+    bucket_name: cyb3rhq-alb-integration-tests
     only_logs_after: 2022-NOV-20
     path: empty_prefix
     expected_results: 0
@@ -187,12 +187,12 @@
   description: ALB path configurations
   configuration_parameters:
     BUCKET_TYPE: alb
-    BUCKET_NAME: wazuh-alb-integration-tests
+    BUCKET_NAME: cyb3rhq-alb-integration-tests
     PATH: inexistent_prefix
   metadata:
     resource_type: bucket
     bucket_type: alb
-    bucket_name: wazuh-alb-integration-tests
+    bucket_name: cyb3rhq-alb-integration-tests
     only_logs_after: 2022-NOV-20
     path: inexistent_prefix
     expected_results: 0
@@ -201,12 +201,12 @@
   description: CLB path configurations
   configuration_parameters:
     BUCKET_TYPE: clb
-    BUCKET_NAME: wazuh-clb-integration-tests
+    BUCKET_NAME: cyb3rhq-clb-integration-tests
     PATH: test_prefix
   metadata:
     resource_type: bucket
     bucket_type: clb
-    bucket_name: wazuh-clb-integration-tests
+    bucket_name: cyb3rhq-clb-integration-tests
     only_logs_after: 2022-NOV-20
     path: test_prefix
     expected_results: 1
@@ -215,12 +215,12 @@
   description: CLB path configurations
   configuration_parameters:
     BUCKET_TYPE: clb
-    BUCKET_NAME: wazuh-clb-integration-tests
+    BUCKET_NAME: cyb3rhq-clb-integration-tests
     PATH: empty_prefix
   metadata:
     resource_type: bucket
     bucket_type: clb
-    bucket_name: wazuh-clb-integration-tests
+    bucket_name: cyb3rhq-clb-integration-tests
     only_logs_after: 2022-NOV-20
     path: empty_prefix
     expected_results: 0
@@ -229,12 +229,12 @@
   description: CLB path configurations
   configuration_parameters:
     BUCKET_TYPE: clb
-    BUCKET_NAME: wazuh-clb-integration-tests
+    BUCKET_NAME: cyb3rhq-clb-integration-tests
     PATH: inexistent_prefix
   metadata:
     resource_type: bucket
     bucket_type: clb
-    bucket_name: wazuh-clb-integration-tests
+    bucket_name: cyb3rhq-clb-integration-tests
     only_logs_after: 2022-NOV-20
     path: inexistent_prefix
     expected_results: 0
@@ -243,12 +243,12 @@
   description: NLB path configurations
   configuration_parameters:
     BUCKET_TYPE: nlb
-    BUCKET_NAME: wazuh-nlb-integration-tests
+    BUCKET_NAME: cyb3rhq-nlb-integration-tests
     PATH: test_prefix
   metadata:
     resource_type: bucket
     bucket_type: nlb
-    bucket_name: wazuh-nlb-integration-tests
+    bucket_name: cyb3rhq-nlb-integration-tests
     only_logs_after: 2022-NOV-20
     path: test_prefix
     expected_results: 1
@@ -257,12 +257,12 @@
   description: NLB path configurations
   configuration_parameters:
     BUCKET_TYPE: nlb
-    BUCKET_NAME: wazuh-nlb-integration-tests
+    BUCKET_NAME: cyb3rhq-nlb-integration-tests
     PATH: empty_prefix
   metadata:
     resource_type: bucket
     bucket_type: nlb
-    bucket_name: wazuh-nlb-integration-tests
+    bucket_name: cyb3rhq-nlb-integration-tests
     only_logs_after: 2022-NOV-20
     path: empty_prefix
     expected_results: 0
@@ -271,12 +271,12 @@
   description: NLB path configurations
   configuration_parameters:
     BUCKET_TYPE: nlb
-    BUCKET_NAME: wazuh-nlb-integration-tests
+    BUCKET_NAME: cyb3rhq-nlb-integration-tests
     PATH: inexistent_prefix
   metadata:
     resource_type: bucket
     bucket_type: nlb
-    bucket_name: wazuh-nlb-integration-tests
+    bucket_name: cyb3rhq-nlb-integration-tests
     only_logs_after: 2022-NOV-20
     path: inexistent_prefix
     expected_results: 0
@@ -285,12 +285,12 @@
   description: KMS path configurations
   configuration_parameters:
     BUCKET_TYPE: custom
-    BUCKET_NAME: wazuh-kms-integration-tests
+    BUCKET_NAME: cyb3rhq-kms-integration-tests
     PATH: test_prefix
   metadata:
     resource_type: bucket
     bucket_type: custom
-    bucket_name: wazuh-kms-integration-tests
+    bucket_name: cyb3rhq-kms-integration-tests
     only_logs_after: 2022-NOV-20
     path: test_prefix
     expected_results: 1
@@ -299,12 +299,12 @@
   description: KMS path configurations
   configuration_parameters:
     BUCKET_TYPE: custom
-    BUCKET_NAME: wazuh-kms-integration-tests
+    BUCKET_NAME: cyb3rhq-kms-integration-tests
     PATH: empty_prefix
   metadata:
     resource_type: bucket
     bucket_type: custom
-    bucket_name: wazuh-kms-integration-tests
+    bucket_name: cyb3rhq-kms-integration-tests
     only_logs_after: 2022-NOV-20
     path: empty_prefix
     expected_results: 0
@@ -313,12 +313,12 @@
   description: KMS path configurations
   configuration_parameters:
     BUCKET_TYPE: custom
-    BUCKET_NAME: wazuh-kms-integration-tests
+    BUCKET_NAME: cyb3rhq-kms-integration-tests
     PATH: inexistent_prefix
   metadata:
     resource_type: bucket
     bucket_type: custom
-    bucket_name: wazuh-kms-integration-tests
+    bucket_name: cyb3rhq-kms-integration-tests
     only_logs_after: 2022-NOV-20
     path: inexistent_prefix
     expected_results: 0
@@ -327,12 +327,12 @@
   description: Macie path configurations
   configuration_parameters:
     BUCKET_TYPE: custom
-    BUCKET_NAME: wazuh-macie-integration-tests
+    BUCKET_NAME: cyb3rhq-macie-integration-tests
     PATH: test_prefix
   metadata:
     resource_type: bucket
     bucket_type: custom
-    bucket_name: wazuh-macie-integration-tests
+    bucket_name: cyb3rhq-macie-integration-tests
     only_logs_after: 2022-NOV-20
     path: test_prefix
     expected_results: 1
@@ -341,12 +341,12 @@
   description: Macie path configurations
   configuration_parameters:
     BUCKET_TYPE: custom
-    BUCKET_NAME: wazuh-macie-integration-tests
+    BUCKET_NAME: cyb3rhq-macie-integration-tests
     PATH: empty_prefix
   metadata:
     resource_type: bucket
     bucket_type: custom
-    bucket_name: wazuh-macie-integration-tests
+    bucket_name: cyb3rhq-macie-integration-tests
     only_logs_after: 2022-NOV-20
     path: empty_prefix
     expected_results: 0
@@ -355,12 +355,12 @@
   description: Macie path configurations
   configuration_parameters:
     BUCKET_TYPE: custom
-    BUCKET_NAME: wazuh-macie-integration-tests
+    BUCKET_NAME: cyb3rhq-macie-integration-tests
     PATH: inexistent_prefix
   metadata:
     resource_type: bucket
     bucket_type: custom
-    bucket_name: wazuh-macie-integration-tests
+    bucket_name: cyb3rhq-macie-integration-tests
     only_logs_after: 2022-NOV-20
     path: inexistent_prefix
     expected_results: 0
@@ -369,12 +369,12 @@
   description: Trusted Advisor path configurations
   configuration_parameters:
     BUCKET_TYPE: custom
-    BUCKET_NAME: wazuh-trusted-advisor-integration-tests
+    BUCKET_NAME: cyb3rhq-trusted-advisor-integration-tests
     PATH: test_prefix
   metadata:
     resource_type: bucket
     bucket_type: custom
-    bucket_name: wazuh-trusted-advisor-integration-tests
+    bucket_name: cyb3rhq-trusted-advisor-integration-tests
     only_logs_after: 2022-NOV-20
     path: test_prefix
     expected_results: 1
@@ -383,12 +383,12 @@
   description: Trusted Advisor path configurations
   configuration_parameters:
     BUCKET_TYPE: custom
-    BUCKET_NAME: wazuh-trusted-advisor-integration-tests
+    BUCKET_NAME: cyb3rhq-trusted-advisor-integration-tests
     PATH: empty_prefix
   metadata:
     resource_type: bucket
     bucket_type: custom
-    bucket_name: wazuh-trusted-advisor-integration-tests
+    bucket_name: cyb3rhq-trusted-advisor-integration-tests
     only_logs_after: 2022-NOV-20
     path: empty_prefix
     expected_results: 0
@@ -397,12 +397,12 @@
   description: Trusted Advisor path configurations
   configuration_parameters:
     BUCKET_TYPE: custom
-    BUCKET_NAME: wazuh-trusted-advisor-integration-tests
+    BUCKET_NAME: cyb3rhq-trusted-advisor-integration-tests
     PATH: inexistent_prefix
   metadata:
     resource_type: bucket
     bucket_type: custom
-    bucket_name: wazuh-trusted-advisor-integration-tests
+    bucket_name: cyb3rhq-trusted-advisor-integration-tests
     only_logs_after: 2022-NOV-20
     path: inexistent_prefix
     expected_results: 0
@@ -411,12 +411,12 @@
   description: GuardDuty path configurations
   configuration_parameters:
     BUCKET_TYPE: guardduty
-    BUCKET_NAME: wazuh-guardduty-integration-tests
+    BUCKET_NAME: cyb3rhq-guardduty-integration-tests
     PATH: test_prefix
   metadata:
     resource_type: bucket
     bucket_type: guardduty
-    bucket_name: wazuh-guardduty-integration-tests
+    bucket_name: cyb3rhq-guardduty-integration-tests
     only_logs_after: 2022-NOV-20
     path: test_prefix
     expected_results: 1
@@ -425,12 +425,12 @@
   description: GuardDuty path configurations
   configuration_parameters:
     BUCKET_TYPE: guardduty
-    BUCKET_NAME: wazuh-guardduty-integration-tests
+    BUCKET_NAME: cyb3rhq-guardduty-integration-tests
     PATH: empty_prefix
   metadata:
     resource_type: bucket
     bucket_type: guardduty
-    bucket_name: wazuh-guardduty-integration-tests
+    bucket_name: cyb3rhq-guardduty-integration-tests
     only_logs_after: 2022-NOV-20
     path: empty_prefix
     expected_results: 0
@@ -439,12 +439,12 @@
   description: GuardDuty path configurations
   configuration_parameters:
     BUCKET_TYPE: guardduty
-    BUCKET_NAME: wazuh-guardduty-integration-tests
+    BUCKET_NAME: cyb3rhq-guardduty-integration-tests
     PATH: inexistent_prefix
   metadata:
     resource_type: bucket
     bucket_type: guardduty
-    bucket_name: wazuh-guardduty-integration-tests
+    bucket_name: cyb3rhq-guardduty-integration-tests
     only_logs_after: 2022-NOV-20
     path: inexistent_prefix
     expected_results: 0
@@ -453,12 +453,12 @@
   description: Native GuardDuty path configurations
   configuration_parameters:
     BUCKET_TYPE: guardduty
-    BUCKET_NAME: wazuh-native-guardduty-integration-tests
+    BUCKET_NAME: cyb3rhq-native-guardduty-integration-tests
     PATH: test_prefix
   metadata:
     resource_type: bucket
     bucket_type: guardduty
-    bucket_name: wazuh-native-guardduty-integration-tests
+    bucket_name: cyb3rhq-native-guardduty-integration-tests
     only_logs_after: 2022-NOV-20
     path: test_prefix
     expected_results: 1
@@ -467,12 +467,12 @@
   description: Native GuardDuty path configurations
   configuration_parameters:
     BUCKET_TYPE: guardduty
-    BUCKET_NAME: wazuh-native-guardduty-integration-tests
+    BUCKET_NAME: cyb3rhq-native-guardduty-integration-tests
     PATH: empty_prefix
   metadata:
     resource_type: bucket
     bucket_type: guardduty
-    bucket_name: wazuh-native-guardduty-integration-tests
+    bucket_name: cyb3rhq-native-guardduty-integration-tests
     only_logs_after: 2022-NOV-20
     path: empty_prefix
     expected_results: 0
@@ -481,12 +481,12 @@
   description: Native GuardDuty path configurations
   configuration_parameters:
     BUCKET_TYPE: guardduty
-    BUCKET_NAME: wazuh-native-guardduty-integration-tests
+    BUCKET_NAME: cyb3rhq-native-guardduty-integration-tests
     PATH: inexistent_prefix
   metadata:
     resource_type: bucket
     bucket_type: guardduty
-    bucket_name: wazuh-native-guardduty-integration-tests
+    bucket_name: cyb3rhq-native-guardduty-integration-tests
     only_logs_after: 2022-NOV-20
     path: inexistent_prefix
     expected_results: 0
@@ -495,12 +495,12 @@
   description: WAF path configurations
   configuration_parameters:
     BUCKET_TYPE: waf
-    BUCKET_NAME: wazuh-waf-integration-tests
+    BUCKET_NAME: cyb3rhq-waf-integration-tests
     PATH: test_prefix
   metadata:
     resource_type: bucket
     bucket_type: waf
-    bucket_name: wazuh-waf-integration-tests
+    bucket_name: cyb3rhq-waf-integration-tests
     only_logs_after: 2022-NOV-20
     path: test_prefix
     expected_results: 1
@@ -509,12 +509,12 @@
   description: WAF path configurations
   configuration_parameters:
     BUCKET_TYPE: waf
-    BUCKET_NAME: wazuh-waf-integration-tests
+    BUCKET_NAME: cyb3rhq-waf-integration-tests
     PATH: empty_prefix
   metadata:
     resource_type: bucket
     bucket_type: waf
-    bucket_name: wazuh-waf-integration-tests
+    bucket_name: cyb3rhq-waf-integration-tests
     only_logs_after: 2022-NOV-20
     path: empty_prefix
     expected_results: 0
@@ -523,12 +523,12 @@
   description: WAF path configurations
   configuration_parameters:
     BUCKET_TYPE: waf
-    BUCKET_NAME: wazuh-waf-integration-tests
+    BUCKET_NAME: cyb3rhq-waf-integration-tests
     PATH: inexistent_prefix
   metadata:
     resource_type: bucket
     bucket_type: waf
-    bucket_name: wazuh-waf-integration-tests
+    bucket_name: cyb3rhq-waf-integration-tests
     only_logs_after: 2022-NOV-20
     path: inexistent_prefix
     expected_results: 0
@@ -537,12 +537,12 @@
   description: Server Access path configurations
   configuration_parameters:
     BUCKET_TYPE: server_access
-    BUCKET_NAME: wazuh-server-access-integration-tests
+    BUCKET_NAME: cyb3rhq-server-access-integration-tests
     PATH: test_prefix
   metadata:
     resource_type: bucket
     bucket_type: server_access
-    bucket_name: wazuh-server-access-integration-tests
+    bucket_name: cyb3rhq-server-access-integration-tests
     only_logs_after: 2022-NOV-20
     path: test_prefix
     expected_results: 1
@@ -552,12 +552,12 @@
   description: Server Access path configurations
   configuration_parameters:
     BUCKET_TYPE: server_access
-    BUCKET_NAME: wazuh-server-access-integration-tests
+    BUCKET_NAME: cyb3rhq-server-access-integration-tests
     PATH: empty_prefix
   metadata:
     resource_type: bucket
     bucket_type: server_access
-    bucket_name: wazuh-server-access-integration-tests
+    bucket_name: cyb3rhq-server-access-integration-tests
     only_logs_after: 2022-NOV-20
     path: empty_prefix
     expected_results: 0
@@ -567,12 +567,12 @@
   description: Server Access path configurations
   configuration_parameters:
     BUCKET_TYPE: server_access
-    BUCKET_NAME: wazuh-server-access-integration-tests
+    BUCKET_NAME: cyb3rhq-server-access-integration-tests
     PATH: inexistent_prefix
   metadata:
     resource_type: bucket
     bucket_type: server_access
-    bucket_name: wazuh-server-access-integration-tests
+    bucket_name: cyb3rhq-server-access-integration-tests
     only_logs_after: 2022-NOV-20
     path: inexistent_prefix
     expected_results: 0
@@ -582,12 +582,12 @@
   description: Umbrella path configurations
   configuration_parameters:
     BUCKET_TYPE: cisco_umbrella
-    BUCKET_NAME: wazuh-umbrella-integration-tests
+    BUCKET_NAME: cyb3rhq-umbrella-integration-tests
     PATH: inexistent_prefix
   metadata:
     resource_type: bucket
     bucket_type: cisco_umbrella
-    bucket_name: wazuh-umbrella-integration-tests
+    bucket_name: cyb3rhq-umbrella-integration-tests
     only_logs_after: 2022-NOV-20
     path: inexistent_prefix
     expected_results: 0

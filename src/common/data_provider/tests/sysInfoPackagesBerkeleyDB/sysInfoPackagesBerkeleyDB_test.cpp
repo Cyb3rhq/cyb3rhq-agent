@@ -1,6 +1,6 @@
 /*
- * Wazuh SysInfo
- * Copyright (C) 2015, Wazuh Inc.
+ * Cyb3rhq SysInfo
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * March 16, 2021.
  *
  * This program is free software; you can redistribute it
@@ -135,7 +135,7 @@ TEST_F(SysInfoPackagesBerkeleyDBTest, TableTwoCallsCheckOutput)
 
     cp += 4;
 
-    strcpy(cp, "Wazuh");
+    strcpy(cp, "Cyb3rhq");
     cp += 6;
 
     strcpy(cp, "The Best EDR");
@@ -151,7 +151,7 @@ TEST_F(SysInfoPackagesBerkeleyDBTest, TableTwoCallsCheckOutput)
     .WillOnce(DoAll(SetArgReferee<0>(key), SetArgReferee<1>(data), Return(0)))
     .WillOnce(DoAll(SetArgReferee<0>(key), SetArgReferee<1>(data), Return(0)));
     BerkeleyRpmDBReader reader(dbWrapper);
-    EXPECT_EQ("Wazuh\t\tThe Best EDR\t1\t\t\t\t\t\t\t\n", reader.getNext());
+    EXPECT_EQ("Cyb3rhq\t\tThe Best EDR\t1\t\t\t\t\t\t\t\n", reader.getNext());
 }
 
 TEST_F(SysInfoPackagesBerkeleyDBTest, TableTwoCallsCheckOutputWithMissingTag)
@@ -231,7 +231,7 @@ TEST_F(SysInfoPackagesBerkeleyDBTest, TableTwoCallsCheckOutputWithMissingTag)
 
     cp += 4;
 
-    strcpy(cp, "Wazuh");
+    strcpy(cp, "Cyb3rhq");
     cp += 6;
 
     strcpy(cp, "The Best EDR");
@@ -247,7 +247,7 @@ TEST_F(SysInfoPackagesBerkeleyDBTest, TableTwoCallsCheckOutputWithMissingTag)
     .WillOnce(DoAll(SetArgReferee<0>(key), SetArgReferee<1>(data), Return(0)))
     .WillOnce(DoAll(SetArgReferee<0>(key), SetArgReferee<1>(data), Return(0)));
     BerkeleyRpmDBReader reader(dbWrapper);
-    EXPECT_EQ("Wazuh\t\t\t1\t\t\t\t\t\t\t\n", reader.getNext());
+    EXPECT_EQ("Cyb3rhq\t\t\t1\t\t\t\t\t\t\t\n", reader.getNext());
 }
 
 

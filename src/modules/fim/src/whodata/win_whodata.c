@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * June 13, 2018.
  *
  * This program is free software; you can redistribute it
@@ -32,7 +32,7 @@
 #define criteria (DELETE | modify_criteria)
 #define WHODATA_DIR_REMOVE_INTERVAL 2
 #define FILETIME_SECOND 10000000
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 #ifdef WIN32
 #include "../../../unit_tests/wrappers/windows/aclapi_wrappers.h"
 #include "../../../unit_tests/wrappers/windows/ntsecapi_wrappers.h"

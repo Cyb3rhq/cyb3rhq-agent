@@ -1,6 +1,6 @@
 /*
- * Wazuh Module for Security Configuration Assessment
- * Copyright (C) 2015, Wazuh Inc.
+ * Cyb3rhq Module for Security Configuration Assessment
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * November 25, 2018.
  *
  * This program is free software; you can redistribute it

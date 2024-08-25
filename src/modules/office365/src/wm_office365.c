@@ -1,6 +1,6 @@
 /*
- * Wazuh Module for Office365 events
- * Copyright (C) 2015, Wazuh Inc.
+ * Cyb3rhq Module for Office365 events
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * May 18, 2021.
  *
  * This program is free software; you can redistribute it
@@ -10,11 +10,11 @@
  */
 #if defined(WIN32) || defined(__linux__) || defined(__MACH__)
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 // Remove static qualifier when unit testing
 #define STATIC
 #ifdef WIN32
-    #include "../unit_tests/wrappers/wazuh/shared/url_wrappers.h"
+    #include "../unit_tests/wrappers/cyb3rhq/shared/url_wrappers.h"
 #endif
 #else
 #define STATIC static
@@ -23,7 +23,7 @@
 #include "wmodules.h"
 
 #ifdef WIN32
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 #define gmtime_r(x, y)
 #else
 #define gmtime_r(x, y) gmtime_s(y, x)
@@ -147,7 +147,7 @@ void * wm_office365_main(wm_office365* office365_config) {
         while (1) {
             sleep(office365_config->interval);
             wm_office365_execute_scan(office365_config, 0);
-            #ifdef WAZUH_UNIT_TESTING
+            #ifdef CYB3RHQ_UNIT_TESTING
                 break;
             #endif
         }
@@ -809,7 +809,7 @@ STATIC void wm_office365_scan_failure_action(wm_office365_fail** current_fails, 
             cJSON *fail_object = cJSON_CreateObject();
             cJSON *fail_office365 = cJSON_CreateObject();
 
-            cJSON_AddStringToObject(fail_object, "actor", "wazuh");
+            cJSON_AddStringToObject(fail_object, "actor", "cyb3rhq");
             cJSON_AddStringToObject(fail_object, "tenant_id", tenant_id);
             if (subscription_name) {
                 cJSON_AddStringToObject(fail_object, "subscription_name", subscription_name);

@@ -1,6 +1,6 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
-           Created by Wazuh, Inc. <info@wazuh.com>.
+copyright: Copyright (C) 2015-2024, Cyb3rhq Inc.
+           Created by Cyb3rhq, Inc. <info@wazuh.com>.
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
@@ -16,7 +16,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-modulesd
+    - cyb3rhq-modulesd
 
 os_platform:
     - linux
@@ -41,13 +41,13 @@ import re
 import subprocess
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.utils import callbacks, configuration
-from wazuh_testing.tools.monitors import file_monitor
-from wazuh_testing.modules.modulesd.sca import patterns
-from wazuh_testing.modules.modulesd.configuration import MODULESD_DEBUG
-from wazuh_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
-from wazuh_testing.constants.platforms import WINDOWS
+from cyb3rhq_testing.constants.paths.logs import CYB3RHQ_LOG_PATH
+from cyb3rhq_testing.utils import callbacks, configuration
+from cyb3rhq_testing.tools.monitors import file_monitor
+from cyb3rhq_testing.modules.modulesd.sca import patterns
+from cyb3rhq_testing.modules.modulesd.configuration import MODULESD_DEBUG
+from cyb3rhq_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
+from cyb3rhq_testing.constants.platforms import WINDOWS
 
 from . import CONFIGURATIONS_FOLDER_PATH, TEST_CASES_FOLDER_PATH
 
@@ -81,7 +81,7 @@ def callback_scan_id_result(line):
 # Tests
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(configurations, configuration_metadata), ids=case_ids)
 def test_validate_remediation_results(test_configuration, test_metadata, prepare_cis_policies_file, truncate_monitored_files,
-                                      prepare_remediation_test, set_wazuh_configuration,
+                                      prepare_remediation_test, set_cyb3rhq_configuration,
                                       configure_local_internal_options, daemons_handler,
                                       wait_for_sca_enabled):
     '''
@@ -93,22 +93,22 @@ def test_validate_remediation_results(test_configuration, test_metadata, prepare
     test_phases:
         - Copy cis_sca ruleset file into agent
         - Create a folder that will be checked by the SCA rules (Linux)
-        - Restart wazuh
+        - Restart cyb3rhq
         - Validate the result for a given SCA check are as expected
         - Change the folder's permissions / Modifies the user lockout duration (Windows)
         - Validate the result for a given SCA check change as expected
 
-    wazuh_min_version: 4.6.0
+    cyb3rhq_min_version: 4.6.0
 
     tier: 0
 
     parameters:
         - configuration:
             type: dict
-            brief: Wazuh configuration data. Needed for set_wazuh_configuration fixture.
+            brief: Cyb3rhq configuration data. Needed for set_cyb3rhq_configuration fixture.
         - metadata:
             type: dict
-            brief: Wazuh configuration metadata.
+            brief: Cyb3rhq configuration metadata.
         - prepare_cis_policies_file:
             type: fixture
             brief: copy test sca policy file. Delete it after test.
@@ -116,9 +116,9 @@ def test_validate_remediation_results(test_configuration, test_metadata, prepare
             type: fixture
             brief: Create a folder with a given set of permissions or modifies the user
                 lockout duration in Windows. Delete it/Restores the value after test.
-        - set_wazuh_configuration:
+        - set_cyb3rhq_configuration:
             type: fixture
-            brief: Set the wazuh configuration according to the configuration data.
+            brief: Set the cyb3rhq configuration according to the configuration data.
         - configure_local_internal_options:
             type: fixture
             brief: Configure the local_internal_options_file.
@@ -127,7 +127,7 @@ def test_validate_remediation_results(test_configuration, test_metadata, prepare
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - restart_modulesd_function:
             type: fixture
-            brief: Restart the wazuh-modulesd daemon.
+            brief: Restart the cyb3rhq-modulesd daemon.
         - wait_for_sca_enabled:
             type: fixture
             brief: Wait for the sca Module to start before starting the test.
@@ -144,7 +144,7 @@ def test_validate_remediation_results(test_configuration, test_metadata, prepare
         - r".*sca.*wm_sca_hash_integrity.*DEBUG: ID: (\\d+); Result: '(.*)'"
     '''
 
-    log_monitor = file_monitor.FileMonitor(WAZUH_LOG_PATH)
+    log_monitor = file_monitor.FileMonitor(CYB3RHQ_LOG_PATH)
 
     # Get the results for the checks obtained in the initial SCA scan
     log_monitor.start(callback=callback_scan_id_result, timeout=20, \

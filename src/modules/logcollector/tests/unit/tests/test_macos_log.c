@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -18,11 +18,11 @@
 #include "../wrappers/posix/pthread_wrappers.h"
 #include "../../headers/shared.h"
 #include "../wrappers/common.h"
-#include "../wrappers/wazuh/shared/file_op_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/file_op_wrappers.h"
 #include "../wrappers/libc/stdio_wrappers.h"
 #include "../wrappers/linux/socket_wrappers.h"
 #include "../wrappers/posix/unistd_wrappers.h"
-#include "../wrappers/wazuh/shared/sysinfo_utils_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/sysinfo_utils_wrappers.h"
 
 bool w_macos_is_log_predicate_valid(char * predicate);
 char ** w_macos_create_log_stream_array(char * predicate, char * level, int type);

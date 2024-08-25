@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Cyb3rhq Inc.
+# Created by Cyb3rhq, Inc. <info@wazuh.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import os
@@ -9,14 +9,14 @@ from sys import exit
 
 
 @lru_cache(maxsize=None)
-def find_wazuh_path() -> str:
+def find_cyb3rhq_path() -> str:
     """
-    Get the Wazuh installation path.
+    Get the Cyb3rhq installation path.
 
     Returns
     -------
     str
-        Path where Wazuh is installed or empty string if there is no framework in the environment.
+        Path where Cyb3rhq is installed or empty string if there is no framework in the environment.
     """
     abs_path = os.path.abspath(os.path.dirname(__file__))
     allparts = []
@@ -32,19 +32,19 @@ def find_wazuh_path() -> str:
             abs_path = parts[0]
             allparts.insert(0, parts[1])
 
-    wazuh_path = ''
+    cyb3rhq_path = ''
     try:
         for i in range(0, allparts.index('wodles')):
-            wazuh_path = os.path.join(wazuh_path, allparts[i])
+            cyb3rhq_path = os.path.join(cyb3rhq_path, allparts[i])
     except ValueError:
         pass
 
-    return wazuh_path
+    return cyb3rhq_path
 
 
-def call_wazuh_control(option: str) -> str:
+def call_cyb3rhq_control(option: str) -> str:
     """
-    Execute the wazuh-control script with the parameters specified.
+    Execute the cyb3rhq-control script with the parameters specified.
 
     Parameters
     ----------
@@ -54,61 +54,61 @@ def call_wazuh_control(option: str) -> str:
     Returns
     -------
     str
-        The output of the call to wazuh-control.
+        The output of the call to cyb3rhq-control.
     """
-    wazuh_control = os.path.join(find_wazuh_path(), "bin", "wazuh-control")
+    cyb3rhq_control = os.path.join(find_cyb3rhq_path(), "bin", "cyb3rhq-control")
     try:
-        proc = subprocess.Popen([wazuh_control, option], stdout=subprocess.PIPE)
+        proc = subprocess.Popen([cyb3rhq_control, option], stdout=subprocess.PIPE)
         (stdout, stderr) = proc.communicate()
         return stdout.decode()
     except (OSError, ChildProcessError):
-        print(f'ERROR: a problem occurred while executing {wazuh_control}')
+        print(f'ERROR: a problem occurred while executing {cyb3rhq_control}')
         exit(1)
 
 
-def get_wazuh_info(field: str) -> str:
+def get_cyb3rhq_info(field: str) -> str:
     """
-    Execute the wazuh-control script with the 'info' argument, filtering by field if specified.
+    Execute the cyb3rhq-control script with the 'info' argument, filtering by field if specified.
 
     Parameters
     ----------
     field : str
-        The field of the output that's being requested. Its value can be 'WAZUH_VERSION', 'WAZUH_REVISION' or
-        'WAZUH_TYPE'.
+        The field of the output that's being requested. Its value can be 'CYB3RHQ_VERSION', 'CYB3RHQ_REVISION' or
+        'CYB3RHQ_TYPE'.
 
     Returns
     -------
     str
-        The output of the wazuh-control script.
+        The output of the cyb3rhq-control script.
     """
-    wazuh_info = call_wazuh_control("info")
-    if not wazuh_info:
+    cyb3rhq_info = call_cyb3rhq_control("info")
+    if not cyb3rhq_info:
         return "ERROR"
 
     if not field:
-        return wazuh_info
+        return cyb3rhq_info
 
-    env_variables = wazuh_info.rsplit("\n")
+    env_variables = cyb3rhq_info.rsplit("\n")
     env_variables.remove("")
-    wazuh_env_vars = dict()
+    cyb3rhq_env_vars = dict()
     for env_variable in env_variables:
         key, value = env_variable.split("=")
-        wazuh_env_vars[key] = value.replace("\"", "")
+        cyb3rhq_env_vars[key] = value.replace("\"", "")
 
-    return wazuh_env_vars[field]
+    return cyb3rhq_env_vars[field]
 
 
 @lru_cache(maxsize=None)
-def get_wazuh_version() -> str:
+def get_cyb3rhq_version() -> str:
     """
-    Return the version of Wazuh installed.
+    Return the version of Cyb3rhq installed.
 
     Returns
     -------
     str
-        The version of Wazuh installed.
+        The version of Cyb3rhq installed.
     """
-    return get_wazuh_info("WAZUH_VERSION")
+    return get_cyb3rhq_info("CYB3RHQ_VERSION")
 
 
 # Max size of the event that ANALYSISID can handle

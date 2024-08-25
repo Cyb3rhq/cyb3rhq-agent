@@ -1,7 +1,7 @@
 #!/bin/bash
 set -x
-DIRECTORY="wazuh*"
-REPOSITORY="https://github.com/wazuh/wazuh"
+DIRECTORY="cyb3rhq*"
+REPOSITORY="https://github.com/cyb3rhq/cyb3rhq"
 REFERENCE=""
 OUT_NAME=""
 CHECKSUM="no"
@@ -10,10 +10,10 @@ HAVE_PKG_NAME_WIN=false
 HAVE_PKG_NAME_MAC=false
 HAVE_PKG_NAME_LINUX=false
 AWS_REGION="us-east-1"
-KEYPATH="/etc/wazuh"
+KEYPATH="/etc/cyb3rhq"
 WPKCERT="${KEYPATH}/wpkcert.pem"
 WPKKEY="${KEYPATH}/wpkcert.key"
-OUTDIR="/var/local/wazuh"
+OUTDIR="/var/local/cyb3rhq"
 CHECKSUMDIR="/var/local/checksum"
 
 
@@ -117,7 +117,7 @@ main() {
         rm -f wpkcert.key.json
     fi
 
-    # Get Wazuh
+    # Get Cyb3rhq
     curl -sL ${REPOSITORY}/tarball/${REFERENCE} | tar zx
     cd ${DIRECTORY}
 

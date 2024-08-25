@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * All right reserved.
  *
  * This program is free software; you can redistribute it
@@ -15,7 +15,7 @@
  * {
  *  "attachments":  [{
  *          "color":    "warning",
- *          "pretext":  "WAZUH Alert",
+ *          "pretext":  "CYB3RHQ Alert",
  *          "title":    "N/A",
  *          "text": "Jan 28 02:13:23 ubuntu-bionic kernel: [39622.230464] VBoxClient[26081]: ...
  *          "fields":   [{
@@ -253,7 +253,7 @@ static cJSON *format_output(const cJSON *alert) {
         cJSON_AddStringToObject(item_objects, "color", "danger");
     }
 
-    cJSON_AddStringToObject(item_objects, "pretext", "WAZUH Alert");
+    cJSON_AddStringToObject(item_objects, "pretext", "CYB3RHQ Alert");
     cJSON_AddStringToObject(item_objects, "title", rule_description_json != NULL ? rule_description_json->valuestring : "N/A");
 
     // Detect full log

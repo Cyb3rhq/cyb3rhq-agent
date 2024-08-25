@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Cyb3rhq Inc.
+# Created by Cyb3rhq, Inc. <info@wazuh.com>.
 # This program is free software; you can redistribute
 # it and/or modify it under the terms of GPLv2
 
@@ -211,7 +211,7 @@ def test_get_token_ko(mock_post, mock_logging, exception, error_msg, error_codes
 @patch('azure_utils.socket.send')
 @patch('azure_utils.socket.connect')
 def test_send_message(mock_connect, mock_send, mock_close):
-    """Test send_message sends the messages to the Wazuh queue socket."""
+    """Test send_message sends the messages to the Cyb3rhq queue socket."""
     message = 'msg'
     send_message(message)
     mock_connect.assert_called_with(ANALYSISD)

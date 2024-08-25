@@ -6,7 +6,7 @@
 # Foundation.
 
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/cyb3rhq/shared/shared.cmake)
 
 # Tests list and flags
 list(APPEND tests_names "test_wm_ms_graph")
@@ -22,9 +22,9 @@ list(APPEND use_shared_libs 1)
 list(APPEND shared_libs "../scheduling/wmodules_scheduling_helpers.h")
 list(APPEND shared_libs "../scheduling/wmodules_scheduling_helpers.c")
 
-# Generate wazuh modules library
-file(GLOB ms_graph ../../../wazuh_modules/*.o)
-list(REMOVE_ITEM ms_graph ../../../wazuh_modules/main.o)
+# Generate cyb3rhq modules library
+file(GLOB ms_graph ../../../cyb3rhq_modules/*.o)
+list(REMOVE_ITEM ms_graph ../../../cyb3rhq_modules/main.o)
 
 add_library(MS_GRAPH_O STATIC ${ms_graph})
 
@@ -41,7 +41,7 @@ set_target_properties(
   LINKER_LANGUAGE C
   )
 
-target_link_libraries(MS_GRAPH_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(MS_GRAPH_O ${CYB3RHQLIB} ${CYB3RHQEXT} -lpthread)
 
 list(LENGTH tests_names count)
 math(EXPR count "${count} - 1")
@@ -59,8 +59,8 @@ foreach(counter RANGE ${count})
     if(${TARGET} STREQUAL "server")
         target_link_libraries(
             ${test_name}
-            ${WAZUHLIB}
-            ${WAZUHEXT}
+            ${CYB3RHQLIB}
+            ${CYB3RHQEXT}
             MS_GRAPH_O
             -lcmocka
             -ldl

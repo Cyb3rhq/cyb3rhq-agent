@@ -21,7 +21,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           skip_after_successful_duplicate: 'false'
 
-      - name: Checkout wazuh/wazuh repository
+      - name: Checkout cyb3rhq/cyb3rhq repository
         uses: actions/checkout@v4
 
       - name: Get changed files
@@ -97,7 +97,7 @@ jobs:
               - 'packages/wpk/generate_wpk_package.sh'
               - 'packages/wpk/common/**'
 
-      - name: Set TAG and WAZUH_AGENT_PACKAGES_BRANCH
+      - name: Set TAG and CYB3RHQ_AGENT_PACKAGES_BRANCH
         run: |
           VERSION=$(sed 's/^v\([0-9]*\.[0-9]*\.[0-9]*\)/\1/' src/VERSION)
           echo "TAG=$VERSION" >> $GITHUB_ENV;
@@ -119,83 +119,83 @@ jobs:
       - name: Request pkg_deb_agent_builder_amd64 update
         if: steps.changes.outputs.pkg_deb_agent_builder_amd64 == 'true'
         run: |
-          gh workflow run packages-upload-agent-images-amd.yml --repo wazuh/wazuh-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=deb -f architecture=amd64 -f source_reference=${{ github.ref_name }}
+          gh workflow run packages-upload-agent-images-amd.yml --repo cyb3rhq/cyb3rhq-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=deb -f architecture=amd64 -f source_reference=${{ github.ref_name }}
         env:
-          GH_TOKEN: ${{ secrets.CI_WAZUH_AGENT_PACKAGES }}
+          GH_TOKEN: ${{ secrets.CI_CYB3RHQ_AGENT_PACKAGES }}
 
       - name: Request pkg_deb_agent_builder_i386 update
         if: steps.changes.outputs.pkg_deb_agent_builder_i386 == 'true'
         run: |
-          gh workflow run packages-upload-agent-images-amd.yml --repo wazuh/wazuh-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=deb -f architecture=i386 -f source_reference=${{ github.ref_name }}
+          gh workflow run packages-upload-agent-images-amd.yml --repo cyb3rhq/cyb3rhq-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=deb -f architecture=i386 -f source_reference=${{ github.ref_name }}
         env:
-          GH_TOKEN: ${{ secrets.CI_WAZUH_AGENT_PACKAGES }}
+          GH_TOKEN: ${{ secrets.CI_CYB3RHQ_AGENT_PACKAGES }}
 
       - name: Request pkg_rpm_agent_builder_amd64 update
         if: steps.changes.outputs.pkg_rpm_agent_builder_amd64 == 'true'
         run: |
-          gh workflow run packages-upload-agent-images-amd.yml --repo wazuh/wazuh-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=rpm -f architecture=amd64 -f source_reference=${{ github.ref_name }}
+          gh workflow run packages-upload-agent-images-amd.yml --repo cyb3rhq/cyb3rhq-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=rpm -f architecture=amd64 -f source_reference=${{ github.ref_name }}
         env:
-          GH_TOKEN: ${{ secrets.CI_WAZUH_AGENT_PACKAGES }}
+          GH_TOKEN: ${{ secrets.CI_CYB3RHQ_AGENT_PACKAGES }}
 
       - name: Request pkg_rpm_agent_builder_i386 update
         if: steps.changes.outputs.pkg_rpm_agent_builder_i386 == 'true'
         run: |
-          gh workflow run packages-upload-agent-images-amd.yml --repo wazuh/wazuh-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=rpm -f architecture=amd64 -f source_reference=${{ github.ref_name }}
+          gh workflow run packages-upload-agent-images-amd.yml --repo cyb3rhq/cyb3rhq-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=rpm -f architecture=amd64 -f source_reference=${{ github.ref_name }}
         env:
-          GH_TOKEN: ${{ secrets.CI_WAZUH_AGENT_PACKAGES }}
+          GH_TOKEN: ${{ secrets.CI_CYB3RHQ_AGENT_PACKAGES }}
 
       - name: Request pkg_rpm_legacy_builder_amd64 update
         if: steps.changes.outputs.pkg_rpm_legacy_builder_amd64 == 'true'
         run: |
-          gh workflow run packages-upload-agent-images-amd.yml --repo wazuh/wazuh-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=rpm -f architecture=amd64 -f legacy=true -f source_reference=${{ github.ref_name }}
+          gh workflow run packages-upload-agent-images-amd.yml --repo cyb3rhq/cyb3rhq-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=rpm -f architecture=amd64 -f legacy=true -f source_reference=${{ github.ref_name }}
         env:
-          GH_TOKEN: ${{ secrets.CI_WAZUH_AGENT_PACKAGES }}
+          GH_TOKEN: ${{ secrets.CI_CYB3RHQ_AGENT_PACKAGES }}
 
       - name: Request pkg_rpm_legacy_builder_i386 update
         if: steps.changes.outputs.pkg_rpm_legacy_builder_i386 == 'true'
         run: |
-          gh workflow run packages-upload-agent-images-amd.yml --repo wazuh/wazuh-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=rpm -f architecture=i386 -f legacy=true -f source_reference=${{ github.ref_name }}
+          gh workflow run packages-upload-agent-images-amd.yml --repo cyb3rhq/cyb3rhq-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=rpm -f architecture=i386 -f legacy=true -f source_reference=${{ github.ref_name }}
         env:
-          GH_TOKEN: ${{ secrets.CI_WAZUH_AGENT_PACKAGES }}
+          GH_TOKEN: ${{ secrets.CI_CYB3RHQ_AGENT_PACKAGES }}
 
       - name: Request pkg_deb_agent_builder_arm64 update
         if: steps.changes.outputs.pkg_deb_agent_builder_arm64 == 'true'
         run: |
-          gh workflow run packages-upload-agent-images-arm.yml --repo wazuh/wazuh-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=deb -f architecture=arm64 -f source_reference=${{ github.ref_name }}
+          gh workflow run packages-upload-agent-images-arm.yml --repo cyb3rhq/cyb3rhq-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=deb -f architecture=arm64 -f source_reference=${{ github.ref_name }}
         env:
-          GH_TOKEN: ${{ secrets.CI_WAZUH_AGENT_PACKAGES }}
+          GH_TOKEN: ${{ secrets.CI_CYB3RHQ_AGENT_PACKAGES }}
 
       - name: Request pkg_deb_agent_builder_armhf update
         if: steps.changes.outputs.pkg_deb_agent_builder_armhf == 'true'
         run: |
-          gh workflow run packages-upload-agent-images-arm.yml --repo wazuh/wazuh-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=deb -f architecture=armhf -f source_reference=${{ github.ref_name }}
+          gh workflow run packages-upload-agent-images-arm.yml --repo cyb3rhq/cyb3rhq-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=deb -f architecture=armhf -f source_reference=${{ github.ref_name }}
         env:
-          GH_TOKEN: ${{ secrets.CI_WAZUH_AGENT_PACKAGES }}
+          GH_TOKEN: ${{ secrets.CI_CYB3RHQ_AGENT_PACKAGES }}
 
       - name: Request pkg_rpm_agent_builder_arm64 update
         if: steps.changes.outputs.pkg_rpm_agent_builder_arm64 == 'true'
         run: |
-          gh workflow run packages-upload-agent-images-arm.yml --repo wazuh/wazuh-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=rpm -f architecture=arm64 -f source_reference=${{ github.ref_name }}
+          gh workflow run packages-upload-agent-images-arm.yml --repo cyb3rhq/cyb3rhq-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=rpm -f architecture=arm64 -f source_reference=${{ github.ref_name }}
         env:
-          GH_TOKEN: ${{ secrets.CI_WAZUH_AGENT_PACKAGES }}
+          GH_TOKEN: ${{ secrets.CI_CYB3RHQ_AGENT_PACKAGES }}
 
       - name: Request pkg_rpm_agent_builder_armhf update
         if: steps.changes.outputs.pkg_rpm_agent_builder_armhf == 'true'
         run: |
-          gh workflow run packages-upload-agent-images-arm.yml --repo wazuh/wazuh-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=rpm -f architecture=armhf -f source_reference=${{ github.ref_name }}
+          gh workflow run packages-upload-agent-images-arm.yml --repo cyb3rhq/cyb3rhq-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=rpm -f architecture=armhf -f source_reference=${{ github.ref_name }}
         env:
-          GH_TOKEN: ${{ secrets.CI_WAZUH_AGENT_PACKAGES }}
+          GH_TOKEN: ${{ secrets.CI_CYB3RHQ_AGENT_PACKAGES }}
 
       - name: Request compile_windows_agent update
         if: steps.changes.outputs.compile_windows_agent == 'true'
         run: |
-          gh workflow run packages-upload-agent-images-amd.yml --repo wazuh/wazuh-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=windows -f architecture=i386 -f source_reference=${{ github.ref_name }}
+          gh workflow run packages-upload-agent-images-amd.yml --repo cyb3rhq/cyb3rhq-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=windows -f architecture=i386 -f source_reference=${{ github.ref_name }}
         env:
-          GH_TOKEN: ${{ secrets.CI_WAZUH_AGENT_PACKAGES }}
+          GH_TOKEN: ${{ secrets.CI_CYB3RHQ_AGENT_PACKAGES }}
 
       - name: Request commom_wpk_builder update
         if: steps.changes.outputs.commom_wpk_builder == 'true'
         run: |
-          gh workflow run packages-upload-wpk-images.yml --repo wazuh/wazuh-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=common -f source_reference=${{ github.ref_name }}
+          gh workflow run packages-upload-wpk-images.yml --repo cyb3rhq/cyb3rhq-agent-packages -r ${{ github.ref_name }} -f docker_image_tag=${{ env.TAG }} -f system=common -f source_reference=${{ github.ref_name }}
         env:
-          GH_TOKEN: ${{ secrets.CI_WAZUH_AGENT_PACKAGES }}
+          GH_TOKEN: ${{ secrets.CI_CYB3RHQ_AGENT_PACKAGES }}

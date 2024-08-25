@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Cyb3rhq Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Cyb3rhq, Inc. <info@wazuh.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -9,7 +9,7 @@ type: integration
 
 brief: Active responses execute a script in response to the triggering of specific alerts based
        on the alert level or rule group. These tests will check if the 'active responses',
-       which are executed by the 'wazuh-execd' daemon via scripts, run correctly.
+       which are executed by the 'cyb3rhq-execd' daemon via scripts, run correctly.
 
 components:
     - execd
@@ -20,8 +20,8 @@ targets:
     - agent
 
 daemons:
-    - wazuh-analysisd
-    - wazuh-execd
+    - cyb3rhq-analysisd
+    - cyb3rhq-execd
 
 os_platform:
     - linux
@@ -45,13 +45,13 @@ import pytest
 
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH, ACTIVE_RESPONSE_LOG_PATH
-from wazuh_testing.modules.execd.active_response import patterns as ar_patterns
-from wazuh_testing.modules.execd import patterns as execd_paterns
-from wazuh_testing.modules.execd.configuration import EXECD_DEBUG
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from cyb3rhq_testing.constants.paths.logs import CYB3RHQ_LOG_PATH, ACTIVE_RESPONSE_LOG_PATH
+from cyb3rhq_testing.modules.execd.active_response import patterns as ar_patterns
+from cyb3rhq_testing.modules.execd import patterns as execd_paterns
+from cyb3rhq_testing.modules.execd.configuration import EXECD_DEBUG
+from cyb3rhq_testing.tools.monitors.file_monitor import FileMonitor
+from cyb3rhq_testing.utils.callbacks import generate_callback
+from cyb3rhq_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 from . import CONFIGS_PATH, TEST_CASES_PATH
 
@@ -74,7 +74,7 @@ ar_conf = 'firewall-drop5 - firewall-drop - 5'
 # Test function.
 @pytest.mark.parametrize('test_configuration, test_metadata',  zip(test_configuration, test_metadata), ids=cases_ids)
 def test_execd_firewall_drop(test_configuration, test_metadata, configure_local_internal_options, truncate_monitored_files,
-                             set_wazuh_configuration, configure_ar_conf, remoted_simulator, authd_simulator,
+                             set_cyb3rhq_configuration, configure_ar_conf, remoted_simulator, authd_simulator,
                              daemons_handler, send_execd_message):
     '''
     description: Check if 'firewall-drop' command of 'active response' is executed correctly.
@@ -82,7 +82,7 @@ def test_execd_firewall_drop(test_configuration, test_metadata, configure_local_
                  is sent to it. This response includes an IP address that must be added
                  and removed from 'iptables', the Linux firewall.
 
-    wazuh_min_version: 4.2.0
+    cyb3rhq_min_version: 4.2.0
 
     tier: 1
 
@@ -95,7 +95,7 @@ def test_execd_firewall_drop(test_configuration, test_metadata, configure_local_
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - configure_local_internal_options:
             type: fixture
-            brief: Configure the Wazuh local internal options.
+            brief: Configure the Cyb3rhq local internal options.
         - configure_ar_conf:
             type: fixture
             brief: Set the Active Response configuration.
@@ -107,7 +107,7 @@ def test_execd_firewall_drop(test_configuration, test_metadata, configure_local_
             brief: Starts an AuthdSimulator instance for the test function.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Cyb3rhq daemons.
         - send_execd_message:
             type: fixture
             brief: Send an execd message to the agent using RemotedSimulator.
@@ -121,7 +121,7 @@ def test_execd_firewall_drop(test_configuration, test_metadata, configure_local_
         - The `cases_execd_firewall_drop.yaml` file provides the test cases.
     '''
     ar_monitor = FileMonitor(ACTIVE_RESPONSE_LOG_PATH)
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
+    cyb3rhq_log_monitor = FileMonitor(CYB3RHQ_LOG_PATH)
 
     if error_message := test_metadata.get('expected_error'):
         callback = generate_callback(error_message)
@@ -129,8 +129,8 @@ def test_execd_firewall_drop(test_configuration, test_metadata, configure_local_
         assert ar_monitor.callback_result, 'AR `firewall-drop` did not fail.'
         return
 
-    wazuh_log_monitor.start(callback=generate_callback(execd_paterns.EXECD_EXECUTING_COMMAND))
-    assert wazuh_log_monitor.callback_result, 'Execd `executing` command log not raised.'
+    cyb3rhq_log_monitor.start(callback=generate_callback(execd_paterns.EXECD_EXECUTING_COMMAND))
+    assert cyb3rhq_log_monitor.callback_result, 'Execd `executing` command log not raised.'
 
     ar_monitor.start(callback=generate_callback(ar_patterns.ACTIVE_RESPONSE_FIREWALL_DROP))
     assert ar_monitor.callback_result, 'AR `firewall-drop` program not used.'

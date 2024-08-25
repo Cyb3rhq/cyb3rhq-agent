@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -42,8 +42,8 @@
 #include <winerror.h>
 #include <sddl.h>
 
-#ifdef WAZUH_UNIT_TESTING
-#include "../unit_tests/wrappers/wazuh/shared/debug_op_wrappers.h"
+#ifdef CYB3RHQ_UNIT_TESTING
+#include "../unit_tests/wrappers/cyb3rhq/shared/debug_op_wrappers.h"
 #include "../unit_tests/wrappers/windows/errhandlingapi_wrappers.h"
 #include "../unit_tests/wrappers/windows/winbase_wrappers.h"
 #include "../unit_tests/wrappers/windows/winevt_wrappers.h"

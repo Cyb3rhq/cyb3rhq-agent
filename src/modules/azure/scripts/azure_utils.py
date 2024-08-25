@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Cyb3rhq Inc.
+# Created by Cyb3rhq, Inc. <info@wazuh.com>.
 # This program is free software; you can redistribute
 # it and/or modify it under the terms of GPLv2
 
@@ -418,14 +418,14 @@ def send_message(message: str):
         s.send(encoded_msg)
     except socket_error as e:
         if e.errno == 111:
-            logging.error('ERROR: Wazuh must be running.')
+            logging.error('ERROR: Cyb3rhq must be running.')
             sys.exit(1)
         elif e.errno == 90:
             logging.error(
-                'ERROR: Message too long to send to Wazuh.  Skipping message...'
+                'ERROR: Message too long to send to Cyb3rhq.  Skipping message...'
             )
         else:
-            logging.error(f'ERROR: Error sending message to wazuh: {e}')
+            logging.error(f'ERROR: Error sending message to cyb3rhq: {e}')
             sys.exit(1)
     finally:
         s.close()

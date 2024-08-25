@@ -7,7 +7,7 @@ RUN echo "deb http://archive.debian.org/debian stretch contrib main non-free" > 
 
 ADD wpkpack.py /usr/local/bin/wpkpack
 ADD run.sh /usr/local/bin/run
-VOLUME /var/local/wazuh
-VOLUME /etc/wazuh
-VOLUME /etc/wazuh/checksum
+VOLUME /var/local/cyb3rhq
+VOLUME /etc/cyb3rhq
+VOLUME /etc/cyb3rhq/checksum
 ENTRYPOINT ["/usr/local/bin/run"]

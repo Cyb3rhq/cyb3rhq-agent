@@ -1,6 +1,6 @@
 /*
- * Wazuh Module for Security Configuration Assessment
- * Copyright (C) 2015, Wazuh Inc.
+ * Cyb3rhq Module for Security Configuration Assessment
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * November 25, 2018.
  *
  * This program is free software; you can redistribute it
@@ -55,14 +55,14 @@ extern const wm_context WM_GCP_BUCKET_CONTEXT;   // Context
 /**
  * @brief Read the configuration for Google Cloud Pub/Sub
  * @param nodes XML nodes to analyze
- * @param module Wazuh module to initialize
+ * @param module Cyb3rhq module to initialize
  */
 int wm_gcp_pubsub_read(xml_node **nodes, wmodule *module);
 
 /**
  * @brief Read the configuration for a Google Cloud bucket
  * @param nodes XML nodes to analyze
- * @param module Wazuh module to initialize
+ * @param module Cyb3rhq module to initialize
  */
 int wm_gcp_bucket_read(const OS_XML *xml, xml_node **nodes, wmodule *module);
 

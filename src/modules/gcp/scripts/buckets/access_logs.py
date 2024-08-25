@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 #
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Cyb3rhq Inc.
+# Created by Cyb3rhq, Inc. <info@wazuh.com>.
 # This program is free software; you can redistribute
 # it and/or modify it under the terms of GPLv2
 
@@ -12,10 +12,10 @@ from os.path import dirname, realpath
 from sys import path
 
 path.append(dirname(realpath(__file__)))  # noqa: E501
-from bucket import WazuhGCloudBucket
+from bucket import Cyb3rhqGCloudBucket
 
 
-class GCSAccessLogs(WazuhGCloudBucket):
+class GCSAccessLogs(Cyb3rhqGCloudBucket):
     """Class for getting Google Cloud Storage Access Logs logs"""
     def __init__(self, credentials_file: str, logger: logging.Logger, **kwargs):
         """Class constructor.
@@ -27,7 +27,7 @@ class GCSAccessLogs(WazuhGCloudBucket):
         logger : logging.Logger
             Logger to use.
         kwargs : any
-            Additional named arguments for WazuhGCloudBucket.
+            Additional named arguments for Cyb3rhqGCloudBucket.
         """
         super().__init__(credentials_file, logger, **kwargs)
         self.db_table_name = "access_logs"

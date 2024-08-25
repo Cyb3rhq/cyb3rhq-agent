@@ -1,14 +1,14 @@
 """
-Copyright (C) 2015-2024, Wazuh Inc.
-Created by Wazuh, Inc. <info@wazuh.com>.
+Copyright (C) 2015-2024, Cyb3rhq Inc.
+Created by Cyb3rhq, Inc. <info@wazuh.com>.
 This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 """
 from os.path import join as path_join
 
 
-from wazuh_testing.tools.monitors import file_monitor
-from wazuh_testing.utils import callbacks
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
+from cyb3rhq_testing.tools.monitors import file_monitor
+from cyb3rhq_testing.utils import callbacks
+from cyb3rhq_testing.constants.paths.logs import CYB3RHQ_LOG_PATH
 
 def build_tc_config(tc_conf_list):
     '''
@@ -65,7 +65,7 @@ def assert_list_logs(regex_messages: list):
 
 
     # Monitor the ossec.log file
-    log_monitor = file_monitor.FileMonitor(WAZUH_LOG_PATH)
+    log_monitor = file_monitor.FileMonitor(CYB3RHQ_LOG_PATH)
 
     last_log_timestamp = 0
 
@@ -89,7 +89,7 @@ def assert_not_list_logs(regex_messages: list):
     '''
 
     # Monitor the ossec.log file
-    log_monitor = file_monitor.FileMonitor(WAZUH_LOG_PATH)
+    log_monitor = file_monitor.FileMonitor(CYB3RHQ_LOG_PATH)
 
     for regex in regex_messages:
         log_monitor.start(callback=callbacks.generate_callback(regex), timeout=0)
@@ -104,14 +104,14 @@ def send_log_to_journal(conf_message: dict):
     Args:
         conf_message (dic): The message to send to the journal, with the following fields:
             - message (str): The message to send to the journal.
-            - tag (str): The tag of the message. Default is 'wazuh-itest'.
+            - tag (str): The tag of the message. Default is 'cyb3rhq-itest'.
             - priority (str): The priority of the message. Default is 'info'.
     '''
     import subprocess as sp
 
     # Send the log message to the journal
     try:
-        tag = conf_message['tag'] if 'tag' in conf_message else 'wazuh-itest'
+        tag = conf_message['tag'] if 'tag' in conf_message else 'cyb3rhq-itest'
         priority = conf_message['priority'] if 'priority' in conf_message else 'info'
         message = conf_message['message']
         if not message:

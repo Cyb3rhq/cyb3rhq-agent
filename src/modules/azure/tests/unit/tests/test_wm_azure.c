@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -17,15 +17,15 @@
 #include <time.h>
 
 #include "shared.h"
-#include "../../../wazuh_modules/wmodules.h"
-#include "../../../wazuh_modules/wm_azure.h"
+#include "../../../cyb3rhq_modules/wmodules.h"
+#include "../../../cyb3rhq_modules/wm_azure.h"
 
 #include "../scheduling/wmodules_scheduling_helpers.h"
 #include "../../wrappers/common.h"
 #include "../../wrappers/libc/stdlib_wrappers.h"
-#include "../../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../../wrappers/wazuh/shared/mq_op_wrappers.h"
-#include "../../wrappers/wazuh/wazuh_modules/wm_exec_wrappers.h"
+#include "../../wrappers/cyb3rhq/shared/debug_op_wrappers.h"
+#include "../../wrappers/cyb3rhq/shared/mq_op_wrappers.h"
+#include "../../wrappers/cyb3rhq/cyb3rhq_modules/wm_exec_wrappers.h"
 
 #define TEST_MAX_DATES 5
 
@@ -60,7 +60,7 @@ static int setup_module() {
         "<run_on_start>no</run_on_start>\n"
         "<log_analytics>\n"
         "    <auth_path>/var/ossec/wodles/azure/credentials.txt</auth_path>\n"
-        "    <tenantdomain>wazuh.onmicrosoft.com</tenantdomain>\n"
+        "    <tenantdomain>cyb3rhq.onmicrosoft.com</tenantdomain>\n"
         "    <request>\n"
         "        <tag>azure-activity</tag>\n"
         "        <query>AzureActivity | where SubscriptionId == 2d7...61d </query>\n"
@@ -153,7 +153,7 @@ void test_fake_tag(void **state) {
         "<run_on_start>no</run_on_start>\n"
         "<log_analytics>\n"
         "    <auth_path>/var/ossec/wodles/azure/credentials.txt</auth_path>\n"
-        "    <tenantdomain>wazuh.onmicrosoft.com</tenantdomain>\n"
+        "    <tenantdomain>cyb3rhq.onmicrosoft.com</tenantdomain>\n"
         "    <request>\n"
         "        <tag>azure-activity</tag>\n"
         "        <query>AzureActivity | where SubscriptionId == 2d7...61d </query>\n"
@@ -176,7 +176,7 @@ void test_read_scheduling_monthday_configuration(void **state) {
         "<run_on_start>no</run_on_start>\n"
         "<log_analytics>\n"
         "    <auth_path>/var/ossec/wodles/azure/credentials.txt</auth_path>\n"
-        "    <tenantdomain>wazuh.onmicrosoft.com</tenantdomain>\n"
+        "    <tenantdomain>cyb3rhq.onmicrosoft.com</tenantdomain>\n"
         "    <request>\n"
         "        <tag>azure-activity</tag>\n"
         "        <query>AzureActivity | where SubscriptionId == 2d7...61d </query>\n"
@@ -205,7 +205,7 @@ void test_read_scheduling_weekday_configuration(void **state) {
         "<run_on_start>no</run_on_start>\n"
         "<log_analytics>\n"
         "    <auth_path>/var/ossec/wodles/azure/credentials.txt</auth_path>\n"
-        "    <tenantdomain>wazuh.onmicrosoft.com</tenantdomain>\n"
+        "    <tenantdomain>cyb3rhq.onmicrosoft.com</tenantdomain>\n"
         "    <request>\n"
         "        <tag>azure-activity</tag>\n"
         "        <query>AzureActivity | where SubscriptionId == 2d7...61d </query>\n"
@@ -233,7 +233,7 @@ void test_read_scheduling_daytime_configuration(void **state) {
         "<run_on_start>no</run_on_start>\n"
         "<log_analytics>\n"
         "    <auth_path>/var/ossec/wodles/azure/credentials.txt</auth_path>\n"
-        "    <tenantdomain>wazuh.onmicrosoft.com</tenantdomain>\n"
+        "    <tenantdomain>cyb3rhq.onmicrosoft.com</tenantdomain>\n"
         "    <request>\n"
         "        <tag>azure-activity</tag>\n"
         "        <query>AzureActivity | where SubscriptionId == 2d7...61d </query>\n"
@@ -260,7 +260,7 @@ void test_read_scheduling_interval_configuration(void **state) {
         "<run_on_start>no</run_on_start>\n"
         "<log_analytics>\n"
         "    <auth_path>/var/ossec/wodles/azure/credentials.txt</auth_path>\n"
-        "    <tenantdomain>wazuh.onmicrosoft.com</tenantdomain>\n"
+        "    <tenantdomain>cyb3rhq.onmicrosoft.com</tenantdomain>\n"
         "    <request>\n"
         "        <tag>azure-activity</tag>\n"
         "        <query>AzureActivity | where SubscriptionId == 2d7...61d </query>\n"

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -16,7 +16,7 @@
 #include "shared.h"
 #include "../config/localfile-config.h"
 #include "../config/config.h"
-#include "../wrappers/wazuh/os_xml/os_xml_wrappers.h"
+#include "../wrappers/cyb3rhq/os_xml/os_xml_wrappers.h"
 #include "../wrappers/externals/pcre2/pcre2_wrappers.h"
 #include "../wrappers/externals/cJSON/cJSON_wrappers.h"
 

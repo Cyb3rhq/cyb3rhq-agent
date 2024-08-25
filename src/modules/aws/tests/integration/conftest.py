@@ -1,5 +1,5 @@
-# Copyright (C) 2015-2023, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015-2023, Cyb3rhq Inc.
+# Created by Cyb3rhq, Inc. <info@wazuh.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 """
@@ -14,12 +14,12 @@ from botocore.exceptions import ClientError
 from typing import List
 
 # qa-integration-framework imports
-from wazuh_testing import session_parameters
-from wazuh_testing.constants import platforms
-from wazuh_testing.constants.paths import ROOT_PREFIX
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.logger import logger
-from wazuh_testing.modules.aws.utils import (
+from cyb3rhq_testing import session_parameters
+from cyb3rhq_testing.constants import platforms
+from cyb3rhq_testing.constants.paths import ROOT_PREFIX
+from cyb3rhq_testing.constants.paths.logs import CYB3RHQ_LOG_PATH
+from cyb3rhq_testing.logger import logger
+from cyb3rhq_testing.modules.aws.utils import (
     create_bucket,
     upload_log_events,
     create_log_group,
@@ -40,11 +40,11 @@ from wazuh_testing.modules.aws.utils import (
     delete_sqs_queue,
     delete_bucket_files
 )
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils import configuration
-from wazuh_testing.utils.file import truncate_file
-from wazuh_testing.utils.services import control_service
-from wazuh_testing.constants.aws import US_EAST_1_REGION
+from cyb3rhq_testing.tools.monitors.file_monitor import FileMonitor
+from cyb3rhq_testing.utils import configuration
+from cyb3rhq_testing.utils.file import truncate_file
+from cyb3rhq_testing.utils.services import control_service
+from cyb3rhq_testing.constants.aws import US_EAST_1_REGION
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - -Pytest configuration - - - - - - - - - - - - - - - - - - - - - - -
@@ -128,38 +128,38 @@ def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item
 
 
 @pytest.fixture(scope='session')
-def load_wazuh_basic_configuration():
+def load_cyb3rhq_basic_configuration():
     """Load a new basic configuration to the manager"""
     # Load ossec.conf with all disabled settings
     minimal_configuration = configuration.get_minimal_configuration()
 
     # Make a backup from current configuration
-    backup_ossec_configuration = configuration.get_wazuh_conf()
+    backup_ossec_configuration = configuration.get_cyb3rhq_conf()
 
     # Write new configuration
-    configuration.write_wazuh_conf(minimal_configuration)
+    configuration.write_cyb3rhq_conf(minimal_configuration)
 
     yield
 
     # Restore the ossec.conf backup
-    configuration.write_wazuh_conf(backup_ossec_configuration)
+    configuration.write_cyb3rhq_conf(backup_ossec_configuration)
 
 
 @pytest.fixture()
-def set_wazuh_configuration(test_configuration: dict) -> None:
-    """Set wazuh configuration
+def set_cyb3rhq_configuration(test_configuration: dict) -> None:
+    """Set cyb3rhq configuration
 
     Args:
         test_configuration (dict): Configuration template data to write in the ossec.conf
     """
     # Save current configuration
-    backup_config = configuration.get_wazuh_conf()
+    backup_config = configuration.get_cyb3rhq_conf()
 
     # Configuration for testing
-    test_config = configuration.set_section_wazuh_conf(test_configuration.get('sections'))
+    test_config = configuration.set_section_cyb3rhq_conf(test_configuration.get('sections'))
 
     # Set new configuration
-    configuration.write_wazuh_conf(test_config)
+    configuration.write_cyb3rhq_conf(test_config)
 
     # Set current configuration
     session_parameters.current_configuration = test_config
@@ -167,7 +167,7 @@ def set_wazuh_configuration(test_configuration: dict) -> None:
     yield
 
     # Restore previous configuration
-    configuration.write_wazuh_conf(backup_config)
+    configuration.write_cyb3rhq_conf(backup_config)
 
 
 @pytest.fixture()
@@ -205,7 +205,7 @@ def configure_local_internal_options_function(request):
 
 
 @pytest.fixture()
-def restart_wazuh_function(request):
+def restart_cyb3rhq_function(request):
     """Restart before starting a test, and stop it after finishing.
 
        Args:
@@ -233,7 +233,7 @@ def restart_wazuh_function(request):
         logger.debug(f"Stopping all daemons")
         control_service('stop')
     else:
-        # Stop a list daemons in order (as Wazuh does)
+        # Stop a list daemons in order (as Cyb3rhq does)
         daemons.reverse()
         for daemon in daemons:
             logger.debug(f"Stopping {daemon}")
@@ -252,7 +252,7 @@ def file_monitoring(request):
     if hasattr(request.module, 'file_to_monitor'):
         file_to_monitor = getattr(request.module, 'file_to_monitor')
     else:
-        file_to_monitor = WAZUH_LOG_PATH
+        file_to_monitor = CYB3RHQ_LOG_PATH
 
     logger.debug(f"Initializing file to monitor to {file_to_monitor}")
 
@@ -268,7 +268,7 @@ def file_monitoring(request):
 @pytest.fixture()
 def truncate_monitored_files() -> None:
     """Truncate all the log files and json alerts files before and after the test execution"""
-    log_files = [WAZUH_LOG_PATH]
+    log_files = [CYB3RHQ_LOG_PATH]
 
     for log_file in log_files:
         if os.path.isfile(os.path.join(ROOT_PREFIX, log_file)):
@@ -288,8 +288,8 @@ def mark_cases_as_skipped(metadata):
 
 
 @pytest.fixture
-def restart_wazuh_function_without_exception(daemon=None):
-    """Restart all Wazuh daemons."""
+def restart_cyb3rhq_function_without_exception(daemon=None):
+    """Restart all Cyb3rhq daemons."""
     try:
         control_service("start", daemon=daemon)
     except ValueError:

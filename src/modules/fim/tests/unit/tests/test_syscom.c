@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -14,9 +14,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/syscheckd/config_wrappers.h"
-#include "../wrappers/wazuh/syscheckd/fim_sync_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/debug_op_wrappers.h"
+#include "../wrappers/cyb3rhq/syscheckd/config_wrappers.h"
+#include "../wrappers/cyb3rhq/syscheckd/fim_sync_wrappers.h"
 #include "../../syscheckd/include/syscheck.h"
 #include "../../config/syscheck-config.h"
 

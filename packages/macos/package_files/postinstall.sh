@@ -8,26 +8,26 @@
 #  starting at 600 puts this in user space
 # -Added lines to append the ossec users to the group ossec
 #  so the the list GroupMembership works properly
-GROUP="wazuh"
-USER="wazuh"
+GROUP="cyb3rhq"
+USER="cyb3rhq"
 DIR="/Library/Ossec"
 INSTALLATION_SCRIPTS_DIR="${DIR}/packages_files/agent_installation_scripts"
 SCA_BASE_DIR="${INSTALLATION_SCRIPTS_DIR}/sca"
 
-if [ -f "${DIR}/WAZUH_PKG_UPGRADE" ]; then
+if [ -f "${DIR}/CYB3RHQ_PKG_UPGRADE" ]; then
     upgrade="true"
 fi
 
-if [ -f "${DIR}/WAZUH_PKG_UPGRADE" ]; then
-    rm -f ${DIR}/WAZUH_PKG_UPGRADE
+if [ -f "${DIR}/CYB3RHQ_PKG_UPGRADE" ]; then
+    rm -f ${DIR}/CYB3RHQ_PKG_UPGRADE
 fi
 
-if [ -f "${DIR}/WAZUH_RESTART" ]; then
+if [ -f "${DIR}/CYB3RHQ_RESTART" ]; then
     restart="true"
 fi
 
-if [ -f "${DIR}/WAZUH_RESTART" ]; then
-    rm -f ${DIR}/WAZUH_RESTART
+if [ -f "${DIR}/CYB3RHQ_RESTART" ]; then
+    rm -f ${DIR}/CYB3RHQ_RESTART
 fi
 
 if [ -n "${upgrade}" ]; then
@@ -93,11 +93,11 @@ else
 fi
 
 if [ -z "${upgrade}" ]; then
-    echo "Generating Wazuh configuration for a fresh installation."
+    echo "Generating Cyb3rhq configuration for a fresh installation."
 
     if [ -f "${INSTALLATION_SCRIPTS_DIR}/gen_ossec.sh" ]; then
         ${INSTALLATION_SCRIPTS_DIR}/gen_ossec.sh conf agent ${DIST_NAME} ${DIST_VER}.${DIST_SUBVER} ${DIR} > ${DIR}/etc/ossec.conf
-        chown root:wazuh ${DIR}/etc/ossec.conf
+        chown root:cyb3rhq ${DIR}/etc/ossec.conf
         chmod 0640 ${DIR}/etc/ossec.conf
     else
         echo "Error: ${INSTALLATION_SCRIPTS_DIR}/gen_ossec.sh script not found."
@@ -132,7 +132,7 @@ if [ -r ${SCA_TMP_FILE} ]; then
     done
 fi
 
-# Register and configure agent if Wazuh environment variables are defined
+# Register and configure agent if Cyb3rhq environment variables are defined
 if [ -z "${upgrade}" ]; then
     echo "Running the register_configure_agent.sh script..."
     if [ -f "${INSTALLATION_SCRIPTS_DIR}/src/init/register_configure_agent.sh" ]; then
@@ -162,11 +162,11 @@ rm -rf ${DIR}/packages_files
 # Remove old ossec user and group if exists and change ownwership of files
 
 if [[ $(dscl . -read /Groups/ossec) ]]; then
-    echo "Changing group from Ossec to Wazuh"
-    find ${DIR}/ -group ossec -user root -exec chown root:wazuh {} \ > /dev/null 2>&1 || true
+    echo "Changing group from Ossec to Cyb3rhq"
+    find ${DIR}/ -group ossec -user root -exec chown root:cyb3rhq {} \ > /dev/null 2>&1 || true
     if [[ $(dscl . -read /Users/ossec) ]]; then
-        echo "Changing user from Ossec to Wazuh"
-        find ${DIR}/ -group ossec -user ossec -exec chown wazuh:wazuh {} \ > /dev/null 2>&1 || true
+        echo "Changing user from Ossec to Cyb3rhq"
+        find ${DIR}/ -group ossec -user ossec -exec chown cyb3rhq:cyb3rhq {} \ > /dev/null 2>&1 || true
         echo "Removing Ossec user"
         sudo /usr/bin/dscl . -delete "/Users/ossec"
     fi
@@ -181,6 +181,6 @@ if [ -f ${DIR}/queue/alerts/sockets ]; then
 fi
 
 if [ -n "${upgrade}" ] && [ -n "${restart}" ]; then
-    echo "Restarting Wazuh..."
-    ${DIR}/bin/wazuh-control restart
+    echo "Restarting Cyb3rhq..."
+    ${DIR}/bin/cyb3rhq-control restart
 fi

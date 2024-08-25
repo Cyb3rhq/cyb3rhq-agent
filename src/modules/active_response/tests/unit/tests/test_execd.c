@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -18,17 +18,17 @@
 #include "list_op.h"
 #include "../os_regex/os_regex.h"
 #include "../os_net/os_net.h"
-#include "../wazuh_modules/wmodules.h"
+#include "../cyb3rhq_modules/wmodules.h"
 #include "../external/cJSON/cJSON.h"
 #include "../os_execd/execd.h"
 
 #include "../wrappers/common.h"
 #include "../wrappers/libc/stdio_wrappers.h"
 #include "../wrappers/posix/select_wrappers.h"
-#include "../wrappers/wazuh/os_execd/exec_wrappers.h"
-#include "../wrappers/wazuh/os_net/os_net_wrappers.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/shared/exec_op_wrappers.h"
+#include "../wrappers/cyb3rhq/os_execd/exec_wrappers.h"
+#include "../wrappers/cyb3rhq/os_net/os_net_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/debug_op_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/exec_op_wrappers.h"
 
 extern int test_mode;
 extern OSList *timeout_list;
@@ -66,9 +66,9 @@ static int test_setup_file_timeout(void **state) {
     timeout_data *timeout_entry;
     os_calloc(1, sizeof(timeout_data), timeout_entry);
     os_calloc(2, sizeof(char *), timeout_entry->command);
-    os_strdup("restart-wazuh10", timeout_entry->command[0]);
+    os_strdup("restart-cyb3rhq10", timeout_entry->command[0]);
     timeout_entry->command[1] = NULL;
-    os_strdup("restart-wazuh-10.0.0.1-root", timeout_entry->rkey);
+    os_strdup("restart-cyb3rhq-10.0.0.1-root", timeout_entry->rkey);
     timeout_entry->time_of_addition = 123456789;
     timeout_entry->time_to_block = 10;
     OSList_AddData(timeout_list, timeout_entry);
@@ -93,9 +93,9 @@ static void test_ExecdStart_ok(void **state) {
                         "\"version\":\"1\","
                         "\"origin\":{"
                             "\"name\":\"node01\","
-                            "\"module\":\"wazuh-analysisd\""
+                            "\"module\":\"cyb3rhq-analysisd\""
                         "},"
-                        "\"command\":\"restart-wazuh0\","
+                        "\"command\":\"restart-cyb3rhq0\","
                         "\"parameters\":{"
                             "\"extra_args\":[],"
                             "\"alert\":{"
@@ -131,9 +131,9 @@ static void test_ExecdStart_ok(void **state) {
                                                                         "\"version\":\"1\","
                                                                         "\"origin\":{"
                                                                             "\"name\":\"node01\","
-                                                                            "\"module\":\"wazuh-analysisd\""
+                                                                            "\"module\":\"cyb3rhq-analysisd\""
                                                                         "},"
-                                                                        "\"command\":\"restart-wazuh0\","
+                                                                        "\"command\":\"restart-cyb3rhq0\","
                                                                         "\"parameters\":{"
                                                                             "\"extra_args\":[],"
                                                                             "\"alert\":{"
@@ -157,15 +157,15 @@ static void test_ExecdStart_ok(void **state) {
 
     will_return(__wrap_time, now);
 
-    expect_string(__wrap_GetCommandbyName, name, "restart-wazuh0");
+    expect_string(__wrap_GetCommandbyName, name, "restart-cyb3rhq0");
     will_return(__wrap_GetCommandbyName, timeout);
-    will_return(__wrap_GetCommandbyName, "restart-wazuh");
+    will_return(__wrap_GetCommandbyName, "restart-cyb3rhq");
 
-    expect_string(__wrap__mdebug1, formatted_msg, "Executing command 'restart-wazuh {"
+    expect_string(__wrap__mdebug1, formatted_msg, "Executing command 'restart-cyb3rhq {"
                                                                                         "\"version\":\"1\","
                                                                                         "\"origin\":{"
                                                                                             "\"name\":\"node01\","
-                                                                                            "\"module\":\"wazuh-execd\""
+                                                                                            "\"module\":\"cyb3rhq-execd\""
                                                                                         "},"
                                                                                         "\"command\":\"add\","
                                                                                         "\"parameters\":{"
@@ -186,7 +186,7 @@ static void test_ExecdStart_ok(void **state) {
                                                                                                 "},"
                                                                                                 "\"location\":\"syscheck\""
                                                                                             "},"
-                                                                                            "\"program\":\"restart-wazuh\""
+                                                                                            "\"program\":\"restart-cyb3rhq\""
                                                                                         "}"
                                                                                     "}'");
 
@@ -197,7 +197,7 @@ static void test_ExecdStart_ok(void **state) {
                                                     "\"version\":\"1\","
                                                     "\"origin\":{"
                                                         "\"name\":\"node01\","
-                                                        "\"module\":\"wazuh-execd\""
+                                                        "\"module\":\"cyb3rhq-execd\""
                                                     "},"
                                                     "\"command\":\"add\","
                                                     "\"parameters\":{"
@@ -218,7 +218,7 @@ static void test_ExecdStart_ok(void **state) {
                                                             "},"
                                                             "\"location\":\"syscheck\""
                                                         "},"
-                                                        "\"program\":\"restart-wazuh\""
+                                                        "\"program\":\"restart-cyb3rhq\""
                                                     "}"
                                                 "}\n");
     will_return(__wrap_fprintf, 0);
@@ -227,7 +227,7 @@ static void test_ExecdStart_ok(void **state) {
     will_return(__wrap_fgets, "{"
                                   "\"version\":1,"
                                   "\"origin\":{"
-                                      "\"name\":\"restart-wazuh\","
+                                      "\"name\":\"restart-cyb3rhq\","
                                       "\"module\":\"active-response\""
                                   "},"
                                   "\"command\":\"check_keys\","
@@ -241,7 +241,7 @@ static void test_ExecdStart_ok(void **state) {
                                                     "\"version\":\"1\","
                                                     "\"origin\":{"
                                                         "\"name\":\"node01\","
-                                                        "\"module\":\"wazuh-execd\""
+                                                        "\"module\":\"cyb3rhq-execd\""
                                                     "},"
                                                     "\"command\":\"continue\","
                                                     "\"parameters\":{"
@@ -262,7 +262,7 @@ static void test_ExecdStart_ok(void **state) {
                                                             "},"
                                                             "\"location\":\"syscheck\""
                                                         "},"
-                                                        "\"program\":\"restart-wazuh\""
+                                                        "\"program\":\"restart-cyb3rhq\""
                                                     "}"
                                                 "}\n");
     will_return(__wrap_fprintf, 0);
@@ -280,9 +280,9 @@ static void test_ExecdStart_timeout_not_repeated(void **state) {
                         "\"version\":\"1\","
                         "\"origin\":{"
                             "\"name\":\"node01\","
-                            "\"module\":\"wazuh-analysisd\""
+                            "\"module\":\"cyb3rhq-analysisd\""
                         "},"
-                        "\"command\":\"restart-wazuh10\","
+                        "\"command\":\"restart-cyb3rhq10\","
                         "\"parameters\":{"
                             "\"extra_args\":[],"
                             "\"alert\":{"
@@ -318,9 +318,9 @@ static void test_ExecdStart_timeout_not_repeated(void **state) {
                                                                         "\"version\":\"1\","
                                                                         "\"origin\":{"
                                                                             "\"name\":\"node01\","
-                                                                            "\"module\":\"wazuh-analysisd\""
+                                                                            "\"module\":\"cyb3rhq-analysisd\""
                                                                         "},"
-                                                                        "\"command\":\"restart-wazuh10\","
+                                                                        "\"command\":\"restart-cyb3rhq10\","
                                                                         "\"parameters\":{"
                                                                             "\"extra_args\":[],"
                                                                             "\"alert\":{"
@@ -344,15 +344,15 @@ static void test_ExecdStart_timeout_not_repeated(void **state) {
 
     will_return(__wrap_time, now);
 
-    expect_string(__wrap_GetCommandbyName, name, "restart-wazuh10");
+    expect_string(__wrap_GetCommandbyName, name, "restart-cyb3rhq10");
     will_return(__wrap_GetCommandbyName, timeout);
-    will_return(__wrap_GetCommandbyName, "restart-wazuh");
+    will_return(__wrap_GetCommandbyName, "restart-cyb3rhq");
 
-    expect_string(__wrap__mdebug1, formatted_msg, "Executing command 'restart-wazuh {"
+    expect_string(__wrap__mdebug1, formatted_msg, "Executing command 'restart-cyb3rhq {"
                                                                                         "\"version\":\"1\","
                                                                                         "\"origin\":{"
                                                                                             "\"name\":\"node01\","
-                                                                                            "\"module\":\"wazuh-execd\""
+                                                                                            "\"module\":\"cyb3rhq-execd\""
                                                                                         "},"
                                                                                         "\"command\":\"add\","
                                                                                         "\"parameters\":{"
@@ -373,7 +373,7 @@ static void test_ExecdStart_timeout_not_repeated(void **state) {
                                                                                                 "},"
                                                                                                 "\"location\":\"syscheck\""
                                                                                             "},"
-                                                                                            "\"program\":\"restart-wazuh\""
+                                                                                            "\"program\":\"restart-cyb3rhq\""
                                                                                         "}"
                                                                                     "}'");
 
@@ -384,7 +384,7 @@ static void test_ExecdStart_timeout_not_repeated(void **state) {
                                                     "\"version\":\"1\","
                                                     "\"origin\":{"
                                                         "\"name\":\"node01\","
-                                                        "\"module\":\"wazuh-execd\""
+                                                        "\"module\":\"cyb3rhq-execd\""
                                                     "},"
                                                     "\"command\":\"add\","
                                                     "\"parameters\":{"
@@ -405,7 +405,7 @@ static void test_ExecdStart_timeout_not_repeated(void **state) {
                                                             "},"
                                                             "\"location\":\"syscheck\""
                                                         "},"
-                                                        "\"program\":\"restart-wazuh\""
+                                                        "\"program\":\"restart-cyb3rhq\""
                                                     "}"
                                                 "}\n");
     will_return(__wrap_fprintf, 0);
@@ -414,7 +414,7 @@ static void test_ExecdStart_timeout_not_repeated(void **state) {
     will_return(__wrap_fgets, "{"
                                   "\"version\":1,"
                                   "\"origin\":{"
-                                      "\"name\":\"restart-wazuh\","
+                                      "\"name\":\"restart-cyb3rhq\","
                                       "\"module\":\"active-response\""
                                   "},"
                                   "\"command\":\"check_keys\","
@@ -428,7 +428,7 @@ static void test_ExecdStart_timeout_not_repeated(void **state) {
                                                     "\"version\":\"1\","
                                                     "\"origin\":{"
                                                         "\"name\":\"node01\","
-                                                        "\"module\":\"wazuh-execd\""
+                                                        "\"module\":\"cyb3rhq-execd\""
                                                     "},"
                                                     "\"command\":\"continue\","
                                                     "\"parameters\":{"
@@ -449,18 +449,18 @@ static void test_ExecdStart_timeout_not_repeated(void **state) {
                                                             "},"
                                                             "\"location\":\"syscheck\""
                                                         "},"
-                                                        "\"program\":\"restart-wazuh\""
+                                                        "\"program\":\"restart-cyb3rhq\""
                                                     "}"
                                                 "}\n");
     will_return(__wrap_fprintf, 0);
 
     will_return(__wrap_wpclose, 0);
 
-    expect_string(__wrap__mdebug1, formatted_msg, "Adding command 'restart-wazuh {"
+    expect_string(__wrap__mdebug1, formatted_msg, "Adding command 'restart-cyb3rhq {"
                                                                                     "\"version\":\"1\","
                                                                                     "\"origin\":{"
                                                                                         "\"name\":\"node01\","
-                                                                                        "\"module\":\"wazuh-execd\""
+                                                                                        "\"module\":\"cyb3rhq-execd\""
                                                                                     "},"
                                                                                     "\"command\":\"delete\","
                                                                                     "\"parameters\":{"
@@ -481,7 +481,7 @@ static void test_ExecdStart_timeout_not_repeated(void **state) {
                                                                                             "},"
                                                                                             "\"location\":\"syscheck\""
                                                                                         "},"
-                                                                                        "\"program\":\"restart-wazuh\""
+                                                                                        "\"program\":\"restart-cyb3rhq\""
                                                                                     "}"
                                                                                 "}' to the timeout list, with a timeout of '10s'.");
 
@@ -496,9 +496,9 @@ static void test_ExecdStart_timeout_repeated(void **state) {
                         "\"version\":\"1\","
                         "\"origin\":{"
                             "\"name\":\"node01\","
-                            "\"module\":\"wazuh-analysisd\""
+                            "\"module\":\"cyb3rhq-analysisd\""
                         "},"
-                        "\"command\":\"restart-wazuh10\","
+                        "\"command\":\"restart-cyb3rhq10\","
                         "\"parameters\":{"
                             "\"extra_args\":[],"
                             "\"alert\":{"
@@ -534,9 +534,9 @@ static void test_ExecdStart_timeout_repeated(void **state) {
                                                                         "\"version\":\"1\","
                                                                         "\"origin\":{"
                                                                             "\"name\":\"node01\","
-                                                                            "\"module\":\"wazuh-analysisd\""
+                                                                            "\"module\":\"cyb3rhq-analysisd\""
                                                                         "},"
-                                                                        "\"command\":\"restart-wazuh10\","
+                                                                        "\"command\":\"restart-cyb3rhq10\","
                                                                         "\"parameters\":{"
                                                                             "\"extra_args\":[],"
                                                                             "\"alert\":{"
@@ -560,15 +560,15 @@ static void test_ExecdStart_timeout_repeated(void **state) {
 
     will_return(__wrap_time, now);
 
-    expect_string(__wrap_GetCommandbyName, name, "restart-wazuh10");
+    expect_string(__wrap_GetCommandbyName, name, "restart-cyb3rhq10");
     will_return(__wrap_GetCommandbyName, timeout);
-    will_return(__wrap_GetCommandbyName, "restart-wazuh");
+    will_return(__wrap_GetCommandbyName, "restart-cyb3rhq");
 
-    expect_string(__wrap__mdebug1, formatted_msg, "Executing command 'restart-wazuh {"
+    expect_string(__wrap__mdebug1, formatted_msg, "Executing command 'restart-cyb3rhq {"
                                                                                         "\"version\":\"1\","
                                                                                         "\"origin\":{"
                                                                                             "\"name\":\"node01\","
-                                                                                            "\"module\":\"wazuh-execd\""
+                                                                                            "\"module\":\"cyb3rhq-execd\""
                                                                                         "},"
                                                                                         "\"command\":\"add\","
                                                                                         "\"parameters\":{"
@@ -589,7 +589,7 @@ static void test_ExecdStart_timeout_repeated(void **state) {
                                                                                                 "},"
                                                                                                 "\"location\":\"syscheck\""
                                                                                             "},"
-                                                                                            "\"program\":\"restart-wazuh\""
+                                                                                            "\"program\":\"restart-cyb3rhq\""
                                                                                         "}"
                                                                                     "}'");
 
@@ -600,7 +600,7 @@ static void test_ExecdStart_timeout_repeated(void **state) {
                                                     "\"version\":\"1\","
                                                     "\"origin\":{"
                                                         "\"name\":\"node01\","
-                                                        "\"module\":\"wazuh-execd\""
+                                                        "\"module\":\"cyb3rhq-execd\""
                                                     "},"
                                                     "\"command\":\"add\","
                                                     "\"parameters\":{"
@@ -621,7 +621,7 @@ static void test_ExecdStart_timeout_repeated(void **state) {
                                                             "},"
                                                             "\"location\":\"syscheck\""
                                                         "},"
-                                                        "\"program\":\"restart-wazuh\""
+                                                        "\"program\":\"restart-cyb3rhq\""
                                                     "}"
                                                 "}\n");
     will_return(__wrap_fprintf, 0);
@@ -630,7 +630,7 @@ static void test_ExecdStart_timeout_repeated(void **state) {
     will_return(__wrap_fgets, "{"
                                   "\"version\":1,"
                                   "\"origin\":{"
-                                      "\"name\":\"restart-wazuh\","
+                                      "\"name\":\"restart-cyb3rhq\","
                                       "\"module\":\"active-response\""
                                   "},"
                                   "\"command\":\"check_keys\","
@@ -644,7 +644,7 @@ static void test_ExecdStart_timeout_repeated(void **state) {
                                                     "\"version\":\"1\","
                                                     "\"origin\":{"
                                                         "\"name\":\"node01\","
-                                                        "\"module\":\"wazuh-execd\""
+                                                        "\"module\":\"cyb3rhq-execd\""
                                                     "},"
                                                     "\"command\":\"abort\","
                                                     "\"parameters\":{"
@@ -665,7 +665,7 @@ static void test_ExecdStart_timeout_repeated(void **state) {
                                                             "},"
                                                             "\"location\":\"syscheck\""
                                                         "},"
-                                                        "\"program\":\"restart-wazuh\""
+                                                        "\"program\":\"restart-cyb3rhq\""
                                                     "}"
                                                 "}\n");
     will_return(__wrap_fprintf, 0);
@@ -685,9 +685,9 @@ static void test_ExecdStart_wpopenv_err(void **state) {
                         "\"version\":\"1\","
                         "\"origin\":{"
                             "\"name\":\"node01\","
-                            "\"module\":\"wazuh-analysisd\""
+                            "\"module\":\"cyb3rhq-analysisd\""
                         "},"
-                        "\"command\":\"restart-wazuh0\","
+                        "\"command\":\"restart-cyb3rhq0\","
                         "\"parameters\":{"
                             "\"extra_args\":[],"
                             "\"alert\":{"
@@ -723,9 +723,9 @@ static void test_ExecdStart_wpopenv_err(void **state) {
                                                                         "\"version\":\"1\","
                                                                         "\"origin\":{"
                                                                             "\"name\":\"node01\","
-                                                                            "\"module\":\"wazuh-analysisd\""
+                                                                            "\"module\":\"cyb3rhq-analysisd\""
                                                                         "},"
-                                                                        "\"command\":\"restart-wazuh0\","
+                                                                        "\"command\":\"restart-cyb3rhq0\","
                                                                         "\"parameters\":{"
                                                                             "\"extra_args\":[],"
                                                                             "\"alert\":{"
@@ -749,15 +749,15 @@ static void test_ExecdStart_wpopenv_err(void **state) {
 
     will_return(__wrap_time, now);
 
-    expect_string(__wrap_GetCommandbyName, name, "restart-wazuh0");
+    expect_string(__wrap_GetCommandbyName, name, "restart-cyb3rhq0");
     will_return(__wrap_GetCommandbyName, timeout);
-    will_return(__wrap_GetCommandbyName, "restart-wazuh");
+    will_return(__wrap_GetCommandbyName, "restart-cyb3rhq");
 
-    expect_string(__wrap__mdebug1, formatted_msg, "Executing command 'restart-wazuh {"
+    expect_string(__wrap__mdebug1, formatted_msg, "Executing command 'restart-cyb3rhq {"
                                                                                         "\"version\":\"1\","
                                                                                         "\"origin\":{"
                                                                                             "\"name\":\"node01\","
-                                                                                            "\"module\":\"wazuh-execd\""
+                                                                                            "\"module\":\"cyb3rhq-execd\""
                                                                                         "},"
                                                                                         "\"command\":\"add\","
                                                                                         "\"parameters\":{"
@@ -778,7 +778,7 @@ static void test_ExecdStart_wpopenv_err(void **state) {
                                                                                                 "},"
                                                                                                 "\"location\":\"syscheck\""
                                                                                             "},"
-                                                                                            "\"program\":\"restart-wazuh\""
+                                                                                            "\"program\":\"restart-cyb3rhq\""
                                                                                         "}"
                                                                                     "}'");
 
@@ -797,9 +797,9 @@ static void test_ExecdStart_fgets_err(void **state) {
                         "\"version\":\"1\","
                         "\"origin\":{"
                             "\"name\":\"node01\","
-                            "\"module\":\"wazuh-analysisd\""
+                            "\"module\":\"cyb3rhq-analysisd\""
                         "},"
-                        "\"command\":\"restart-wazuh0\","
+                        "\"command\":\"restart-cyb3rhq0\","
                         "\"parameters\":{"
                             "\"extra_args\":[],"
                             "\"alert\":{"
@@ -835,9 +835,9 @@ static void test_ExecdStart_fgets_err(void **state) {
                                                                         "\"version\":\"1\","
                                                                         "\"origin\":{"
                                                                             "\"name\":\"node01\","
-                                                                            "\"module\":\"wazuh-analysisd\""
+                                                                            "\"module\":\"cyb3rhq-analysisd\""
                                                                         "},"
-                                                                        "\"command\":\"restart-wazuh0\","
+                                                                        "\"command\":\"restart-cyb3rhq0\","
                                                                         "\"parameters\":{"
                                                                             "\"extra_args\":[],"
                                                                             "\"alert\":{"
@@ -861,15 +861,15 @@ static void test_ExecdStart_fgets_err(void **state) {
 
     will_return(__wrap_time, now);
 
-    expect_string(__wrap_GetCommandbyName, name, "restart-wazuh0");
+    expect_string(__wrap_GetCommandbyName, name, "restart-cyb3rhq0");
     will_return(__wrap_GetCommandbyName, timeout);
-    will_return(__wrap_GetCommandbyName, "restart-wazuh");
+    will_return(__wrap_GetCommandbyName, "restart-cyb3rhq");
 
-    expect_string(__wrap__mdebug1, formatted_msg, "Executing command 'restart-wazuh {"
+    expect_string(__wrap__mdebug1, formatted_msg, "Executing command 'restart-cyb3rhq {"
                                                                                         "\"version\":\"1\","
                                                                                         "\"origin\":{"
                                                                                             "\"name\":\"node01\","
-                                                                                            "\"module\":\"wazuh-execd\""
+                                                                                            "\"module\":\"cyb3rhq-execd\""
                                                                                         "},"
                                                                                         "\"command\":\"add\","
                                                                                         "\"parameters\":{"
@@ -890,7 +890,7 @@ static void test_ExecdStart_fgets_err(void **state) {
                                                                                                 "},"
                                                                                                 "\"location\":\"syscheck\""
                                                                                             "},"
-                                                                                            "\"program\":\"restart-wazuh\""
+                                                                                            "\"program\":\"restart-cyb3rhq\""
                                                                                         "}"
                                                                                     "}'");
 
@@ -901,7 +901,7 @@ static void test_ExecdStart_fgets_err(void **state) {
                                                     "\"version\":\"1\","
                                                     "\"origin\":{"
                                                         "\"name\":\"node01\","
-                                                        "\"module\":\"wazuh-execd\""
+                                                        "\"module\":\"cyb3rhq-execd\""
                                                     "},"
                                                     "\"command\":\"add\","
                                                     "\"parameters\":{"
@@ -922,7 +922,7 @@ static void test_ExecdStart_fgets_err(void **state) {
                                                             "},"
                                                             "\"location\":\"syscheck\""
                                                         "},"
-                                                        "\"program\":\"restart-wazuh\""
+                                                        "\"program\":\"restart-cyb3rhq\""
                                                     "}"
                                                 "}\n");
     will_return(__wrap_fprintf, 0);
@@ -930,7 +930,7 @@ static void test_ExecdStart_fgets_err(void **state) {
     expect_value(__wrap_fgets, __stream, wfd->file_out);
     will_return(__wrap_fgets, NULL);
 
-    expect_string(__wrap__mdebug1, formatted_msg, "Active response won't be added to timeout list. Message not received with alert keys from script 'restart-wazuh'");
+    expect_string(__wrap__mdebug1, formatted_msg, "Active response won't be added to timeout list. Message not received with alert keys from script 'restart-cyb3rhq'");
 
     will_return(__wrap_wpclose, 0);
 
@@ -945,9 +945,9 @@ static void test_ExecdStart_get_command_err(void **state) {
                         "\"version\":\"1\","
                         "\"origin\":{"
                             "\"name\":\"node01\","
-                            "\"module\":\"wazuh-analysisd\""
+                            "\"module\":\"cyb3rhq-analysisd\""
                         "},"
-                        "\"command\":\"restart-wazuh0\","
+                        "\"command\":\"restart-cyb3rhq0\","
                         "\"parameters\":{"
                             "\"extra_args\":[],"
                             "\"alert\":{"
@@ -983,9 +983,9 @@ static void test_ExecdStart_get_command_err(void **state) {
                                                                         "\"version\":\"1\","
                                                                         "\"origin\":{"
                                                                             "\"name\":\"node01\","
-                                                                            "\"module\":\"wazuh-analysisd\""
+                                                                            "\"module\":\"cyb3rhq-analysisd\""
                                                                         "},"
-                                                                        "\"command\":\"restart-wazuh0\","
+                                                                        "\"command\":\"restart-cyb3rhq0\","
                                                                         "\"parameters\":{"
                                                                             "\"extra_args\":[],"
                                                                             "\"alert\":{"
@@ -1009,17 +1009,17 @@ static void test_ExecdStart_get_command_err(void **state) {
 
     will_return(__wrap_time, now);
 
-    expect_string(__wrap_GetCommandbyName, name, "restart-wazuh0");
+    expect_string(__wrap_GetCommandbyName, name, "restart-cyb3rhq0");
     will_return(__wrap_GetCommandbyName, timeout);
     will_return(__wrap_GetCommandbyName, NULL);
 
     will_return(__wrap_ReadExecConfig, 0);
 
-    expect_string(__wrap_GetCommandbyName, name, "restart-wazuh0");
+    expect_string(__wrap_GetCommandbyName, name, "restart-cyb3rhq0");
     will_return(__wrap_GetCommandbyName, timeout);
     will_return(__wrap_GetCommandbyName, NULL);
 
-    expect_string(__wrap__merror, formatted_msg, "(1311): Invalid command name 'restart-wazuh0' provided.");
+    expect_string(__wrap__merror, formatted_msg, "(1311): Invalid command name 'restart-cyb3rhq0' provided.");
 
     ExecdStart(queue);
 }
@@ -1033,9 +1033,9 @@ static void test_ExecdStart_get_name_err(void **state) {
                         "\"version\":\"1\","
                         "\"origin\":{"
                             "\"name\":\"node01\","
-                            "\"module\":\"wazuh-analysisd\""
+                            "\"module\":\"cyb3rhq-analysisd\""
                         "},"
-                        "\"command\":\"restart-wazuh0\","
+                        "\"command\":\"restart-cyb3rhq0\","
                         "\"parameters\":{"
                             "\"extra_args\":[],"
                             "\"alert\":{"
@@ -1085,9 +1085,9 @@ static void test_ExecdStart_json_err(void **state) {
                         "\"version\":\"1\","
                         "\"origin\":{"
                             "\"name\":\"node01\","
-                            "\"module\":\"wazuh-analysisd\""
+                            "\"module\":\"cyb3rhq-analysisd\""
                         "},"
-                        "\"command\":\"restart-wazuh0\","
+                        "\"command\":\"restart-cyb3rhq0\","
                         "\"parameters\":{"
                             "\"extra_args\":[],"
                             "\"alert\":{"

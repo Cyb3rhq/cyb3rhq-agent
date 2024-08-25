@@ -1,6 +1,6 @@
 """
- Copyright (C) 2015-2024, Wazuh Inc.
- Created by Wazuh, Inc. <info@wazuh.com>.
+ Copyright (C) 2015-2024, Cyb3rhq Inc.
+ Created by Cyb3rhq, Inc. <info@wazuh.com>.
  This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 """
 import os
@@ -9,15 +9,15 @@ import subprocess
 import pytest
 from typing import List
 
-from wazuh_testing import session_parameters
-from wazuh_testing.constants.paths import ROOT_PREFIX
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.constants.platforms import LINUX, WINDOWS, MACOS
-from wazuh_testing.logger import logger
-from wazuh_testing.tools.monitors import file_monitor
-from wazuh_testing.modules.modulesd.sca import patterns
-from wazuh_testing.utils import callbacks, configuration, services
-from wazuh_testing.utils.file import truncate_file
+from cyb3rhq_testing import session_parameters
+from cyb3rhq_testing.constants.paths import ROOT_PREFIX
+from cyb3rhq_testing.constants.paths.logs import CYB3RHQ_LOG_PATH
+from cyb3rhq_testing.constants.platforms import LINUX, WINDOWS, MACOS
+from cyb3rhq_testing.logger import logger
+from cyb3rhq_testing.tools.monitors import file_monitor
+from cyb3rhq_testing.modules.modulesd.sca import patterns
+from cyb3rhq_testing.utils import callbacks, configuration, services
+from cyb3rhq_testing.utils.file import truncate_file
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - -Pytest configuration - - - - - - - - - - - - - - - - - - - - - - -
@@ -101,20 +101,20 @@ def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item
 
 
 @pytest.fixture()
-def set_wazuh_configuration(test_configuration: dict) -> None:
-    """Set wazuh configuration
+def set_cyb3rhq_configuration(test_configuration: dict) -> None:
+    """Set cyb3rhq configuration
 
     Args:
         test_configuration (dict): Configuration template data to write in the ossec.conf
     """
     # Save current configuration
-    backup_config = configuration.get_wazuh_conf()
+    backup_config = configuration.get_cyb3rhq_conf()
 
     # Configuration for testing
-    test_config = configuration.set_section_wazuh_conf(test_configuration.get('sections'))
+    test_config = configuration.set_section_cyb3rhq_conf(test_configuration.get('sections'))
 
     # Set new configuration
-    configuration.write_wazuh_conf(test_config)
+    configuration.write_cyb3rhq_conf(test_config)
 
     # Set current configuration
     session_parameters.current_configuration = test_config
@@ -122,13 +122,13 @@ def set_wazuh_configuration(test_configuration: dict) -> None:
     yield
 
     # Restore previous configuration
-    configuration.write_wazuh_conf(backup_config)
+    configuration.write_cyb3rhq_conf(backup_config)
 
 
 @pytest.fixture()
 def truncate_monitored_files() -> None:
     """Truncate all the log files and json alerts files before and after the test execution"""
-    log_files = [WAZUH_LOG_PATH]
+    log_files = [CYB3RHQ_LOG_PATH]
 
     for log_file in log_files:
         if os.path.isfile(os.path.join(ROOT_PREFIX, log_file)):
@@ -146,7 +146,7 @@ def configure_local_internal_options(request: pytest.FixtureRequest, test_metada
     """Configure the local internal options file.
 
     Takes the `local_internal_options` variable from the request.
-    The `local_internal_options` is a dict with keys and values as the Wazuh `local_internal_options` format.
+    The `local_internal_options` is a dict with keys and values as the Cyb3rhq `local_internal_options` format.
     E.g.: local_internal_options = {'monitord.rotate_log': '0', 'syscheck.debug': '0' }
 
     Args:
@@ -178,14 +178,14 @@ def configure_local_internal_options(request: pytest.FixtureRequest, test_metada
 
 @pytest.fixture()
 def daemons_handler(request: pytest.FixtureRequest) -> None:
-    """Helper function to handle Wazuh daemons.
+    """Helper function to handle Cyb3rhq daemons.
 
     It uses `daemons_handler_configuration` of each module in order to configure the behavior of the fixture.
 
     The  `daemons_handler_configuration` should be a dictionary with the following keys:
         daemons (list, optional): List with every daemon to be used by the module. In case of empty a ValueError
             will be raised
-        all_daemons (boolean): Configure to restart all wazuh services. Default `False`.
+        all_daemons (boolean): Configure to restart all cyb3rhq services. Default `False`.
         ignore_errors (boolean): Configure if errors in daemon handling should be ignored. This option is available
         in order to use this fixture along with invalid configuration. Default `False`
 
@@ -204,19 +204,19 @@ def daemons_handler(request: pytest.FixtureRequest) -> None:
                 raise ValueError
 
         if 'all_daemons' in config:
-            logger.debug(f"Wazuh control set to {config['all_daemons']}")
+            logger.debug(f"Cyb3rhq control set to {config['all_daemons']}")
             all_daemons = config['all_daemons']
 
         if 'ignore_errors' in config:
             logger.debug(f"Ignore error set to {config['ignore_errors']}")
             ignore_errors = config['ignore_errors']
     else:
-        logger.debug("Wazuh control set to 'all_daemons'")
+        logger.debug("Cyb3rhq control set to 'all_daemons'")
         all_daemons = True
 
     try:
         if all_daemons:
-            logger.debug('Restarting wazuh using wazuh-control')
+            logger.debug('Restarting cyb3rhq using cyb3rhq-control')
             services.control_service('restart')
         else:
             for daemon in daemons:
@@ -236,7 +236,7 @@ def daemons_handler(request: pytest.FixtureRequest) -> None:
     yield
 
     if all_daemons:
-        logger.debug('Stopping wazuh using wazuh-control')
+        logger.debug('Stopping cyb3rhq using cyb3rhq-control')
         services.control_service('stop')
     else:
         for daemon in daemons:
@@ -249,6 +249,6 @@ def wait_for_sca_enabled():
     '''
     Wait for the sca module to start.
     '''
-    log_monitor = file_monitor.FileMonitor(WAZUH_LOG_PATH)
+    log_monitor = file_monitor.FileMonitor(CYB3RHQ_LOG_PATH)
     log_monitor.start(callback=callbacks.generate_callback(patterns.CB_SCA_ENABLED), timeout=60 if sys.platform == WINDOWS else 10)
     assert log_monitor.callback_result

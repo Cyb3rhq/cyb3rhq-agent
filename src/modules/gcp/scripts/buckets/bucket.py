@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 #
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Cyb3rhq Inc.
+# Created by Cyb3rhq, Inc. <info@wazuh.com>.
 # This program is free software; you can redistribute
 # it and/or modify it under the terms of GPLv2
 
@@ -17,17 +17,17 @@ path.append(join(dirname(realpath(__file__)), '..', '..'))  # noqa: E501
 import utils
 import exceptions
 import tools
-from integration import WazuhGCloudIntegration
+from integration import Cyb3rhqGCloudIntegration
 
 try:
     from google.cloud import storage
     from google.api_core import exceptions as google_exceptions
     import pytz
 except ImportError as e:
-    raise exceptions.WazuhIntegrationException(errcode=1003, package=e.name)
+    raise exceptions.Cyb3rhqIntegrationException(errcode=1003, package=e.name)
 
 
-class WazuhGCloudBucket(WazuhGCloudIntegration):
+class Cyb3rhqGCloudBucket(Cyb3rhqGCloudIntegration):
     """Class for getting Google Cloud Storage Bucket logs"""
 
     def __init__(self, credentials_file: str, logger: logging.Logger, bucket_name: str, prefix: str = None,
@@ -71,7 +71,7 @@ class WazuhGCloudBucket(WazuhGCloudIntegration):
         self.delete_file = delete_file
         self.only_logs_after = only_logs_after
         self.default_date = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
-        self.db_path = join(utils.find_wazuh_path(), "wodles/gcloud/gcloud.db")
+        self.db_path = join(utils.find_cyb3rhq_path(), "wodles/gcloud/gcloud.db")
         self.db_connector = None
         self.db_table_name = None
         self.datetime_format = "%Y-%m-%d %H:%M:%S.%f%z"

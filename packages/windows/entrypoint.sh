@@ -8,7 +8,7 @@ ZIP_NAME=$3
 TRUST_VERIFICATION=$4
 CA_NAME=$5
 
-# Compile the wazuh agent for Windows
+# Compile the cyb3rhq agent for Windows
 FLAGS="-j ${JOBS} IMAGE_TRUST_CHECKS=${TRUST_VERIFICATION} CA_NAME=\"${CA_NAME}\" "
 
 if [[ "${DEBUG}" = "yes" ]]; then
@@ -16,18 +16,18 @@ if [[ "${DEBUG}" = "yes" ]]; then
 fi
 
 if [ -z "${BRANCH}"]; then
-    mkdir /wazuh-local-src
-    cp -r /local-src/* /wazuh-local-src
+    mkdir /cyb3rhq-local-src
+    cp -r /local-src/* /cyb3rhq-local-src
 else
-    URL_REPO=https://github.com/wazuh/wazuh/archive/${BRANCH}.zip
+    URL_REPO=https://github.com/cyb3rhq/cyb3rhq/archive/${BRANCH}.zip
 
-    # Download the wazuh repository
-    wget -O wazuh.zip ${URL_REPO} && unzip wazuh.zip
+    # Download the cyb3rhq repository
+    wget -O cyb3rhq.zip ${URL_REPO} && unzip cyb3rhq.zip
 fi
 
-bash -c "make -C /wazuh-*/src deps TARGET=winagent ${FLAGS}"
-bash -c "make -C /wazuh-*/src TARGET=winagent ${FLAGS}"
+bash -c "make -C /cyb3rhq-*/src deps TARGET=winagent ${FLAGS}"
+bash -c "make -C /cyb3rhq-*/src TARGET=winagent ${FLAGS}"
 
-rm -rf /wazuh-*/src/external
+rm -rf /cyb3rhq-*/src/external
 
-zip -r /shared/${ZIP_NAME} /wazuh-*
+zip -r /shared/${ZIP_NAME} /cyb3rhq-*

@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -17,8 +17,8 @@
 
 #define WHODATA_PERMS (AUDIT_PERM_WRITE | AUDIT_PERM_ATTR)
 
-#define AUDIT_HEALTHCHECK_KEY "wazuh_hc"
-#define AUDIT_KEY "wazuh_fim"
+#define AUDIT_HEALTHCHECK_KEY "cyb3rhq_hc"
+#define AUDIT_KEY "cyb3rhq_fim"
 
 typedef struct {
     char *path;

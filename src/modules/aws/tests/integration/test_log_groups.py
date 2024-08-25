@@ -1,6 +1,6 @@
 """
-Copyright (C) 2015-2023, Wazuh Inc.
-Created by Wazuh, Inc. <info@wazuh.com>.
+Copyright (C) 2015-2023, Cyb3rhq Inc.
+Created by Cyb3rhq, Inc. <info@wazuh.com>.
 This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 This module will contains all cases for the log groups test suite
@@ -9,11 +9,11 @@ This module will contains all cases for the log groups test suite
 import pytest
 
 # qa-integration-framework imports
-from wazuh_testing import session_parameters
-from wazuh_testing.utils.db_queries.aws_db import get_multiple_service_db_row, table_exists
-from wazuh_testing.modules.aws.utils import path_exist
-from wazuh_testing.constants.paths.aws import AWS_SERVICES_DB_PATH
-from wazuh_testing.modules.aws.patterns import NON_EXISTENT_SPECIFIED_LOG_GROUPS
+from cyb3rhq_testing import session_parameters
+from cyb3rhq_testing.utils.db_queries.aws_db import get_multiple_service_db_row, table_exists
+from cyb3rhq_testing.modules.aws.utils import path_exist
+from cyb3rhq_testing.constants.paths.aws import AWS_SERVICES_DB_PATH
+from cyb3rhq_testing.modules.aws.patterns import NON_EXISTENT_SPECIFIED_LOG_GROUPS
 
 # Local module imports
 from . import event_monitor
@@ -38,18 +38,18 @@ configurator.configure_test(configuration_file='configuration_log_groups.yaml',
                          ids=configurator.cases_ids)
 def test_log_groups(
         test_configuration, metadata, create_test_log_group, create_test_log_stream, manage_log_group_events,
-        load_wazuh_basic_configuration, set_wazuh_configuration, clean_aws_services_db,
-        configure_local_internal_options_function, truncate_monitored_files, restart_wazuh_function, file_monitoring,
+        load_cyb3rhq_basic_configuration, set_cyb3rhq_configuration, clean_aws_services_db,
+        configure_local_internal_options_function, truncate_monitored_files, restart_cyb3rhq_function, file_monitoring,
 ):
     """
     description: Only the events for the specified log_group are processed.
     test_phases:
         - setup:
-            - Load Wazuh light configuration.
+            - Load Cyb3rhq light configuration.
             - Apply ossec.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
-            - Truncate wazuh logs.
-            - Restart wazuh-manager service to apply configuration changes.
+            - Truncate cyb3rhq logs.
+            - Restart cyb3rhq-manager service to apply configuration changes.
         - test:
             - Check in the ossec.log that a line has appeared calling the module with correct parameters.
             - If a region that does not exist was specified, make sure that a message is displayed in the ossec.log
@@ -58,10 +58,10 @@ def test_log_groups(
               for the specified region.
             - Check the database was created and updated accordingly.
         - teardown:
-            - Truncate wazuh logs.
+            - Truncate cyb3rhq logs.
             - Restore initial configuration, both ossec.conf and local_internal_options.conf.
             - Delete the uploaded file.
-    wazuh_min_version: 4.6.0
+    cyb3rhq_min_version: 4.6.0
     parameters:
         - test_configuration:
             type: dict
@@ -81,10 +81,10 @@ def test_log_groups(
         - create_log_stream:
             type: fixture
             brief: Create a log stream with events for the day of execution.
-        - load_wazuh_basic_configuration:
+        - load_cyb3rhq_basic_configuration:
             type: fixture
-            brief: Load basic wazuh configuration.
-        - set_wazuh_configuration:
+            brief: Load basic cyb3rhq configuration.
+        - set_cyb3rhq_configuration:
             type: fixture
             brief: Apply changes to the ossec.conf configuration.
         - clean_aws_services_db:
@@ -95,10 +95,10 @@ def test_log_groups(
             brief: Apply changes to the local_internal_options.conf configuration.
         - truncate_monitored_files:
             type: fixture
-            brief: Truncate wazuh logs.
-        - restart_wazuh_daemon_function:
+            brief: Truncate cyb3rhq logs.
+        - restart_cyb3rhq_daemon_function:
             type: fixture
-            brief: Restart the wazuh service.
+            brief: Restart the cyb3rhq service.
         - file_monitoring:
             type: fixture
             brief: Handle the monitoring of a specified file.

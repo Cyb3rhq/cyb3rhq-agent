@@ -1,9 +1,9 @@
-name: "Install Wazuh build dependencies"
-description: "This action installs all the requirements to test and build Wazuh agent/server in Ubuntu Linux"
+name: "Install Cyb3rhq build dependencies"
+description: "This action installs all the requirements to test and build Cyb3rhq agent/server in Ubuntu Linux"
 inputs:
    target:
      required: true
-     description: "Wazuh target to decide if install or not custom dependencies"
+     description: "Cyb3rhq target to decide if install or not custom dependencies"
 runs:
   using: "composite"
   steps:

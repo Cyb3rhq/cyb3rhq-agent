@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -18,7 +18,7 @@
 
 #include "../../wrappers/common.h"
 #include "../../wrappers/libc/stdio_wrappers.h"
-#include "../../wrappers/wazuh/shared/file_op_wrappers.h"
+#include "../../wrappers/cyb3rhq/shared/file_op_wrappers.h"
 
 static int setup_group(void ** state) {
     test_mode = 1;

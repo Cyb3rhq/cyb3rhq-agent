@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Cyb3rhq Inc.
+# Created by Cyb3rhq, Inc. <info@wazuh.com>.
 # This program is free software; you can redistribute
 # it and/or modify it under the terms of GPLv2
 
@@ -63,7 +63,7 @@ def get_wodle_config(integration_type: str, credentials_file: str = None, log_le
 
 @pytest.mark.parametrize('integration_type', ['pubsub', 'access_logs'])
 @patch('gcloud.GCSAccessLogs')
-@patch('gcloud.WazuhGCloudSubscriber')
+@patch('gcloud.Cyb3rhqGCloudSubscriber')
 @patch('gcloud.ThreadPoolExecutor')
 @patch('gcloud.tools.get_stdout_logger')
 @patch('gcloud.cpu_count', side_effect=TypeError)
@@ -86,8 +86,8 @@ def test_gcloud(mock_cpu_count, mock_logger, mock_threads, mock_subscriber, mock
     ({'integration_type': 'pubsub', 'n_threads': None}, 999)
 ])
 @patch('pubsub.subscriber.pubsub.subscriber.Client.from_service_account_file')
-@patch('pubsub.subscriber.WazuhGCloudSubscriber.check_permissions')
-@patch('pubsub.subscriber.WazuhGCloudSubscriber.process_messages')
+@patch('pubsub.subscriber.Cyb3rhqGCloudSubscriber.check_permissions')
+@patch('pubsub.subscriber.Cyb3rhqGCloudSubscriber.process_messages')
 @patch('buckets.bucket.storage.client.Client.from_service_account_json')
 @patch('buckets.access_logs.GCSAccessLogs.process_data', return_value=0)
 @patch('gcloud.tools.get_stdout_logger')

@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Cyb3rhq Inc.
+# Created by Cyb3rhq, Inc. <info@wazuh.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import socket
@@ -34,10 +34,10 @@ import utils
 DEPRECATED_TABLES = {'log_progress', 'trail_progress'}
 DEFAULT_GOV_REGIONS = {'us-gov-east-1', 'us-gov-west-1'}
 SERVICES_REQUIRING_REGION = {'inspector', 'cloudwatchlogs'}
-MESSAGE_HEADER = "1:Wazuh-AWS:"
+MESSAGE_HEADER = "1:Cyb3rhq-AWS:"
 
 
-class WazuhIntegration:
+class Cyb3rhqIntegration:
     """
     Class with common methods.
     :param profile: AWS profile.
@@ -54,10 +54,10 @@ class WazuhIntegration:
                  service_endpoint=None, iam_role_duration=None, external_id=None, skip_on_error=False):
 
         self.skip_on_error = skip_on_error
-        self.wazuh_path = utils.find_wazuh_path()
-        self.wazuh_version = utils.get_wazuh_version()
-        self.wazuh_queue = path.join(self.wazuh_path, "queue", "sockets", "queue")
-        self.wazuh_wodle = path.join(self.wazuh_path, "wodles", "aws")
+        self.cyb3rhq_path = utils.find_cyb3rhq_path()
+        self.cyb3rhq_version = utils.get_cyb3rhq_version()
+        self.cyb3rhq_queue = path.join(self.cyb3rhq_path, "queue", "sockets", "queue")
+        self.cyb3rhq_wodle = path.join(self.cyb3rhq_path, "wodles", "aws")
 
         self.connection_config = self.default_config(profile=profile)
         self.client = self.get_client(profile=profile,
@@ -79,7 +79,7 @@ class WazuhIntegration:
     def default_config(profile: str) -> dict:
         """Set the parameters found in user config file as a default configuration for client.
 
-        This method is called when Wazuh Integration is instantiated and sets a default config using .aws/config file
+        This method is called when Cyb3rhq Integration is instantiated and sets a default config using .aws/config file
         using the profile received from parameter.
 
         If .aws/config file exist the file is retrieved and read to check for the existence of retry parameters mode and
@@ -109,7 +109,7 @@ class WazuhIntegration:
             configparser error when given profile does not exist in user config file.
         """
         args = {}
-        args['config'] = botocore.config.Config(retries=aws_tools.WAZUH_DEFAULT_RETRY_CONFIGURATION)
+        args['config'] = botocore.config.Config(retries=aws_tools.CYB3RHQ_DEFAULT_RETRY_CONFIGURATION)
 
         if path.exists(aws_tools.DEFAULT_AWS_CONFIG_PATH):
             # Get User Aws Config
@@ -173,7 +173,7 @@ class WazuhIntegration:
 
                 sts_client = boto_session.client(service_name='sts', endpoint_url=sts_endpoint,
                                                  **self.connection_config)
-                assume_role_kwargs = {'RoleArn': iam_role_arn, 'RoleSessionName': 'WazuhLogParsing'}
+                assume_role_kwargs = {'RoleArn': iam_role_arn, 'RoleSessionName': 'Cyb3rhqLogParsing'}
                 if external_id:
                     assume_role_kwargs['ExternalId'] = external_id
 
@@ -239,7 +239,7 @@ class WazuhIntegration:
 
     def send_msg(self, msg, dump_json=True):
         """
-        Sends an AWS event to the Wazuh Queue
+        Sends an AWS event to the Cyb3rhq Queue
 
         :param msg: JSON message to be sent.
         :param dump_json: If json.dumps should be applied to the msg
@@ -248,7 +248,7 @@ class WazuhIntegration:
             json_msg = json.dumps(msg, default=str)
             aws_tools.debug(json_msg, 3)
             s = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
-            s.connect(self.wazuh_queue)
+            s.connect(self.cyb3rhq_queue)
             encoded_msg = f"{MESSAGE_HEADER}{json_msg if dump_json else msg}".encode()
             # Logs warning if event is bigger than max size
             if len(encoded_msg) > utils.MAX_EVENT_SIZE:
@@ -257,17 +257,17 @@ class WazuhIntegration:
             s.close()
         except socket.error as e:
             if e.errno == 111:
-                aws_tools.error("Wazuh must be running.")
+                aws_tools.error("Cyb3rhq must be running.")
                 sys.exit(11)
             elif e.errno == 90:
-                aws_tools.error("Message too long to send to Wazuh.  Skipping message...")
-                aws_tools.debug('+++ ERROR: Message longer than buffer socket for Wazuh. Consider increasing rmem_max. '
+                aws_tools.error("Message too long to send to Cyb3rhq.  Skipping message...")
+                aws_tools.debug('+++ ERROR: Message longer than buffer socket for Cyb3rhq. Consider increasing rmem_max. '
                                 'Skipping message...', 1)
             else:
-                aws_tools.error("Error sending message to wazuh: {}".format(e))
+                aws_tools.error("Error sending message to cyb3rhq: {}".format(e))
                 sys.exit(13)
         except Exception as e:
-            aws_tools.error("Error sending message to wazuh: {}".format(e))
+            aws_tools.error("Error sending message to cyb3rhq: {}".format(e))
             sys.exit(13)
 
     def _decompress_gzip(self, raw_object: io.BytesIO):
@@ -338,7 +338,7 @@ class WazuhIntegration:
             return io.TextIOWrapper(raw_object)
 
 
-class WazuhAWSDatabase(WazuhIntegration):
+class Cyb3rhqAWSDatabase(Cyb3rhqIntegration):
     """
     Class with methods for buckets or services instances using db files
     :param db_name: Database name when instantiating buckets or services
@@ -397,20 +397,20 @@ class WazuhAWSDatabase(WazuhIntegration):
                         value)
                     VALUES (
                         'version',
-                        :wazuh_version);"""
+                        :cyb3rhq_version);"""
 
         self.sql_update_version_metadata = """
                     UPDATE
                         metadata
                     SET
-                        value=:wazuh_version
+                        value=:cyb3rhq_version
                     WHERE
                         key='version';
                     """
 
         self.sql_drop_table = "DROP TABLE {table_name};"
 
-        WazuhIntegration.__init__(self, service_name=service_name,
+        Cyb3rhqIntegration.__init__(self, service_name=service_name,
                                   profile=profile,
                                   iam_role_arn=iam_role_arn, region=region,
                                   discard_field=discard_field, discard_regex=discard_regex,
@@ -419,7 +419,7 @@ class WazuhAWSDatabase(WazuhIntegration):
                                   skip_on_error=skip_on_error)
 
         # db_name is an instance variable of subclass
-        self.db_path = "{0}/{1}.db".format(self.wazuh_wodle, db_name)
+        self.db_path = "{0}/{1}.db".format(self.cyb3rhq_wodle, db_name)
         self.db_connector = sqlite3.connect(self.db_path)
         self.db_cursor = self.db_connector.cursor()
         self.check_metadata_version()
@@ -459,8 +459,8 @@ class WazuhAWSDatabase(WazuhIntegration):
                 # The table does not exist; update existing metadata value, if required
                 try:
                     metadata_version = self.db_cursor.execute(self.sql_get_metadata_version).fetchone()[0]
-                    if metadata_version != self.wazuh_version:
-                        self.db_cursor.execute(self.sql_update_version_metadata, {'wazuh_version': self.wazuh_version})
+                    if metadata_version != self.cyb3rhq_version:
+                        self.db_cursor.execute(self.sql_update_version_metadata, {'cyb3rhq_version': self.cyb3rhq_version})
                 except (sqlite3.IntegrityError, sqlite3.OperationalError, sqlite3.Error) as err:
                     aws_tools.error(f'Error attempting to update the metadata table: {err}')
                     sys.exit(5)
@@ -468,7 +468,7 @@ class WazuhAWSDatabase(WazuhIntegration):
                 # The table does not exist; create it and insert the metadata value
                 try:
                     self.db_cursor.execute(self.sql_create_metadata_table)
-                    self.db_cursor.execute(self.sql_insert_version_metadata, {'wazuh_version': self.wazuh_version})
+                    self.db_cursor.execute(self.sql_insert_version_metadata, {'cyb3rhq_version': self.cyb3rhq_version})
                     self.delete_deprecated_tables()
                 except (sqlite3.IntegrityError, sqlite3.OperationalError, sqlite3.Error) as err:
                     aws_tools.error(f'Error attempting to create the metadata table: {err}')

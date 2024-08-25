@@ -1,6 +1,6 @@
 /*
- * Wazuh Utils
- * Copyright (C) 2015, Wazuh Inc.
+ * Cyb3rhq Utils
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * December 25, 2020.
  *
  * This program is free software; you can redistribute it

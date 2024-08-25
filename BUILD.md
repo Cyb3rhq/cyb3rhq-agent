@@ -5,7 +5,7 @@
     First, clone the repository using the following command:
 
     ```bash
-    git clone https://github.com/wazuh/wazuh-agent.git
+    git clone https://github.com/cyb3rhq/cyb3rhq-agent.git
     ```
 
 2. **Initialize Submodules**
@@ -13,7 +13,7 @@
     The project uses submodules, so you need to initialize and update them. Run the following commands:
 
     ```bash
-    cd wazuh-agent
+    cd cyb3rhq-agent
     git submodule update --init --recursive
     ```
 

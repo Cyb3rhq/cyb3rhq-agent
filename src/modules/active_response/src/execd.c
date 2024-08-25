@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -12,12 +12,12 @@
 #include "list_op.h"
 #include "os_regex/os_regex.h"
 #include "os_net/os_net.h"
-#include "wazuh_modules/wmodules.h"
+#include "cyb3rhq_modules/wmodules.h"
 #include "../external/cJSON/cJSON.h"
 #include "execd.h"
 #include "active-response/active_responses.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 // Remove static qualifier when unit testing
 #define STATIC
 #else
@@ -32,7 +32,7 @@ STATIC OSListNode *timeout_node;
 STATIC OSHash *repeated_hash;
 
 #ifdef WIN32
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
     #include "unit_tests/wrappers/windows/libc/stdio_wrappers.h"
 #endif
 extern w_queue_t * winexec_queue;
@@ -210,7 +210,7 @@ void ExecdRun(char *exec_msg, int *childcount)
     }
 
 #ifndef WIN32
-    if (!strcmp(name, "restart-wazuh")) {
+    if (!strcmp(name, "restart-cyb3rhq")) {
         char *cmd_api[MAX_ARGS] = {0};
 
         cJSON_Delete(json_root);
@@ -425,7 +425,7 @@ void ExecdStart(int q)
     /* Clear the buffer */
     memset(buffer, '\0', OS_MAXSTR + 1);
 
-#ifndef WAZUH_UNIT_TESTING
+#ifndef CYB3RHQ_UNIT_TESTING
     /* Create list for timeout */
     timeout_list = OSList_Create();
     if (!timeout_list) {
@@ -491,7 +491,7 @@ void ExecdStart(int q)
 
         ExecdRun(buffer, &childcount);
 
-    #ifdef WAZUH_UNIT_TESTING
+    #ifdef CYB3RHQ_UNIT_TESTING
         break;
     #endif
     }

@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -630,12 +630,12 @@ int w_is_compressed_gz_file(const char * path);
 int w_is_compressed_bz2_file(const char * path);
 
 /**
- * @brief Get the Wazuh installation directory
+ * @brief Get the Cyb3rhq installation directory
  *
- * It is obtained from the /proc directory, argv[0], or the env variable WAZUH_HOME
+ * It is obtained from the /proc directory, argv[0], or the env variable CYB3RHQ_HOME
  *
  * @param arg ARGV0 - Program name
- * @return Pointer to the Wazuh installation path on success
+ * @return Pointer to the Cyb3rhq installation path on success
  */
 char *w_homedir(char *arg);
 #endif /* FILE_OP_H */

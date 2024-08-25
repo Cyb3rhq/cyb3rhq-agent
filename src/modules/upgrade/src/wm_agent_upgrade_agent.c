@@ -1,6 +1,6 @@
 /*
- * Wazuh Module for Agent Upgrading
- * Copyright (C) 2015, Wazuh Inc.
+ * Cyb3rhq Module for Agent Upgrading
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * July 30, 2020.
  *
  * This program is free software; you can redistribute it
@@ -9,13 +9,13 @@
  * Foundation.
  */
 
-#include "wazuh_modules/wmodules.h"
+#include "cyb3rhq_modules/wmodules.h"
 #include "wm_agent_upgrade_agent.h"
 #ifndef WIN32
 #include "os_net/os_net.h"
 #endif
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 #ifdef WIN32
 #include "unit_tests/wrappers/windows/libc/stdio_wrappers.h"
 #include "unit_tests/wrappers/windows/synchapi_wrappers.h"
@@ -178,7 +178,7 @@ STATIC void* wm_agent_upgrade_listen_messages(__attribute__((unused)) void *arg)
         os_free(buffer);
         close(peer);
 
-    #ifdef WAZUH_UNIT_TESTING
+    #ifdef CYB3RHQ_UNIT_TESTING
         break;
     #endif
     }

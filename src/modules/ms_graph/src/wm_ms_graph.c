@@ -1,5 +1,5 @@
 /*
- * Wazuh Module for Microsoft Graph integration
+ * Cyb3rhq Module for Microsoft Graph integration
  * Copyright (C) 2023, InfoDefense Inc.
  * March, 2023.
  *
@@ -15,7 +15,7 @@
 #include "wm_ms_graph.h"
 
 #ifdef WIN32
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 #define gmtime_r(x, y)
 #else
 #define gmtime_r(x, y) gmtime_s(y, x)
@@ -104,7 +104,7 @@ bool wm_ms_graph_setup(wm_ms_graph* ms_graph) {
 
     if (queue_fd < 0) {
         mterror(WM_MS_GRAPH_LOGTAG, "Unable to connect to Message Queue. Exiting...");
-        #ifdef WAZUH_UNIT_TESTING
+        #ifdef CYB3RHQ_UNIT_TESTING
         return false;
         #else
         pthread_exit(NULL);
@@ -120,14 +120,14 @@ bool wm_ms_graph_check(wm_ms_graph* ms_graph) {
 
     if (!ms_graph || !ms_graph->enabled) {
         mtinfo(WM_MS_GRAPH_LOGTAG, "Module disabled. Exiting...");
-        #ifdef WAZUH_UNIT_TESTING
+        #ifdef CYB3RHQ_UNIT_TESTING
         return false;
         #else
         pthread_exit(NULL);
         #endif
     } else if (!ms_graph->resources || ms_graph->num_resources == 0) {
         mterror(WM_MS_GRAPH_LOGTAG, "Invalid module configuration (Missing API info, resources, relationships). Exiting...");
-        #ifdef WAZUH_UNIT_TESTING
+        #ifdef CYB3RHQ_UNIT_TESTING
         return false;
         #else
         pthread_exit(NULL);
@@ -136,7 +136,7 @@ bool wm_ms_graph_check(wm_ms_graph* ms_graph) {
         for (unsigned int resource = 0; resource < ms_graph->num_resources; resource++) {
             if (ms_graph->resources[resource].num_relationships == 0) {
                 mterror(WM_MS_GRAPH_LOGTAG, "Invalid module configuration (Missing API info, resources, relationships). Exiting...");
-                #ifdef WAZUH_UNIT_TESTING
+                #ifdef CYB3RHQ_UNIT_TESTING
                 return false;
                 #else
                 pthread_exit(NULL);

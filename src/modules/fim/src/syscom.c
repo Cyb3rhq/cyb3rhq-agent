@@ -1,5 +1,5 @@
 /* Remote request listener
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * Mar 14, 2018.
  *
  * This program is free software; you can redistribute it
@@ -12,10 +12,10 @@
 #include "syscheck.h"
 #include "../rootcheck/rootcheck.h"
 #include "../os_net/os_net.h"
-#include "../wazuh_modules/wmodules.h"
+#include "../cyb3rhq_modules/wmodules.h"
 #include "db/include/db.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 /* Replace assert with mock_assert */
 extern void mock_assert(const int result, const char* const expression,
                         const char * const file, const int line);

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Bump source version
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, Cyb3rhq Inc.
 # May 2, 2017
 
 # Syntax:
@@ -59,13 +59,13 @@ cd $(dirname $0)
 VERSION_FILE="../src/VERSION"
 REVISION_FILE="../src/REVISION"
 DEFS_FILE="../src/headers/defs.h"
-WAZUH_SERVER="../src/init/wazuh-server.sh"
-WAZUH_AGENT="../src/init/wazuh-client.sh"
-WAZUH_LOCAL="../src/init/wazuh-local.sh"
-NSIS_FILE="../src/win32/wazuh-installer.nsi"
-MSI_FILE="../src/win32/wazuh-installer.wxs"
-FW_INIT="../framework/wazuh/__init__.py"
-CLUSTER_INIT="../framework/wazuh/core/cluster/__init__.py"
+CYB3RHQ_SERVER="../src/init/cyb3rhq-server.sh"
+CYB3RHQ_AGENT="../src/init/cyb3rhq-client.sh"
+CYB3RHQ_LOCAL="../src/init/cyb3rhq-local.sh"
+NSIS_FILE="../src/win32/cyb3rhq-installer.nsi"
+MSI_FILE="../src/win32/cyb3rhq-installer.wxs"
+FW_INIT="../framework/cyb3rhq/__init__.py"
+CLUSTER_INIT="../framework/cyb3rhq/core/cluster/__init__.py"
 API_SETUP="../api/setup.py"
 API_SPEC="../api/api/spec/spec.yaml"
 VERSION_DOCU="../src/Doxyfile"
@@ -90,13 +90,13 @@ then
 
     sed -E -i'' -e "s/^(#define __ossec_version +)\"v.*\"/\1\"$version\"/" $DEFS_FILE
 
-    # wazuh-control
+    # cyb3rhq-control
 
-    sed -E -i'' -e "s/^(VERSION=+)\"v.*\"/\1\"$version\"/" $WAZUH_SERVER
-    sed -E -i'' -e "s/^(VERSION=+)\"v.*\"/\1\"$version\"/" $WAZUH_AGENT
-    sed -E -i'' -e "s/^(VERSION=+)\"v.*\"/\1\"$version\"/" $WAZUH_LOCAL
+    sed -E -i'' -e "s/^(VERSION=+)\"v.*\"/\1\"$version\"/" $CYB3RHQ_SERVER
+    sed -E -i'' -e "s/^(VERSION=+)\"v.*\"/\1\"$version\"/" $CYB3RHQ_AGENT
+    sed -E -i'' -e "s/^(VERSION=+)\"v.*\"/\1\"$version\"/" $CYB3RHQ_LOCAL
 
-    # File wazuh-installer.nsi
+    # File cyb3rhq-installer.nsi
 
     egrep "^\!define VERSION \".+\"" $NSIS_FILE > /dev/null
 
@@ -108,9 +108,9 @@ then
 
     sed -E -i'' -e "s/^(\!define VERSION \").+\"/\1${version:1}\"/g" $NSIS_FILE
 
-    # File wazuh-installer.wxs
+    # File cyb3rhq-installer.wxs
 
-    egrep '<Product Id="\*" Name="Wazuh Agent" Language="1033" Version=".+" Manufacturer=' $MSI_FILE > /dev/null
+    egrep '<Product Id="\*" Name="Cyb3rhq Agent" Language="1033" Version=".+" Manufacturer=' $MSI_FILE > /dev/null
 
     if [ $? != 0 ]
     then
@@ -118,7 +118,7 @@ then
         exit 1
     fi
 
-    sed -E -i'' -e "s/(<Product Id=\"\*\" Name=\"Wazuh Agent\" Language=\"1033\" Version=\").+(\" Manufacturer=)/\1${version:1}\2/g" $MSI_FILE
+    sed -E -i'' -e "s/(<Product Id=\"\*\" Name=\"Cyb3rhq Agent\" Language=\"1033\" Version=\").+(\" Manufacturer=)/\1${version:1}\2/g" $MSI_FILE
 
     # Framework
 
@@ -171,13 +171,13 @@ then
 
     echo $revision > $REVISION_FILE
 
-    # wazuh-control
+    # cyb3rhq-control
 
-    sed -E -i'' -e "s/^(REVISION=+)\".*\"/\1\"$revision\"/" $WAZUH_SERVER
-    sed -E -i'' -e "s/^(REVISION=+)\".*\"/\1\"$revision\"/" $WAZUH_AGENT
-    sed -E -i'' -e "s/^(REVISION=+)\".*\"/\1\"$revision\"/" $WAZUH_LOCAL
+    sed -E -i'' -e "s/^(REVISION=+)\".*\"/\1\"$revision\"/" $CYB3RHQ_SERVER
+    sed -E -i'' -e "s/^(REVISION=+)\".*\"/\1\"$revision\"/" $CYB3RHQ_AGENT
+    sed -E -i'' -e "s/^(REVISION=+)\".*\"/\1\"$revision\"/" $CYB3RHQ_LOCAL
 
-    # File wazuh-installer.nsi
+    # File cyb3rhq-installer.nsi
 
     egrep "^\!define REVISION \".+\"" $NSIS_FILE > /dev/null
 
@@ -205,7 +205,7 @@ fi
 if [ -n "$product" ]
 then
 
-    # File wazuh-installer.nsi
+    # File cyb3rhq-installer.nsi
 
     egrep "^VIProductVersion \".+\"" $NSIS_FILE > /dev/null
 

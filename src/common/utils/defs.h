@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * Copyright (C) 2009-2012 Trend Micro Inc.
  * All rights reserved.
  *
@@ -68,9 +68,9 @@
 #define OS_MAX_LOG_SIZE OS_MAXSTR - OS_LOG_HEADER   /* Maximum log size with a header protection */
 
 /* Some global names */
-#define __ossec_name    "Wazuh"
+#define __ossec_name    "Cyb3rhq"
 #define __ossec_version "v5.0.0"
-#define __author        "Wazuh Inc."
+#define __author        "Cyb3rhq Inc."
 #define __contact       "info@wazuh.com"
 #define __site          "http://www.wazuh.com"
 #define __license       "\
@@ -97,7 +97,7 @@ https://www.gnu.org/licenses/gpl.html\n"
 
 /* User Configuration */
 #ifndef USER
-#define USER            "wazuh"
+#define USER            "cyb3rhq"
 #endif
 
 #ifndef ROOTUSER
@@ -105,7 +105,7 @@ https://www.gnu.org/licenses/gpl.html\n"
 #endif
 
 #ifndef GROUPGLOBAL
-#define GROUPGLOBAL     "wazuh"
+#define GROUPGLOBAL     "cyb3rhq"
 #endif
 
 // Standard super user UID and GID
@@ -113,8 +113,8 @@ https://www.gnu.org/licenses/gpl.html\n"
 
 #define ROOT_GID (0)
 
-// Wazuh home environment variable
-#define WAZUH_HOME_ENV  "WAZUH_HOME"
+// Cyb3rhq home environment variable
+#define CYB3RHQ_HOME_ENV  "CYB3RHQ_HOME"
 
 /* Default queue */
 #define DEFAULTQUEUE    "queue/sockets/queue"
@@ -193,7 +193,7 @@ https://www.gnu.org/licenses/gpl.html\n"
 #define DEFAULT_GROUP "default"
 
 /* Syscollector normalization configs */
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 #ifdef WIN32
 #define SYSCOLLECTOR_NORM_CONFIG_DISK_PATH    ".\\norm_config.json"
 #else
@@ -201,7 +201,7 @@ https://www.gnu.org/licenses/gpl.html\n"
 #endif // WIN32
 #else
 #define SYSCOLLECTOR_NORM_CONFIG_DISK_PATH "queue/syscollector/norm_config.json"
-#endif // WAZUH_UNIT_TESTING
+#endif // CYB3RHQ_UNIT_TESTING
 
 #if defined(__MACH__)
 #define SYSCOLLECTOR_NORM_TYPE "macos"
@@ -213,7 +213,7 @@ https://www.gnu.org/licenses/gpl.html\n"
 
 
 /* Syscollector db directory */
-#ifndef WAZUH_UNIT_TESTING
+#ifndef CYB3RHQ_UNIT_TESTING
 #define SYSCOLLECTOR_DB_DISK_PATH "queue/syscollector/db/local.db"
 #else
 #ifndef WIN32
@@ -221,9 +221,9 @@ https://www.gnu.org/licenses/gpl.html\n"
 #else
 #define SYSCOLLECTOR_DB_DISK_PATH    ".\\local.db"
 #endif // WIN32
-#endif // WAZUH_UNIT_TESTING
+#endif // CYB3RHQ_UNIT_TESTING
 
-/* Wazuh Database */
+/* Cyb3rhq Database */
 #define WDB_DIR                "var/db"
 #define WDB2_DIR               "queue/db"
 #define WDB_GLOB_NAME          "global"

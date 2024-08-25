@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * January 17, 2018.
  *
  * This program is free software; you can redistribute it
@@ -243,6 +243,6 @@
 /* Analysisd */
 
 #define MESSAGE_TOO_LONG                    "(9200): Long message, cannot be processed."
-#define UNABLE_TO_SEND_INFORMATION_TO_WDB   "(9201): Unable to send dbsync information to Wazuh DB."
+#define UNABLE_TO_SEND_INFORMATION_TO_WDB   "(9201): Unable to send dbsync information to Cyb3rhq DB."
 
 #endif /* DEBUG_MESSAGES_H */

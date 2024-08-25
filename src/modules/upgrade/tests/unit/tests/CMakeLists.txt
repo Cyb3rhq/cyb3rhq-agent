@@ -1,10 +1,10 @@
 # Generate agent upgrade library
 file(GLOB upgrade_files
-    ${SRC_FOLDER}/wazuh_modules/*.o
-    ${SRC_FOLDER}/wazuh_modules/agent_upgrade/*.o
-    ${SRC_FOLDER}/wazuh_modules/agent_upgrade/agent/*.o
-    ${SRC_FOLDER}/wazuh_modules/agent_upgrade/manager/*.o)
-list(REMOVE_ITEM upgrade_files ${SRC_FOLDER}/wazuh_modules/main.o)
+    ${SRC_FOLDER}/cyb3rhq_modules/*.o
+    ${SRC_FOLDER}/cyb3rhq_modules/agent_upgrade/*.o
+    ${SRC_FOLDER}/cyb3rhq_modules/agent_upgrade/agent/*.o
+    ${SRC_FOLDER}/cyb3rhq_modules/agent_upgrade/manager/*.o)
+list(REMOVE_ITEM upgrade_files ${SRC_FOLDER}/cyb3rhq_modules/main.o)
 
 add_library(UPGRADE_O STATIC ${upgrade_files})
 
@@ -21,10 +21,10 @@ set_target_properties(
     LINKER_LANGUAGE C
 )
 
-target_link_libraries(UPGRADE_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(UPGRADE_O ${CYB3RHQLIB} ${CYB3RHQEXT} -lpthread)
 
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/cyb3rhq/shared/shared.cmake)
 
 # Generate agent upgrade tests
 list(APPEND upgrade_names "test_wm_agent_upgrade")
@@ -63,7 +63,7 @@ if(${TARGET} STREQUAL "server")
     list(APPEND upgrade_names "test_wm_agent_upgrade_upgrades")
     list(APPEND upgrade_flags "-Wl,--wrap,OS_ConnectUnixDomain -Wl,--wrap,OS_SendSecureTCP -Wl,--wrap,OS_RecvSecureTCP -Wl,--wrap,close -Wl,--wrap,popen \
                             -Wl,--wrap,wm_agent_upgrade_parse_task_module_request -Wl,--wrap,wm_agent_upgrade_task_module_callback -Wl,--wrap,wm_agent_upgrade_parse_agent_response -Wl,--wrap,fopen -Wl,--wrap,fread -Wl,--wrap,fclose \
-                            -Wl,--wrap,OS_SHA1_File -Wl,--wrap,wm_agent_upgrade_get_first_node -Wl,--wrap,wm_agent_upgrade_get_next_node -Wl,--wrap,compare_wazuh_versions -Wl,--wrap,wm_agent_upgrade_remove_entry \
+                            -Wl,--wrap,OS_SHA1_File -Wl,--wrap,wm_agent_upgrade_get_first_node -Wl,--wrap,wm_agent_upgrade_get_next_node -Wl,--wrap,compare_cyb3rhq_versions -Wl,--wrap,wm_agent_upgrade_remove_entry \
                             -Wl,--wrap,wm_agent_upgrade_validate_task_status_message -Wl,--wrap,wm_agent_upgrade_validate_wpk -Wl,--wrap,wm_agent_upgrade_validate_wpk_custom -Wl,--wrap,wm_agent_upgrade_validate_wpk_version \
                             -Wl,--wrap,linked_queue_push_ex -Wl,--wrap,linked_queue_pop_ex -Wl,--wrap,pthread_cond_signal -Wl,--wrap,pthread_cond_wait -Wl,--wrap,CreateThread -Wl,--wrap,wfopen \
                             -Wl,--wrap,wm_agent_upgrade_parse_agent_upgrade_command_response -Wl,--wrap,fflush -Wl,--wrap,fgets -Wl,--wrap,fseek -Wl,--wrap,fwrite -Wl,--wrap,remove -Wl,--wrap,getpid -Wl,--wrap,fgetpos -Wl,--wrap=fgetc \
@@ -97,8 +97,8 @@ foreach(counter RANGE ${count})
 
     target_link_libraries(
         ${test_name}
-        ${WAZUHLIB}
-        ${WAZUHEXT}
+        ${CYB3RHQLIB}
+        ${CYB3RHQEXT}
         UPGRADE_O
         ${TEST_DEPS}
     )

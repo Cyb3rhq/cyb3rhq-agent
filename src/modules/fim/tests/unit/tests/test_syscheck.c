@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -14,11 +14,11 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/shared/fs_op_wrappers.h"
-#include "../wrappers/wazuh/shared/validate_op_wrappers.h"
-#include "../wrappers/wazuh/syscheckd/create_db_wrappers.h"
-#include "../wrappers/wazuh/syscheckd/fim_db_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/debug_op_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/fs_op_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/validate_op_wrappers.h"
+#include "../wrappers/cyb3rhq/syscheckd/create_db_wrappers.h"
+#include "../wrappers/cyb3rhq/syscheckd/fim_db_wrappers.h"
 
 #include "syscheck.h"
 

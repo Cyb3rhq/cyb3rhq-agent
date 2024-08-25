@@ -1,6 +1,6 @@
 /*
- * Wazuh SYSINFO
- * Copyright (C) 2015, Wazuh Inc.
+ * Cyb3rhq SYSINFO
+ * Copyright (C) 2015, Cyb3rhq Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public

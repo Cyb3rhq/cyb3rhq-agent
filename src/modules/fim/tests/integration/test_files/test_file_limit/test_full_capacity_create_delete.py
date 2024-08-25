@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Cyb3rhq Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Cyb3rhq, Inc. <info@wazuh.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -10,7 +10,7 @@ type: integration
 brief: File Integrity Monitoring (FIM) system watches selected files and triggering alerts when these
        files are modified. In particular, these tests will check if FIM events are still generated when
        a monitored directory is deleted and created again.
-       The FIM capability is managed by the 'wazuh-syscheckd' daemon, which checks configured files
+       The FIM capability is managed by the 'cyb3rhq-syscheckd' daemon, which checks configured files
        for changes to the checksums, permissions, and ownership.
 
 components:
@@ -22,7 +22,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - cyb3rhq-syscheckd
 
 os_platform:
     - linux
@@ -65,17 +65,17 @@ import pytest
 
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.constants.platforms import WINDOWS
-from wazuh_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.fim.patterns import EVENT_TYPE_ADDED, EVENT_TYPE_DELETED
-from wazuh_testing.modules.fim.utils import get_fim_event_data
-from wazuh_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
-from wazuh_testing.modules.fim.configuration import SYSCHECK_DEBUG
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils import file
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from cyb3rhq_testing.constants.paths.logs import CYB3RHQ_LOG_PATH
+from cyb3rhq_testing.constants.platforms import WINDOWS
+from cyb3rhq_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
+from cyb3rhq_testing.modules.fim.patterns import EVENT_TYPE_ADDED, EVENT_TYPE_DELETED
+from cyb3rhq_testing.modules.fim.utils import get_fim_event_data
+from cyb3rhq_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
+from cyb3rhq_testing.modules.fim.configuration import SYSCHECK_DEBUG
+from cyb3rhq_testing.tools.monitors.file_monitor import FileMonitor
+from cyb3rhq_testing.utils import file
+from cyb3rhq_testing.utils.callbacks import generate_callback
+from cyb3rhq_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
 
@@ -96,7 +96,7 @@ if sys.platform == WINDOWS:
 
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
-def test_full_capacity_create_delete(test_configuration, test_metadata, set_wazuh_configuration, truncate_monitored_files,
+def test_full_capacity_create_delete(test_configuration, test_metadata, set_cyb3rhq_configuration, truncate_monitored_files,
                                      configure_local_internal_options, folder_to_monitor, fill_folder_to_monitor,
                                      daemons_handler, start_monitoring):
     '''
@@ -107,7 +107,7 @@ def test_full_capacity_create_delete(test_configuration, test_metadata, set_wazu
                  Then, it will create a testfile and wait for no FIM events to be generated. Finally,
                  it will delete the already monitored files and verify the 'deleted' FIM event is raised.
 
-    wazuh_min_version: 4.2.0
+    cyb3rhq_min_version: 4.2.0
 
     tier: 0
 
@@ -118,7 +118,7 @@ def test_full_capacity_create_delete(test_configuration, test_metadata, set_wazu
         - test_metadata:
             type: dict
             brief: Test case data.
-        - set_wazuh_configuration:
+        - set_cyb3rhq_configuration:
             type: fixture
             brief: Set ossec.conf configuration.
         - configure_local_internal_options:
@@ -135,7 +135,7 @@ def test_full_capacity_create_delete(test_configuration, test_metadata, set_wazu
             brief: Fill the monitored folder with test files.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Cyb3rhq daemons.
         - start_monitoring:
             type: fixture
             brief: Wait FIM to start.
@@ -146,7 +146,7 @@ def test_full_capacity_create_delete(test_configuration, test_metadata, set_wazu
         - Verify that proper FIM events are generated while the database is in 'full database alert' mode.
 
     input_description: The test cases are contained in external YAML file (cases_full_capacity_create_delete.yaml)
-                       which includes configuration parameters for the 'wazuh-syscheckd' daemon and testing
+                       which includes configuration parameters for the 'cyb3rhq-syscheckd' daemon and testing
                        directories to monitor. The configuration template is contained in another external YAML
                        file (configuration_basic.yaml).
 
@@ -158,23 +158,23 @@ def test_full_capacity_create_delete(test_configuration, test_metadata, set_wazu
         - scheduled
         - realtime
     '''
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
+    cyb3rhq_log_monitor = FileMonitor(CYB3RHQ_LOG_PATH)
     fim_mode = test_metadata.get('fim_mode')
 
     # Create and delete at full capacity.
     file.write_file(Path(folder_to_monitor, f'test66.log'))
-    wazuh_log_monitor.start(generate_callback(EVENT_TYPE_ADDED))
-    assert not wazuh_log_monitor.callback_result
+    cyb3rhq_log_monitor.start(generate_callback(EVENT_TYPE_ADDED))
+    assert not cyb3rhq_log_monitor.callback_result
 
     file.remove_file(Path(folder_to_monitor, f'test66.log'))
-    assert not wazuh_log_monitor.callback_result
+    assert not cyb3rhq_log_monitor.callback_result
 
     # Create after free some capacity
     file.delete_files_in_folder(folder_to_monitor)
-    wazuh_log_monitor.start(generate_callback(EVENT_TYPE_DELETED))
-    assert wazuh_log_monitor.callback_result
+    cyb3rhq_log_monitor.start(generate_callback(EVENT_TYPE_DELETED))
+    assert cyb3rhq_log_monitor.callback_result
 
     file.write_file(Path(folder_to_monitor, f'test66.log'))
-    wazuh_log_monitor.start(generate_callback(EVENT_TYPE_ADDED))
-    assert wazuh_log_monitor.callback_result
-    assert get_fim_event_data(wazuh_log_monitor.callback_result)['mode'] == fim_mode
+    cyb3rhq_log_monitor.start(generate_callback(EVENT_TYPE_ADDED))
+    assert cyb3rhq_log_monitor.callback_result
+    assert get_fim_event_data(cyb3rhq_log_monitor.callback_result)['mode'] == fim_mode

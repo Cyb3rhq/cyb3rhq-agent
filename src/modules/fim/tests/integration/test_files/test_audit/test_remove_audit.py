@@ -1,19 +1,19 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Cyb3rhq Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Cyb3rhq, Inc. <info@wazuh.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: These tests will check if the 'wazuh-syscheckd' and 'auditd' daemons work together properly.
+brief: These tests will check if the 'cyb3rhq-syscheckd' and 'auditd' daemons work together properly.
        In particular, it will be verified that when there is no 'auditd' package installed on
        the system, the directories monitored with 'who-data' mode are monitored with 'realtime'.
        The 'who-data' feature of the of the File Integrity Monitoring (FIM) system uses
        the Linux Audit subsystem to get the information about who made the changes in a monitored directory.
        These changes produce audit events that are processed by 'syscheck' and reported to the manager.
-       The FIM capability is managed by the 'wazuh-syscheckd' daemon, which checks configured files
+       The FIM capability is managed by the 'cyb3rhq-syscheckd' daemon, which checks configured files
        for changes to the checksums, permissions, and ownership.
 
 components:
@@ -25,7 +25,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - cyb3rhq-syscheckd
 
 os_platform:
     - linux
@@ -63,14 +63,14 @@ import pytest
 
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.modules.agentd.configuration import AGENTD_DEBUG
-from wazuh_testing.modules.fim.patterns import WHODATA_NOT_STARTED
-from wazuh_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
-from wazuh_testing.modules.fim.configuration import SYSCHECK_DEBUG
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from cyb3rhq_testing.constants.paths.logs import CYB3RHQ_LOG_PATH
+from cyb3rhq_testing.modules.agentd.configuration import AGENTD_DEBUG
+from cyb3rhq_testing.modules.fim.patterns import WHODATA_NOT_STARTED
+from cyb3rhq_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
+from cyb3rhq_testing.modules.fim.configuration import SYSCHECK_DEBUG
+from cyb3rhq_testing.tools.monitors.file_monitor import FileMonitor
+from cyb3rhq_testing.utils.callbacks import generate_callback
+from cyb3rhq_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
 
@@ -90,7 +90,7 @@ local_internal_options = {SYSCHECK_DEBUG: 2,AGENTD_DEBUG: 2, MONITORD_ROTATE_LOG
 
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
-def test_remove_audit(test_configuration, test_metadata, set_wazuh_configuration, configure_local_internal_options,
+def test_remove_audit(test_configuration, test_metadata, set_cyb3rhq_configuration, configure_local_internal_options,
                       uninstall_audit, truncate_monitored_files, daemons_handler):
     '''
     description: Check if FIM switches the monitoring mode of the testing directories from 'who-data'
@@ -106,15 +106,15 @@ def test_remove_audit(test_configuration, test_metadata, set_wazuh_configuration
             - Apply ossec.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
             - Remove auditd
-            - Truncate wazuh logs.
-            - Restart wazuh to apply configuration changes.
+            - Truncate cyb3rhq logs.
+            - Restart cyb3rhq to apply configuration changes.
         - test:
             - Check that whodata cannot start and monitoring of configured folder is changed to realtime mode.
         - teardown:
             - Install auditd
             - Restore initial configuration, both ossec.conf and local_internal_options.conf.
 
-    wazuh_min_version: 4.2.0
+    cyb3rhq_min_version: 4.2.0
 
     tier: 1
 
@@ -125,7 +125,7 @@ def test_remove_audit(test_configuration, test_metadata, set_wazuh_configuration
         - test_metadata:
             type: dict
             brief: Test case data.
-        - set_wazuh_configuration:
+        - set_cyb3rhq_configuration:
             type: fixture
             brief: Set ossec.conf configuration.
         - configure_local_internal_options:
@@ -136,7 +136,7 @@ def test_remove_audit(test_configuration, test_metadata, set_wazuh_configuration
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Cyb3rhq daemons.
         - uninstall_audit:
             type: fixture
             brief: Uninstall 'auditd' before the test and install it again after the test run.
@@ -146,7 +146,7 @@ def test_remove_audit(test_configuration, test_metadata, set_wazuh_configuration
           if the 'authd' package is not installed.
 
     input_description: A test case is contained in external YAML file (configuration_remove_audit.yaml)
-                       which includes configuration settings for the 'wazuh-syscheckd' daemon
+                       which includes configuration settings for the 'cyb3rhq-syscheckd' daemon
                        and, it is combined with the testing directories to be monitored
                        defined in this module.
 
@@ -156,7 +156,7 @@ def test_remove_audit(test_configuration, test_metadata, set_wazuh_configuration
     tags:
         - who_data
     '''
-    monitor = FileMonitor(WAZUH_LOG_PATH)
+    monitor = FileMonitor(CYB3RHQ_LOG_PATH)
     monitor.start(callback=generate_callback(WHODATA_NOT_STARTED))
 
     assert monitor.callback_result

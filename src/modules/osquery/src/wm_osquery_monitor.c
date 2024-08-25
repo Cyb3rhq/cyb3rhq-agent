@@ -1,6 +1,6 @@
 /*
- * Wazuh Integration with Osquery
- * Copyright (C) 2015, Wazuh Inc.
+ * Cyb3rhq Integration with Osquery
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * April 5, 2018.
  *
  * This program is free software; you can redistribute it
@@ -37,7 +37,7 @@
 #define mdebug1(msg, ...) _mtdebug1(WM_OSQUERYMONITOR_LOGTAG, __FILE__, __LINE__, __func__, msg, ##__VA_ARGS__)
 #define mdebug2(msg, ...) _mtdebug2(WM_OSQUERYMONITOR_LOGTAG, __FILE__, __LINE__, __func__, msg, ##__VA_ARGS__)
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 // Remove static qualifier when unit testing
 #define STATIC
 #else

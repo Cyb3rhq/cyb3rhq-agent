@@ -1,6 +1,6 @@
 /*
- * Wazuh shared modules utils
- * Copyright (C) 2015, Wazuh Inc.
+ * Cyb3rhq shared modules utils
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * June 11, 2020.
  *
  * This program is free software; you can redistribute it

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -18,15 +18,15 @@
 #include "../wrappers/externals/cJSON/cJSON_wrappers.h"
 #include "../wrappers/posix/grp_wrappers.h"
 #include "../wrappers/posix/pwd_wrappers.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/shared/string_op_wrappers.h"
-#include "../wrappers/wazuh/os_net/os_net_wrappers.h"
-#include "../wrappers/wazuh/shared/file_op_wrappers.h"
-#include "../wrappers/wazuh/shared/privsep_op_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/debug_op_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/string_op_wrappers.h"
+#include "../wrappers/cyb3rhq/os_net/os_net_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/file_op_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/privsep_op_wrappers.h"
 #include "../wrappers/common.h"
 
 #ifdef TEST_WINAGENT
-#include "../wrappers/wazuh/syscheckd/syscom_wrappers.h"
+#include "../wrappers/cyb3rhq/syscheckd/syscom_wrappers.h"
 #include "../wrappers/windows/sddl_wrappers.h"
 #include "../wrappers/windows/winreg_wrappers.h"
 #include "../wrappers/windows/aclapi_wrappers.h"

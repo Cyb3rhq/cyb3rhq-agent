@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * All right reserved.
  *
  * This program is free software; you can redistribute it
@@ -13,7 +13,7 @@
 #include "logcollector.h"
 #include "journal_log.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 // Remove STATIC qualifier from tests
 #define STATIC
 #define INLINE
@@ -64,7 +64,7 @@ STATIC w_journald_ofe_t gs_journald_ofe = {
     .mutex = PTHREAD_MUTEX_INITIALIZER,
 }; ///< Only future events configuration and status
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 void set_gs_journald_ofe(bool exist, bool ofe, uint64_t timestamp) {
     gs_journald_ofe.exist_journal = exist;
     gs_journald_ofe.only_future_events = ofe;

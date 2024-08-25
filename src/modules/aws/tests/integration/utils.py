@@ -1,5 +1,5 @@
-# Copyright (C) 2015-2023, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015-2023, Cyb3rhq Inc.
+# Created by Cyb3rhq, Inc. <info@wazuh.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 """
@@ -7,14 +7,14 @@
 """
 
 # qa-integration-framework imports
-from wazuh_testing.modules.monitord import configuration as monitord_config
+from cyb3rhq_testing.modules.monitord import configuration as monitord_config
 
 from os.path import join, dirname, realpath
 
 # CONSTANTS
 TEMPLATE_DIR = 'configuration_template'
 TEST_CASES_DIR = 'test_cases'
-WAZUH_MODULES_DEBUG = 'wazuh_modules.debug'
+CYB3RHQ_MODULES_DEBUG = 'cyb3rhq_modules.debug'
 
 # DICTS
 ERROR_MESSAGE = {
@@ -57,5 +57,5 @@ TIMEOUT = {
 TEST_DATA_PATH = join(dirname(realpath(__file__)), 'data')
 
 # Set local internal options
-local_internal_options = {WAZUH_MODULES_DEBUG: '2',
+local_internal_options = {CYB3RHQ_MODULES_DEBUG: '2',
                           monitord_config.MONITORD_ROTATE_LOG: '0'}

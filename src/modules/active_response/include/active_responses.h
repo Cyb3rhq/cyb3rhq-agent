@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it
@@ -39,7 +39,7 @@ typedef enum _ar_command_list {
 void write_debug_file(const char *ar_name, const char *msg);
 
 /**
- * @brief Set wazuh home directory and check message from stdin
+ * @brief Set cyb3rhq home directory and check message from stdin
  * @param argv Arguments of the script
  * @param message JSON message from stdin
  * @return Command from message

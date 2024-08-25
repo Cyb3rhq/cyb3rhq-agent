@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Wazuh package generator
-# Copyright (C) 2015, Wazuh Inc.
+# Cyb3rhq package generator
+# Copyright (C) 2015, Cyb3rhq Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -10,7 +10,7 @@
 
 set -ex
 CURRENT_PATH="$( cd $(dirname $0) ; pwd -P )"
-WAZUH_PATH="$(cd $CURRENT_PATH/..; pwd -P)"
+CYB3RHQ_PATH="$(cd $CURRENT_PATH/..; pwd -P)"
 ARCHITECTURE="amd64"
 SYSTEM="deb"
 OUTDIR="${CURRENT_PATH}/output/"
@@ -35,7 +35,7 @@ clean() {
     exit_code=$1
 
     # Clean the files
-    find "${DOCKERFILE_PATH}" \( -name '*.sh' -o -name '*.tar.gz' -o -name 'wazuh-*' \) ! -name 'docker_builder.sh' -exec rm -rf {} +
+    find "${DOCKERFILE_PATH}" \( -name '*.sh' -o -name '*.tar.gz' -o -name 'cyb3rhq-*' \) ! -name 'docker_builder.sh' -exec rm -rf {} +
 
     exit ${exit_code}
 }
@@ -87,13 +87,13 @@ build_pkg() {
     fi
 
     # Build the Debian package with a Docker container
-    docker run -t --rm -v ${OUTDIR}:/var/local/wazuh:Z \
+    docker run -t --rm -v ${OUTDIR}:/var/local/cyb3rhq:Z \
         -e SYSTEM="$SYSTEM" \
         -e BUILD_TARGET="${TARGET}" \
         -e ARCHITECTURE_TARGET="${ARCHITECTURE}" \
         -e INSTALLATION_PATH="${INSTALLATION_PATH}" \
         -e IS_STAGE="${IS_STAGE}" \
-        -e WAZUH_BRANCH="${BRANCH}" \
+        -e CYB3RHQ_BRANCH="${BRANCH}" \
         ${CUSTOM_CODE_VOL} \
         ${CONTAINER_NAME}:${DOCKER_TAG} \
         ${REVISION} ${JOBS} ${DEBUG} \
@@ -126,7 +126,7 @@ help() {
     echo "    -l, --legacy               [Optional only for RPM] Build package for CentOS 5."
     echo "    --dont-build-docker        [Optional] Locally built docker image will be used instead of generating a new one."
     echo "    --tag                      [Optional] Tag to use with the docker image."
-    echo "    --sources <path>           [Optional] Absolute path containing wazuh source code. This option will use local source code instead of downloading it from GitHub. By default use the script path."
+    echo "    --sources <path>           [Optional] Absolute path containing cyb3rhq source code. This option will use local source code instead of downloading it from GitHub. By default use the script path."
     echo "    --is_stage                 [Optional] Use release name in package."
     echo "    --system                   [Optional] Select Package OS [rpm, deb]. By default is 'deb'."
     echo "    --src                      [Optional] Generate the source package in the destination directory."
@@ -226,7 +226,7 @@ main() {
             ;;
         "--sources")
             if [ -n "$2" ]; then
-               CUSTOM_CODE_VOL="-v $2:/wazuh-local-src:Z"
+               CUSTOM_CODE_VOL="-v $2:/cyb3rhq-local-src:Z"
                shift 2
             else
                 help 1
@@ -254,7 +254,7 @@ main() {
     done
 
     if [ -z "${CUSTOM_CODE_VOL}" ]; then
-        CUSTOM_CODE_VOL="-v $WAZUH_PATH:/wazuh-local-src:Z"
+        CUSTOM_CODE_VOL="-v $CYB3RHQ_PATH:/cyb3rhq-local-src:Z"
     fi
 
     build && clean 0

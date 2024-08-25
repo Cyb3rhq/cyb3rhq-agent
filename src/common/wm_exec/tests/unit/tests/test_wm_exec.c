@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023, Wazuh Inc.
+ * Copyright (C) 2023, Cyb3rhq Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -14,9 +14,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "shared.h"
-#include "../../../wazuh_modules/wmodules.h"
+#include "../../../cyb3rhq_modules/wmodules.h"
 
-#include "../../wrappers/wazuh/shared/list_op_wrappers.h"
+#include "../../wrappers/cyb3rhq/shared/list_op_wrappers.h"
 #include "../../wrappers/posix/signal_wrappers.h"
 
 #define COMMAND u8"Powershell -c \"@{ winCounter = (Get-Counter '\\mémoire\\mégaoctets disponibles').CounterSamples[0] } | ConvertTo-Json -compress\""

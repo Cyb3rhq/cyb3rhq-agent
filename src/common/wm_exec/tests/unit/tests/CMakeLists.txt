@@ -1,12 +1,12 @@
-# Copyright (C) 2023, Wazuh Inc.
+# Copyright (C) 2023, Cyb3rhq Inc.
 #
 # This program is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
 # License (version 2) as published by the FSF - Free Software
 # Foundation.
 
-# Generate wazuh modules library
-file(GLOB wm_exec ../../../wazuh_modules/wm_exec.o)
+# Generate cyb3rhq modules library
+file(GLOB wm_exec ../../../cyb3rhq_modules/wm_exec.o)
 
 add_library(WM_EXEC_O STATIC ${wm_exec})
 
@@ -23,14 +23,14 @@ set_target_properties(
   LINKER_LANGUAGE C
 )
 
-target_link_libraries(WM_EXEC_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(WM_EXEC_O ${CYB3RHQLIB} ${CYB3RHQEXT} -lpthread)
 
 if(${TARGET} STREQUAL "winagent")
     link_directories(${SRC_FOLDER}/syscheckd/build/bin)
 endif(${TARGET} STREQUAL "winagent")
 
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/cyb3rhq/shared/shared.cmake)
 
 # Tests list and flags
 list(APPEND tests_names "test_wm_exec")
@@ -55,8 +55,8 @@ foreach(counter RANGE ${count})
 
     target_link_libraries(
         ${test_name}
-        ${WAZUHLIB}
-        ${WAZUHEXT}
+        ${CYB3RHQLIB}
+        ${CYB3RHQEXT}
         WM_EXEC_O
         ${TEST_DEPS}
     )

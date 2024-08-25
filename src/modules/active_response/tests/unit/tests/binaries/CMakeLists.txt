@@ -17,7 +17,7 @@ set_target_properties(
     LINKER_LANGUAGE C
 )
 
-target_link_libraries(ACTIVE-RESPONSE_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(ACTIVE-RESPONSE_O ${CYB3RHQLIB} ${CYB3RHQEXT} -lpthread)
 
 # Generate active-response tests
 if(NOT ${TARGET} STREQUAL "winagent")
@@ -35,8 +35,8 @@ foreach(counter RANGE ${count})
 
     target_link_libraries(
         ${active-response_test_name}
-        ${WAZUHLIB}
-        ${WAZUHEXT}
+        ${CYB3RHQLIB}
+        ${CYB3RHQEXT}
         ACTIVE-RESPONSE_O
         ${TEST_DEPS}
     )

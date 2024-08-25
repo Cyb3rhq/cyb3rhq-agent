@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -15,7 +15,7 @@
 #include <stdlib.h>
 #include "../headers/shared.h"
 #include "../wrappers/common.h"
-#include "../wrappers/wazuh/shared/file_op_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/file_op_wrappers.h"
 
 /* setup/teardown */
 static int group_setup(void ** state) {

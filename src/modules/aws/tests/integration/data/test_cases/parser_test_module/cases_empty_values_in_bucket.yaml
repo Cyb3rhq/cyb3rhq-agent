@@ -2,7 +2,7 @@
   description: Parser empty type in bucket
   configuration_parameters:
     BUCKET_TYPE: ''
-    BUCKET_NAME: wazuh-cloudtrail-integration-tests
+    BUCKET_NAME: cyb3rhq-cloudtrail-integration-tests
     ONLY_LOGS_AFTER: 2023-JAN-31
     REGIONS: us-east-1
     PATH: test_prefix
@@ -26,7 +26,7 @@
   description: Parser empty only_logs_after in bucket
   configuration_parameters:
     BUCKET_TYPE: cloudtrail
-    BUCKET_NAME: wazuh-cloudtrail-integration-tests
+    BUCKET_NAME: cyb3rhq-cloudtrail-integration-tests
     ONLY_LOGS_AFTER: ''
     REGIONS: us-east-1
     PATH: test_prefix
@@ -38,7 +38,7 @@
   description: Parser empty regions in bucket
   configuration_parameters:
     BUCKET_TYPE: cloudtrail
-    BUCKET_NAME: wazuh-cloudtrail-integration-tests
+    BUCKET_NAME: cyb3rhq-cloudtrail-integration-tests
     ONLY_LOGS_AFTER: 2023-JAN-31
     REGIONS: ''
     PATH: test_prefix
@@ -50,7 +50,7 @@
   description: Parser empty path in bucket
   configuration_parameters:
     BUCKET_TYPE: cloudtrail
-    BUCKET_NAME: wazuh-cloudtrail-integration-tests
+    BUCKET_NAME: cyb3rhq-cloudtrail-integration-tests
     ONLY_LOGS_AFTER: 2023-JAN-31
     REGIONS: us-east-1
     PATH: ''
@@ -62,7 +62,7 @@
   description: Parser empty path_suffix in bucket
   configuration_parameters:
     BUCKET_TYPE: cloudtrail
-    BUCKET_NAME: wazuh-cloudtrail-integration-tests
+    BUCKET_NAME: cyb3rhq-cloudtrail-integration-tests
     ONLY_LOGS_AFTER: 2023-JAN-31
     REGIONS: us-east-1
     PATH: test_prefix

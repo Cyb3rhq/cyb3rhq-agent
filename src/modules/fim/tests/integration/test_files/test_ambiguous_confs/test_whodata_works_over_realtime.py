@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Cyb3rhq Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Cyb3rhq, Inc. <info@wazuh.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -11,7 +11,7 @@ brief: These tests will check if the 'who-data' feature of the File Integrity Mo
        works properly. 'who-data' information contains the user who made the changes on the monitored
        files and also the program name or process used to carry them out. In particular, it will be
        verified that the value of the 'whodata' attribute prevails over the 'realtime' one.
-       The FIM capability is managed by the 'wazuh-syscheckd' daemon, which checks configured files
+       The FIM capability is managed by the 'cyb3rhq-syscheckd' daemon, which checks configured files
        for changes to the checksums, permissions, and ownership.
 
 components:
@@ -23,7 +23,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - cyb3rhq-syscheckd
 
 os_platform:
     - linux
@@ -62,17 +62,17 @@ import pytest
 
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.constants.platforms import WINDOWS
-from wazuh_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.fim.patterns import EVENT_TYPE_ADDED, EVENT_TYPE_DELETED
-from wazuh_testing.modules.fim.utils import get_fim_event_data
-from wazuh_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
-from wazuh_testing.modules.fim.configuration import SYSCHECK_DEBUG
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils import file
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from cyb3rhq_testing.constants.paths.logs import CYB3RHQ_LOG_PATH
+from cyb3rhq_testing.constants.platforms import WINDOWS
+from cyb3rhq_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
+from cyb3rhq_testing.modules.fim.patterns import EVENT_TYPE_ADDED, EVENT_TYPE_DELETED
+from cyb3rhq_testing.modules.fim.utils import get_fim_event_data
+from cyb3rhq_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
+from cyb3rhq_testing.modules.fim.configuration import SYSCHECK_DEBUG
+from cyb3rhq_testing.tools.monitors.file_monitor import FileMonitor
+from cyb3rhq_testing.utils import file
+from cyb3rhq_testing.utils.callbacks import generate_callback
+from cyb3rhq_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
 
@@ -93,7 +93,7 @@ if sys.platform == WINDOWS: local_internal_options.update({AGENTD_WINDOWS_DEBUG:
 
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
-def test_whodata_works_over_realtime(test_configuration, test_metadata, set_wazuh_configuration, configure_local_internal_options,
+def test_whodata_works_over_realtime(test_configuration, test_metadata, set_cyb3rhq_configuration, configure_local_internal_options,
                                      truncate_monitored_files, folder_to_monitor, daemons_handler, file_to_monitor):
     '''
     description: Check if when using the options who-data and real-time at the same time
@@ -106,9 +106,9 @@ def test_whodata_works_over_realtime(test_configuration, test_metadata, set_wazu
 
     test_phases:
         - setup:
-            - Set wazuh configuration and local_internal_options.
+            - Set cyb3rhq configuration and local_internal_options.
             - Create custom folder for monitoring
-            - Clean logs files and restart wazuh to apply the configuration.
+            - Clean logs files and restart cyb3rhq to apply the configuration.
         - test:
             - Create file and detect event creation event
             - Validate mode is whodata
@@ -117,10 +117,10 @@ def test_whodata_works_over_realtime(test_configuration, test_metadata, set_wazu
         - teardown:
             - Delete custom monitored folder
             - Restore configuration
-            - Stop wazuh
+            - Stop cyb3rhq
             - Clear logs
 
-    wazuh_min_version: 4.2.0
+    cyb3rhq_min_version: 4.2.0
 
     tier: 2
 
@@ -131,7 +131,7 @@ def test_whodata_works_over_realtime(test_configuration, test_metadata, set_wazu
         - test_metadata:
             type: dict
             brief: Test case data.
-        - set_wazuh_configuration:
+        - set_cyb3rhq_configuration:
             type: fixture
             brief: Set ossec.conf configuration.
         - configure_local_internal_options:
@@ -142,7 +142,7 @@ def test_whodata_works_over_realtime(test_configuration, test_metadata, set_wazu
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Cyb3rhq daemons.
         - folder_to_monitor:
             type: str
             brief: Folder created for monitoring.
@@ -161,14 +161,14 @@ def test_whodata_works_over_realtime(test_configuration, test_metadata, set_wazu
     tags:
         - who_data
     '''
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
+    cyb3rhq_log_monitor = FileMonitor(CYB3RHQ_LOG_PATH)
     file_to_monitor = test_metadata.get('file_to_monitor')
 
     # Write the file
     file.write_file(file_to_monitor)
-    wazuh_log_monitor.start(callback=generate_callback(EVENT_TYPE_ADDED))
+    cyb3rhq_log_monitor.start(callback=generate_callback(EVENT_TYPE_ADDED))
 
-    callback_result = wazuh_log_monitor.callback_result
+    callback_result = cyb3rhq_log_monitor.callback_result
     assert callback_result
 
     event_data = get_fim_event_data(callback_result)
@@ -176,9 +176,9 @@ def test_whodata_works_over_realtime(test_configuration, test_metadata, set_wazu
 
     # Remove the file
     file.remove_file(file_to_monitor)
-    wazuh_log_monitor.start(callback=generate_callback(EVENT_TYPE_DELETED))
+    cyb3rhq_log_monitor.start(callback=generate_callback(EVENT_TYPE_DELETED))
 
-    callback_result = wazuh_log_monitor.callback_result
+    callback_result = cyb3rhq_log_monitor.callback_result
     assert callback_result
 
     event_data = get_fim_event_data(callback_result)

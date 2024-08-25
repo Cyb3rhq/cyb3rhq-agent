@@ -13,7 +13,7 @@
 
 #include "debug_op.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 // Remove STATIC qualifier from tests
 #define STATIC
 #define INLINE
@@ -85,7 +85,7 @@ STATIC INLINE uint64_t w_get_epoch_time() {
 
 /**
  * @brief Convert the epoch time to a human-readable string (ISO 8601)
- * 2022-12-19T15:02:53.288+00:00 hostnameTest processName[123]: Message Test >> Wazuh no extra el hostname
+ * 2022-12-19T15:02:53.288+00:00 hostnameTest processName[123]: Message Test >> Cyb3rhq no extra el hostname
  * The caller is responsible for freeing the returned string.
  * @param timestamp The epoch time
  * @return char* The human-readable string or NULL on error

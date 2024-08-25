@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * All right reserved.
  *
  * This program is free software; you can redistribute it
@@ -10,7 +10,7 @@
 #include "shared.h"
 #include "expression.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 #include "unit_tests/wrappers/externals/pcre2/pcre2_wrappers.h"
 #else
 #define w_pcre2_match_data_create_from_pattern pcre2_match_data_create_from_pattern

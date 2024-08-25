@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Cyb3rhq Inc.
+# Created by Cyb3rhq, Inc. <info@wazuh.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import os
@@ -7,14 +7,14 @@ from functools import lru_cache
 
 
 @lru_cache(maxsize=None)
-def find_wazuh_path() -> str:
+def find_cyb3rhq_path() -> str:
     """
-    Get the Wazuh installation path.
+    Get the Cyb3rhq installation path.
 
     Returns
     -------
     str
-        Path where Wazuh is installed or empty string if there is no framework in the environment.
+        Path where Cyb3rhq is installed or empty string if there is no framework in the environment.
     """
     abs_path = os.path.abspath(os.path.dirname(__file__))
     allparts = []
@@ -30,16 +30,16 @@ def find_wazuh_path() -> str:
             abs_path = parts[0]
             allparts.insert(0, parts[1])
 
-    wazuh_path = ''
+    cyb3rhq_path = ''
     try:
         for i in range(0, allparts.index('wodles')):
-            wazuh_path = os.path.join(wazuh_path, allparts[i])
+            cyb3rhq_path = os.path.join(cyb3rhq_path, allparts[i])
     except ValueError:
         pass
 
-    return wazuh_path
+    return cyb3rhq_path
 
 
-ANALYSISD = os.path.join(find_wazuh_path(), 'queue', 'sockets', 'queue')
+ANALYSISD = os.path.join(find_cyb3rhq_path(), 'queue', 'sockets', 'queue')
 # Max size of the event that ANALYSISID can handle
 MAX_EVENT_SIZE = 65535

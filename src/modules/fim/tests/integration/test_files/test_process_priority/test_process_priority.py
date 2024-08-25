@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Cyb3rhq Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Cyb3rhq, Inc. <info@wazuh.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -9,8 +9,8 @@ type: integration
 
 brief: File Integrity Monitoring (FIM) system watches selected files and triggering alerts when
        these files are modified. Specifically, these tests will check if the process priority of
-       the 'wazuh-syscheckd' daemon set in the 'process_priority' tag is applied successfully.
-       The FIM capability is managed by the 'wazuh-syscheckd' daemon, which checks
+       the 'cyb3rhq-syscheckd' daemon set in the 'process_priority' tag is applied successfully.
+       The FIM capability is managed by the 'cyb3rhq-syscheckd' daemon, which checks
        configured files for changes to the checksums, permissions, and ownership.
 
 components:
@@ -22,7 +22,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - cyb3rhq-syscheckd
 
 os_platform:
     - linux
@@ -67,12 +67,12 @@ import sys
 import os
 
 import pytest
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
-from wazuh_testing.modules.fim.configuration import SYSCHECK_DEBUG
-from wazuh_testing.modules.agentd.configuration import AGENTD_DEBUG
-from wazuh_testing.constants.platforms import MACOS
-from wazuh_testing.utils.services import search_process_by_command
-from wazuh_testing.constants.daemons import SYSCHECK_DAEMON
+from cyb3rhq_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from cyb3rhq_testing.modules.fim.configuration import SYSCHECK_DEBUG
+from cyb3rhq_testing.modules.agentd.configuration import AGENTD_DEBUG
+from cyb3rhq_testing.constants.platforms import MACOS
+from cyb3rhq_testing.utils.services import search_process_by_command
+from cyb3rhq_testing.constants.daemons import SYSCHECK_DAEMON
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
 
@@ -93,15 +93,15 @@ local_internal_options = {SYSCHECK_DEBUG: 2, AGENTD_DEBUG: 2 }
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
 def test_process_priority(test_configuration, test_metadata, configure_local_internal_options,
-                             truncate_monitored_files, set_wazuh_configuration, folder_to_monitor, daemons_handler):
+                             truncate_monitored_files, set_cyb3rhq_configuration, folder_to_monitor, daemons_handler):
     '''
-    description: Check if the process priority of the 'wazuh-syscheckd' daemon set in the 'process_priority' tag
+    description: Check if the process priority of the 'cyb3rhq-syscheckd' daemon set in the 'process_priority' tag
                  is updated correctly. For this purpose, the test will monitor a testing folder and, once FIM starts,
                  it will get the priority value from the 'process_priority' tag and the system information of
-                 the 'wazuh-syscheckd' process. Finally, the test will compare the current process priority
+                 the 'cyb3rhq-syscheckd' process. Finally, the test will compare the current process priority
                  with the target priority to verify that they match.
 
-    wazuh_min_version: 4.2.0
+    cyb3rhq_min_version: 4.2.0
 
     tier: 1
 
@@ -118,7 +118,7 @@ def test_process_priority(test_configuration, test_metadata, configure_local_int
         - truncate_monitored_files:
             type: fixture
             brief: Truncate all the log files and json alerts files before and after the test execution.
-        - set_wazuh_configuration:
+        - set_cyb3rhq_configuration:
             type: fixture
             brief: Set ossec.conf configuration.
         - folder_to_monitor:
@@ -126,14 +126,14 @@ def test_process_priority(test_configuration, test_metadata, configure_local_int
             brief: Folder created for monitoring.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Cyb3rhq daemons.
 
     assertions:
-        - Verify that the 'wazuh-syscheckd' daemon is running.
-        - Verify that the process priority of the 'wazuh-syscheckd' daemon matches the 'process_priority' tag.
+        - Verify that the 'cyb3rhq-syscheckd' daemon is running.
+        - Verify that the process priority of the 'cyb3rhq-syscheckd' daemon matches the 'process_priority' tag.
 
     input_description: A test case (ossec_conf) is contained in external YAML file (cases_process_priority.yaml)
-                       which includes configuration settings for the 'wazuh-syscheckd' daemon and,
+                       which includes configuration settings for the 'cyb3rhq-syscheckd' daemon and,
                        these are combined with the testing directory to be monitored defined in the module.
 
     expected_output:

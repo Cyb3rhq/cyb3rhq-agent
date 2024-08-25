@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Cyb3rhq Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Cyb3rhq, Inc. <info@wazuh.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -11,7 +11,7 @@ brief: File Integrity Monitoring (FIM) system watches selected files and trigger
        files are modified. All these tests will be performed using ambiguous directory configurations,
        such as directories and subdirectories with opposite monitoring settings. In particular, it
        will be verified that the value of the 'ignore' attribute prevails over the 'restrict' one.
-       The FIM capability is managed by the 'wazuh-syscheckd' daemon, which checks configured files
+       The FIM capability is managed by the 'cyb3rhq-syscheckd' daemon, which checks configured files
        for changes to the checksums, permissions, and ownership.
 
 components:
@@ -23,8 +23,8 @@ targets:
     - agent
 
 daemons:
-    - wazuh-agentd
-    - wazuh-syscheckd
+    - cyb3rhq-agentd
+    - cyb3rhq-syscheckd
 
 os_platform:
     - linux
@@ -65,14 +65,14 @@ import pytest
 
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.constants.platforms import WINDOWS
-from wazuh_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
-from wazuh_testing.modules.fim.configuration import SYSCHECK_DEBUG
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from cyb3rhq_testing.constants.paths.logs import CYB3RHQ_LOG_PATH
+from cyb3rhq_testing.constants.platforms import WINDOWS
+from cyb3rhq_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
+from cyb3rhq_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
+from cyb3rhq_testing.modules.fim.configuration import SYSCHECK_DEBUG
+from cyb3rhq_testing.tools.monitors.file_monitor import FileMonitor
+from cyb3rhq_testing.utils.callbacks import generate_callback
+from cyb3rhq_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
 
@@ -93,7 +93,7 @@ if sys.platform == WINDOWS: local_internal_options.update({AGENTD_WINDOWS_DEBUG:
 
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
-def test_ignore_works_over_restrict(test_configuration, test_metadata, set_wazuh_configuration, configure_local_internal_options,
+def test_ignore_works_over_restrict(test_configuration, test_metadata, set_cyb3rhq_configuration, configure_local_internal_options,
                                     truncate_monitored_files, folder_to_monitor, daemons_handler, file_to_monitor, start_monitoring):
     '''
     description: Check if the 'ignore' tag prevails over the 'restrict' one when using both in the same directory.
@@ -104,7 +104,7 @@ def test_ignore_works_over_restrict(test_configuration, test_metadata, set_wazuh
 
     test_phases:
         - setup:
-            - Set wazuh configuration and local_internal_options.
+            - Set cyb3rhq configuration and local_internal_options.
             - Create custom folder and file for monitoring
         - test:
             - Create file and detect event creation event
@@ -112,10 +112,10 @@ def test_ignore_works_over_restrict(test_configuration, test_metadata, set_wazuh
         - teardown:
             - Delete custom monitored folder
             - Restore configuration
-            - Stop Wazuh
+            - Stop Cyb3rhq
             - Clean logs
 
-    wazuh_min_version: 4.2.0
+    cyb3rhq_min_version: 4.2.0
 
     tier: 2
 
@@ -126,7 +126,7 @@ def test_ignore_works_over_restrict(test_configuration, test_metadata, set_wazuh
         - test_metadata:
             type: dict
             brief: Test case data.
-        - set_wazuh_configuration:
+        - set_cyb3rhq_configuration:
             type: fixture
             brief: Set ossec.conf configuration.
         - configure_local_internal_options:
@@ -137,7 +137,7 @@ def test_ignore_works_over_restrict(test_configuration, test_metadata, set_wazuh
             brief: Truncate all the log files and json alerts files before and after the test execution.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Cyb3rhq daemons.
         - folder_to_monitor:
             type: str
             brief: Folder created for monitoring.
@@ -163,7 +163,7 @@ def test_ignore_works_over_restrict(test_configuration, test_metadata, set_wazuh
     tags:
         - fim
     '''
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
-    wazuh_log_monitor.start(callback=generate_callback(test_metadata['regex']))
+    cyb3rhq_log_monitor = FileMonitor(CYB3RHQ_LOG_PATH)
+    cyb3rhq_log_monitor.start(callback=generate_callback(test_metadata['regex']))
 
-    assert wazuh_log_monitor.callback_result
+    assert cyb3rhq_log_monitor.callback_result

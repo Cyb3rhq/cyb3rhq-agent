@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * All right reserved.
  *
  * This program is free software; you can redistribute it
@@ -7,13 +7,13 @@
  * Foundation
  */
 
-#if defined(Darwin) || (defined(__linux__) && defined(WAZUH_UNIT_TESTING))
+#if defined(Darwin) || (defined(__linux__) && defined(CYB3RHQ_UNIT_TESTING))
 
 #include "shared.h"
 #include "logcollector.h"
 #include "macos_log.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 // Remove STATIC qualifier from tests
 #define STATIC
 #define INLINE

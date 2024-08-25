@@ -1,6 +1,6 @@
 /*
- * Wazuh Module for Docker
- * Copyright (C) 2015, Wazuh Inc.
+ * Cyb3rhq Module for Docker
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * October, 2018.
  *
  * This program is free software; you can redistribute it

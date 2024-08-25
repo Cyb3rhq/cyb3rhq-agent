@@ -2,8 +2,8 @@
 
 # DEB helper functions
 
-# Wazuh package builder
-# Copyright (C) 2015, Wazuh Inc.
+# Cyb3rhq package builder
+# Copyright (C) 2015, Cyb3rhq Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -18,7 +18,7 @@ setup_build(){
     package_name="$4"
     debug="$5"
 
-    cp -pr ${specs_path}/wazuh-${BUILD_TARGET}/debian ${sources_dir}/debian
+    cp -pr ${specs_path}/cyb3rhq-${BUILD_TARGET}/debian ${sources_dir}/debian
     cp -p /tmp/gen_permissions.sh ${sources_dir}
 
     # Generating directory structure to build the .deb package
@@ -60,9 +60,9 @@ build_package(){
 }
 
 get_package_and_checksum(){
-    wazuh_version="$1"
+    cyb3rhq_version="$1"
     short_commit_hash="$2"
-    base_name="wazuh-${BUILD_TARGET}_${wazuh_version}-${REVISION}"
+    base_name="cyb3rhq-${BUILD_TARGET}_${cyb3rhq_version}-${REVISION}"
 
     if [[ "${ARCHITECTURE_TARGET}" == "ppc64le" ]]; then
         deb_file="${base_name}_ppc64el.deb"
@@ -76,8 +76,8 @@ get_package_and_checksum(){
 
     pkg_path="${build_dir}/${BUILD_TARGET}"
     if [[ "${checksum}" == "yes" ]]; then
-        cd ${pkg_path} && sha512sum wazuh-${BUILD_TARGET}*deb > /var/local/wazuh/${deb_file}.sha512
+        cd ${pkg_path} && sha512sum cyb3rhq-${BUILD_TARGET}*deb > /var/local/cyb3rhq/${deb_file}.sha512
     fi
 
-    find ${pkg_path} -type f -name "wazuh-${BUILD_TARGET}*deb" -exec mv {} /var/local/wazuh/${deb_file} \;
+    find ${pkg_path} -type f -name "cyb3rhq-${BUILD_TARGET}*deb" -exec mv {} /var/local/cyb3rhq/${deb_file} \;
 }

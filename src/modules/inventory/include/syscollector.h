@@ -1,6 +1,6 @@
 /*
- * Wazuh Syscollector
- * Copyright (C) 2015, Wazuh Inc.
+ * Cyb3rhq Syscollector
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * November 15, 2020.
  *
  * This program is free software; you can redistribute it

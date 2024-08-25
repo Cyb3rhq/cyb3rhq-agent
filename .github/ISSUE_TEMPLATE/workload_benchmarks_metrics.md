@@ -1,7 +1,7 @@
 ---
 name: Release Candidate - Workload benchmarks metrics
 about: Report the workload benchmarks metrics.
-title: Release [WAZUH VERSION] - Release Candidate [RC VERSION] - Workload benchmarks
+title: Release [CYB3RHQ VERSION] - Release Candidate [RC VERSION] - Workload benchmarks
   metrics
 labels: ''
 assignees: ''

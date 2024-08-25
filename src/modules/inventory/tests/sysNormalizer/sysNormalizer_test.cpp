@@ -1,6 +1,6 @@
 /*
- * Wazuh SyscollectorNormalizer
- * Copyright (C) 2015, Wazuh Inc.
+ * Cyb3rhq SyscollectorNormalizer
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * January 12, 2021.
  *
  * This program is free software; you can redistribute it

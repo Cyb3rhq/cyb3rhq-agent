@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -18,8 +18,8 @@
 #include "../../logcollector/state.h"
 
 #include "../wrappers/common.h"
-#include "../wrappers/wazuh/shared/hash_op_wrappers.h"
-#include "../wrappers/wazuh/shared/validate_op_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/hash_op_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/validate_op_wrappers.h"
 #include "../wrappers/libc/stdio_wrappers.h"
 #include "../wrappers/posix/unistd_wrappers.h"
 #include "../wrappers/externals/cJSON/cJSON_wrappers.h"

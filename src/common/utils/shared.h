@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -221,7 +221,7 @@ extern const char *__local_name;
 // Only static arrays allowed.
 #define array_size(array) (sizeof(array)/sizeof(array[0]))
 
-#ifndef WAZUH_UNIT_TESTING
+#ifndef CYB3RHQ_UNIT_TESTING
 #define FOREVER() 1
 #endif
 

@@ -1,6 +1,6 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
-           Created by Wazuh, Inc. <info@wazuh.com>.
+copyright: Copyright (C) 2015-2024, Cyb3rhq Inc.
+           Created by Cyb3rhq, Inc. <info@wazuh.com>.
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
@@ -16,7 +16,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-modulesd
+    - cyb3rhq-modulesd
 
 os_platform:
     - linux
@@ -46,13 +46,13 @@ import sys
 import pytest
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.utils import callbacks, configuration
-from wazuh_testing.tools.monitors import file_monitor
-from wazuh_testing.modules.modulesd.sca import patterns
-from wazuh_testing.modules.modulesd.configuration import MODULESD_DEBUG
-from wazuh_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
-from wazuh_testing.constants.platforms import WINDOWS
+from cyb3rhq_testing.constants.paths.logs import CYB3RHQ_LOG_PATH
+from cyb3rhq_testing.utils import callbacks, configuration
+from cyb3rhq_testing.tools.monitors import file_monitor
+from cyb3rhq_testing.modules.modulesd.sca import patterns
+from cyb3rhq_testing.modules.modulesd.configuration import MODULESD_DEBUG
+from cyb3rhq_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
+from cyb3rhq_testing.constants.platforms import WINDOWS
 
 from . import CONFIGURATIONS_FOLDER_PATH, TEST_CASES_FOLDER_PATH
 
@@ -84,44 +84,44 @@ daemons_handler_configuration = {'all_daemons': True}
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(t1_configurations, t1_configuration_metadata), ids=t1_case_ids)
 def test_sca_enabled(test_configuration, test_metadata, prepare_cis_policies_file, truncate_monitored_files,
-                     set_wazuh_configuration, configure_local_internal_options, daemons_handler):
+                     set_cyb3rhq_configuration, configure_local_internal_options, daemons_handler):
     '''
     description: Check SCA behavior when enabled tag is set to yes.
 
     test_phases:
-        - Set a custom Wazuh configuration.
+        - Set a custom Cyb3rhq configuration.
         - Copy cis_sca ruleset file into agent.
-        - Restart wazuh.
+        - Restart cyb3rhq.
         - Check that sca module starts if enabled is set to 'yes'
         - Check in the log that the sca module started appears.
         - Check that sca scan starts and finishes
 
-    wazuh_min_version: 4.6.0
+    cyb3rhq_min_version: 4.6.0
 
     tier: 0
 
     parameters:
         - test_configuration:
             type: dict
-            brief: Wazuh configuration data. Needed for set_wazuh_configuration fixture.
+            brief: Cyb3rhq configuration data. Needed for set_cyb3rhq_configuration fixture.
         - test_metadata:
             type: dict
-            brief: Wazuh configuration metadata.
+            brief: Cyb3rhq configuration metadata.
         - prepare_cis_policies_file:
             type: fixture
             brief: copy test sca policy file. Delete it after test.
         - truncate_monitored_files:
             type: fixture
             brief: Truncate all the log files and json alerts files before and after the test execution.
-        - set_wazuh_configuration:
+        - set_cyb3rhq_configuration:
             type: fixture
-            brief: Set the wazuh configuration according to the configuration data.
+            brief: Set the cyb3rhq configuration according to the configuration data.
         - configure_local_internal_options:
             type: fixture
             brief: Configure the local_internal_options_file.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Cyb3rhq daemons.
 
     assertions:
         - Verify that when the `enabled` option is set to `yes`, the SCA module is enabled.
@@ -137,7 +137,7 @@ def test_sca_enabled(test_configuration, test_metadata, prepare_cis_policies_fil
         - r'.*sca.*INFO: (Starting Security Configuration Assessment scan).'
         - r".*sca.*INFO: Security Configuration Assessment scan finished. Duration: (\\d+) seconds."
     '''
-    log_monitor = file_monitor.FileMonitor(WAZUH_LOG_PATH)
+    log_monitor = file_monitor.FileMonitor(CYB3RHQ_LOG_PATH)
 
     log_monitor.start(callback=callbacks.generate_callback(patterns.CB_SCA_ENABLED), timeout=60 if sys.platform == WINDOWS else 10)
     assert log_monitor.callback_result
@@ -149,42 +149,42 @@ def test_sca_enabled(test_configuration, test_metadata, prepare_cis_policies_fil
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(t2_configurations, t2_configuration_metadata), ids=t2_case_ids)
 def test_sca_disabled(test_configuration, test_metadata, prepare_cis_policies_file, truncate_monitored_files,
-                      set_wazuh_configuration, configure_local_internal_options, daemons_handler):
+                      set_cyb3rhq_configuration, configure_local_internal_options, daemons_handler):
     '''
     description: Check SCA behavior when enabled tag is set no.
 
     test_phases:
-        - Set a custom Wazuh configuration.
+        - Set a custom Cyb3rhq configuration.
         - Copy cis_sca ruleset file into agent.
-        - Restart wazuh.
+        - Restart cyb3rhq.
         - Check that sca module is disabled if enabled tag is set to 'no'
 
-    wazuh_min_version: 4.6.0
+    cyb3rhq_min_version: 4.6.0
 
     tier: 0
 
     parameters:
         - test_configuration:
             type: dict
-            brief: Wazuh configuration data. Needed for set_wazuh_configuration fixture.
+            brief: Cyb3rhq configuration data. Needed for set_cyb3rhq_configuration fixture.
         - test_metadata:
             type: dict
-            brief: Wazuh configuration metadata.
+            brief: Cyb3rhq configuration metadata.
         - prepare_cis_policies_file:
             type: fixture
             brief: copy test sca policy file. Delete it after test.
         - truncate_monitored_files:
             type: fixture
             brief: Truncate all the log files and json alerts files before and after the test execution.
-        - set_wazuh_configuration:
+        - set_cyb3rhq_configuration:
             type: fixture
-            brief: Set the wazuh configuration according to the configuration data.
+            brief: Set the cyb3rhq configuration according to the configuration data.
         - configure_local_internal_options:
             type: fixture
             brief: Configure the local_internal_options_file.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Cyb3rhq daemons.
 
     assertions:
         - Verify that when the `enabled` option is set to `no`, the SCA module does not start.
@@ -197,7 +197,7 @@ def test_sca_disabled(test_configuration, test_metadata, prepare_cis_policies_fi
         - r".*sca.*INFO: (Module disabled). Exiting."
     '''
 
-    log_monitor = file_monitor.FileMonitor(WAZUH_LOG_PATH)
+    log_monitor = file_monitor.FileMonitor(CYB3RHQ_LOG_PATH)
 
     log_monitor.start(callback=callbacks.generate_callback(patterns.CB_SCA_DISABLED), timeout=10)
     assert log_monitor.callback_result

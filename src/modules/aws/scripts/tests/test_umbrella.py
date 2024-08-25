@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Cyb3rhq Inc.
+# Created by Cyb3rhq, Inc. <info@wazuh.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import pytest
@@ -100,8 +100,8 @@ def test_cisco_umbrella_load_information_from_file_handles_exceptions(mock_sts_c
     assert e.value.code == utils.INVALID_TYPE_ERROR_CODE
 
 
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
-@patch('wazuh_integration.WazuhAWSDatabase.__init__')
+@patch('cyb3rhq_integration.Cyb3rhqIntegration.get_sts_client')
+@patch('cyb3rhq_integration.Cyb3rhqAWSDatabase.__init__')
 def test_cisco_umbrella_marker_only_logs_after(mock_integration, mock_sts):
     """Test 'marker_only_logs_after' method returns the expected marker using the `only_logs_after` value."""
     test_only_logs_after = utils.TEST_ONLY_LOGS_AFTER

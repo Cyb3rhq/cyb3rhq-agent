@@ -1,6 +1,6 @@
 /*
- * Wazuh data provider.
- * Copyright (C) 2015, Wazuh Inc.
+ * Cyb3rhq data provider.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * July 11, 2023.
  *
  * This program is free software; you can redistribute it

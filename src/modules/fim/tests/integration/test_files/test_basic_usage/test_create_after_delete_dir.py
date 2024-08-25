@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Cyb3rhq Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Cyb3rhq, Inc. <info@wazuh.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -10,7 +10,7 @@ type: integration
 brief: File Integrity Monitoring (FIM) system watches selected files and triggering alerts when these
        files are modified. In particular, these tests will check if FIM events are still generated when
        a monitored directory is deleted and created again.
-       The FIM capability is managed by the 'wazuh-syscheckd' daemon, which checks configured files
+       The FIM capability is managed by the 'cyb3rhq-syscheckd' daemon, which checks configured files
        for changes to the checksums, permissions, and ownership.
 
 components:
@@ -22,7 +22,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - cyb3rhq-syscheckd
 
 os_platform:
     - linux
@@ -66,17 +66,17 @@ import pytest
 
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.constants.platforms import WINDOWS
-from wazuh_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.fim.patterns import EVENT_TYPE_ADDED, EVENT_TYPE_DELETED, MONITORING_PATH
-from wazuh_testing.modules.fim.utils import get_fim_event_data
-from wazuh_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
-from wazuh_testing.modules.fim.configuration import SYSCHECK_DEBUG
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils import file
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from cyb3rhq_testing.constants.paths.logs import CYB3RHQ_LOG_PATH
+from cyb3rhq_testing.constants.platforms import WINDOWS
+from cyb3rhq_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
+from cyb3rhq_testing.modules.fim.patterns import EVENT_TYPE_ADDED, EVENT_TYPE_DELETED, MONITORING_PATH
+from cyb3rhq_testing.modules.fim.utils import get_fim_event_data
+from cyb3rhq_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
+from cyb3rhq_testing.modules.fim.configuration import SYSCHECK_DEBUG
+from cyb3rhq_testing.tools.monitors.file_monitor import FileMonitor
+from cyb3rhq_testing.utils import file
+from cyb3rhq_testing.utils.callbacks import generate_callback
+from cyb3rhq_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
 
@@ -98,7 +98,7 @@ if sys.platform == WINDOWS: local_internal_options.update({AGENTD_WINDOWS_DEBUG:
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
 def test_create_after_delete(test_configuration, test_metadata, configure_local_internal_options,
-                             truncate_monitored_files, set_wazuh_configuration, folder_to_monitor, file_to_monitor, daemons_handler):
+                             truncate_monitored_files, set_cyb3rhq_configuration, folder_to_monitor, file_to_monitor, daemons_handler):
     '''
     description: Check if a monitored directory keeps reporting FIM events after deleting and creating it again.
                  Under Windows systems, it verifies that the directory watcher is refreshed (checks the SACLs)
@@ -106,7 +106,7 @@ def test_create_after_delete(test_configuration, test_metadata, configure_local_
                  directory to be monitored, checks that FIM events are generated, and then deletes it.
                  Finally, it creates the directory again and verifies that the events are still generated correctly.
 
-    wazuh_min_version: 4.2.0
+    cyb3rhq_min_version: 4.2.0
 
     tier: 0
 
@@ -117,7 +117,7 @@ def test_create_after_delete(test_configuration, test_metadata, configure_local_
         - test_metadata:
             type: dict
             brief: Test case data.
-        - set_wazuh_configuration:
+        - set_cyb3rhq_configuration:
             type: fixture
             brief: Set ossec.conf configuration.
         - configure_local_internal_options:
@@ -134,7 +134,7 @@ def test_create_after_delete(test_configuration, test_metadata, configure_local_
             brief: File created for monitoring.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Cyb3rhq daemons.
         - start_monitoring:
             type: fixture
             brief: Wait FIM to start.
@@ -143,7 +143,7 @@ def test_create_after_delete(test_configuration, test_metadata, configure_local_
         - Verify that FIM events are still generated when a monitored directory is deleted and created again.
 
     input_description: The test cases are contained in external YAML file (cases_create_after_delete_dir.yaml)
-                       which includes configuration parameters for the 'wazuh-syscheckd' daemon and testing
+                       which includes configuration parameters for the 'cyb3rhq-syscheckd' daemon and testing
                        directories to monitor. The configuration template is contained in another external YAML
                        file (configuration_basic.yaml).
 
@@ -159,23 +159,23 @@ def test_create_after_delete(test_configuration, test_metadata, configure_local_
     if sys.platform == WINDOWS:
         pytest.skip(reason="Unstable behavior when deleting monitored folder")
 
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
+    cyb3rhq_log_monitor = FileMonitor(CYB3RHQ_LOG_PATH)
 
-    wazuh_log_monitor.start(generate_callback(MONITORING_PATH), timeout=60)
-    assert wazuh_log_monitor.callback_result
+    cyb3rhq_log_monitor.start(generate_callback(MONITORING_PATH), timeout=60)
+    assert cyb3rhq_log_monitor.callback_result
 
     fim_mode = test_metadata.get('fim_mode')
     folder_to_delete = test_metadata.get('folder_to_monitor')
     filename = test_metadata.get('file_to_monitor')
 
     file.delete_path_recursively(folder_to_delete)
-    wazuh_log_monitor.start(generate_callback(EVENT_TYPE_DELETED), timeout=60)
-    assert wazuh_log_monitor.callback_result
-    assert get_fim_event_data(wazuh_log_monitor.callback_result)['mode'] == fim_mode
+    cyb3rhq_log_monitor.start(generate_callback(EVENT_TYPE_DELETED), timeout=60)
+    assert cyb3rhq_log_monitor.callback_result
+    assert get_fim_event_data(cyb3rhq_log_monitor.callback_result)['mode'] == fim_mode
 
     file.recursive_directory_creation(folder_to_delete)
     time.sleep(2)
     file.write_file(filename, 'content')
-    wazuh_log_monitor.start(generate_callback(EVENT_TYPE_ADDED), timeout=60)
-    assert wazuh_log_monitor.callback_result
-    assert get_fim_event_data(wazuh_log_monitor.callback_result)['mode'] == fim_mode
+    cyb3rhq_log_monitor.start(generate_callback(EVENT_TYPE_ADDED), timeout=60)
+    assert cyb3rhq_log_monitor.callback_result
+    assert get_fim_event_data(cyb3rhq_log_monitor.callback_result)['mode'] == fim_mode

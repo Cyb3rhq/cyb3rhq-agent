@@ -1,5 +1,5 @@
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/cyb3rhq/shared/shared.cmake)
 
 if(${TARGET} STREQUAL "winagent")
     link_directories(${SRC_FOLDER}/syscheckd/build/bin)
@@ -23,8 +23,8 @@ foreach(counter RANGE ${count})
     if(${TARGET} STREQUAL "server")
         target_link_libraries(
             ${test_name}
-            ${WAZUHLIB}
-            ${WAZUHEXT}
+            ${CYB3RHQLIB}
+            ${CYB3RHQEXT}
             ANALYSISD_O
             ${TEST_DEPS}
         )

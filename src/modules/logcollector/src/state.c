@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it
@@ -10,7 +10,7 @@
 #include "state.h"
 #include "shared.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 #define STATIC
 #else
 #define STATIC static

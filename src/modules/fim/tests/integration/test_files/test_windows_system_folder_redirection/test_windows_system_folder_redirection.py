@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Cyb3rhq Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Cyb3rhq, Inc. <info@wazuh.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -21,7 +21,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - cyb3rhq-syscheckd
 
 os_platform:
     - windows
@@ -52,14 +52,14 @@ from pathlib import Path
 import os
 
 import pytest
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils import file
-from wazuh_testing.modules.fim.patterns import EVENT_TYPE_ADDED, WIN_CONVERT_FOLDER
-from wazuh_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.fim.configuration import SYSCHECK_DEBUG
+from cyb3rhq_testing.constants.paths.logs import CYB3RHQ_LOG_PATH
+from cyb3rhq_testing.tools.monitors.file_monitor import FileMonitor
+from cyb3rhq_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from cyb3rhq_testing.utils.callbacks import generate_callback
+from cyb3rhq_testing.utils import file
+from cyb3rhq_testing.modules.fim.patterns import EVENT_TYPE_ADDED, WIN_CONVERT_FOLDER
+from cyb3rhq_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
+from cyb3rhq_testing.modules.fim.configuration import SYSCHECK_DEBUG
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
 
@@ -79,25 +79,25 @@ local_internal_options = {SYSCHECK_DEBUG: 2, AGENTD_WINDOWS_DEBUG: 2 }
 # Tests
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
 def test_windows_system_monitoring(test_configuration, test_metadata, configure_local_internal_options,
-                             truncate_monitored_files, set_wazuh_configuration, folder_to_monitor, daemons_handler):
+                             truncate_monitored_files, set_cyb3rhq_configuration, folder_to_monitor, daemons_handler):
     '''
-    description: Check if the 'wazuh-syscheckd' monitors the windows system folders (System32 and SysWOW64) properly,
+    description: Check if the 'cyb3rhq-syscheckd' monitors the windows system folders (System32 and SysWOW64) properly,
     and that monitoring for Sysnative folder is redirected to System32 and works properly.
 
     test_phases:
         - setup:
-            - Set wazuh configuration and local_internal_options.
+            - Set cyb3rhq configuration and local_internal_options.
             - Create custom folder for monitoring
-            - Clean logs files and restart wazuh to apply the configuration.
+            - Clean logs files and restart cyb3rhq to apply the configuration.
         - test:
             - In case of monitoring Sysnative, check it is redirected to System32.
             - Write file in monitored folders, and check logs appear.
         - teardown:
             - Delete custom monitored folder
             - Restore configuration
-            - Stop wazuh
+            - Stop cyb3rhq
 
-    wazuh_min_version: 4.6.0
+    cyb3rhq_min_version: 4.6.0
 
     tier: 1
 
@@ -114,7 +114,7 @@ def test_windows_system_monitoring(test_configuration, test_metadata, configure_
         - truncate_monitored_files:
             type: fixture
             brief: Truncate all the log files and json alerts files before and after the test execution.
-        - set_wazuh_configuration:
+        - set_cyb3rhq_configuration:
             type: fixture
             brief: Set ossec.conf configuration.
         - folder_to_monitor:
@@ -122,7 +122,7 @@ def test_windows_system_monitoring(test_configuration, test_metadata, configure_
             brief: Folder created for monitoring.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Cyb3rhq daemons.
 
     assertions:
         - Verify that for each modified file a FIM event is generated.
@@ -137,15 +137,15 @@ def test_windows_system_monitoring(test_configuration, test_metadata, configure_
         - r'.*fim_adjust_path.*Convert '(.*) to '(.*)' to process the FIM events.'
         - r'.*Sending FIM event: (.+)$' ('added' events)'
     '''
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
+    cyb3rhq_log_monitor = FileMonitor(CYB3RHQ_LOG_PATH)
 
     # If monitoring sysnative, check redirection log message
     if test_metadata['redirected']:
-        wazuh_log_monitor.start(callback=generate_callback(WIN_CONVERT_FOLDER))
-        assert wazuh_log_monitor.callback_result
+        cyb3rhq_log_monitor.start(callback=generate_callback(WIN_CONVERT_FOLDER))
+        assert cyb3rhq_log_monitor.callback_result
 
     file_to_monitor = os.path.join(test_metadata['folder_to_monitor'], 'testfile')
 
     # Write the file
     file.write_file(file_to_monitor)
-    wazuh_log_monitor.start(callback=generate_callback(EVENT_TYPE_ADDED))
+    cyb3rhq_log_monitor.start(callback=generate_callback(EVENT_TYPE_ADDED))

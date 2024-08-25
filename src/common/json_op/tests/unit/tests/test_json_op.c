@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -20,8 +20,8 @@
 
 #include "../../headers/json_op.h"
 #include "../wrappers/externals/cJSON/cJSON_wrappers.h"
-#include "../wrappers/wazuh/shared/file_op_wrappers.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/file_op_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/debug_op_wrappers.h"
 #include "../wrappers/libc/stdio_wrappers.h"
 #include "../wrappers/common.h"
 #include "../../headers/shared.h"

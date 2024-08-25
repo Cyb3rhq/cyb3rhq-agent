@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -24,9 +24,9 @@
 /* Audit defs */
 #define WDATA_DEFAULT_INTERVAL_SCAN 300
 #define AUDIT_SOCKET                "queue/sockets/audit"
-#define AUDIT_CONF_FILE             "etc/af_wazuh.conf"
+#define AUDIT_CONF_FILE             "etc/af_cyb3rhq.conf"
 #define AUDIT_HEALTHCHECK_DIR       "tmp"
-#define AUDIT_HEALTHCHECK_KEY       "wazuh_hc"
+#define AUDIT_HEALTHCHECK_KEY       "cyb3rhq_hc"
 #define AUDIT_HEALTHCHECK_FILE      "tmp/audit_hc"
 
 #ifdef WIN32

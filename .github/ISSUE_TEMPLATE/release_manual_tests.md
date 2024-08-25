@@ -1,7 +1,7 @@
 ---
 name: Release Candidate - Manual tests
 about: Report the results after running manual tests for the specified release.
-title: Release [WAZUH VERSION] - Manual tests - [TEST NAME]
+title: Release [CYB3RHQ VERSION] - Manual tests - [TEST NAME]
 labels: release/4.3.0
 assignees: ''
 

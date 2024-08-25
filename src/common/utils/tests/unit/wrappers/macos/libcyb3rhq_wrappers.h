@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -7,8 +7,8 @@
  * Foundation.
  */
 
-#ifndef STDIO_WRAPPERS_LIBWAZUH_H
-#define STDIO_WRAPPERS_LIBWAZUH_H
+#ifndef STDIO_WRAPPERS_LIBCYB3RHQ_H
+#define STDIO_WRAPPERS_LIBCYB3RHQ_H
 
 
 #undef mterror

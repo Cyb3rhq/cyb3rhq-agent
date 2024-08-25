@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Cyb3rhq Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Cyb3rhq, Inc. <info@wazuh.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -10,7 +10,7 @@ type: integration
 brief: File Integrity Monitoring (FIM) system watches selected files and triggering alerts when these
        files are modified. In particular, these tests will check if FIM events are still generated when
        a monitored directory is deleted and created again.
-       The FIM capability is managed by the 'wazuh-syscheckd' daemon, which checks configured files
+       The FIM capability is managed by the 'cyb3rhq-syscheckd' daemon, which checks configured files
        for changes to the checksums, permissions, and ownership.
 
 components:
@@ -22,7 +22,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - cyb3rhq-syscheckd
 
 os_platform:
     - linux
@@ -61,16 +61,16 @@ import pytest
 
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.constants.platforms import WINDOWS
-from wazuh_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.fim.patterns import AUDIT_RULES_RELOADED, EVENT_TYPE_MODIFIED, LINKS_SCAN_FINALIZED
-from wazuh_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
-from wazuh_testing.modules.fim.configuration import SYMLINK_SCAN_INTERVAL, SYSCHECK_DEBUG
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils import file, commands
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from cyb3rhq_testing.constants.paths.logs import CYB3RHQ_LOG_PATH
+from cyb3rhq_testing.constants.platforms import WINDOWS
+from cyb3rhq_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
+from cyb3rhq_testing.modules.fim.patterns import AUDIT_RULES_RELOADED, EVENT_TYPE_MODIFIED, LINKS_SCAN_FINALIZED
+from cyb3rhq_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
+from cyb3rhq_testing.modules.fim.configuration import SYMLINK_SCAN_INTERVAL, SYSCHECK_DEBUG
+from cyb3rhq_testing.tools.monitors.file_monitor import FileMonitor
+from cyb3rhq_testing.utils import file, commands
+from cyb3rhq_testing.utils.callbacks import generate_callback
+from cyb3rhq_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
 
@@ -90,11 +90,11 @@ if sys.platform == WINDOWS: local_internal_options.update({AGENTD_WINDOWS_DEBUG:
 
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
-def test_audit_rules_with_symlink(test_configuration, test_metadata, set_wazuh_configuration, truncate_monitored_files,
+def test_audit_rules_with_symlink(test_configuration, test_metadata, set_cyb3rhq_configuration, truncate_monitored_files,
                                   configure_local_internal_options, folder_to_monitor, symlink, symlink_new_target,
                                   daemons_handler, start_monitoring):
     '''
-    description: Check if the 'wazuh-syscheckd' daemon removes the 'audit' rules when the target of
+    description: Check if the 'cyb3rhq-syscheckd' daemon removes the 'audit' rules when the target of
                  a monitored symlink is changed. For this purpose, the test will monitor a 'symbolic link'
                  pointing to a directory. Once FIM starts, it will create and expect events inside the
                  pointed folder. After the events are processed, the test will change the target of the
@@ -102,7 +102,7 @@ def test_audit_rules_with_symlink(test_configuration, test_metadata, set_wazuh_c
                  the link's target. Finally, it will generate some events inside the new target and verify
                  that the audit rule of the previous target folder has been removed (via 'auditctl -l').
 
-    wazuh_min_version: 4.2.0
+    cyb3rhq_min_version: 4.2.0
 
     tier: 0
 
@@ -113,7 +113,7 @@ def test_audit_rules_with_symlink(test_configuration, test_metadata, set_wazuh_c
         - test_metadata:
             type: dict
             brief: Test case data.
-        - set_wazuh_configuration:
+        - set_cyb3rhq_configuration:
             type: fixture
             brief: Set ossec.conf configuration.
         - configure_local_internal_options:
@@ -133,7 +133,7 @@ def test_audit_rules_with_symlink(test_configuration, test_metadata, set_wazuh_c
             brief: Create the directory/file that will be the new symlink`s target.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Cyb3rhq daemons.
         - start_monitoring:
             type: fixture
             brief: Wait FIM to start.
@@ -143,7 +143,7 @@ def test_audit_rules_with_symlink(test_configuration, test_metadata, set_wazuh_c
           when the target of that link is replaced.
 
     input_description: The test cases are contained in external YAML file (cases_delete_hardlink_symlink.yaml)
-                       which includes configuration parameters for the 'wazuh-syscheckd' daemon and testing
+                       which includes configuration parameters for the 'cyb3rhq-syscheckd' daemon and testing
                        directories to monitor. The configuration template is contained in another external YAML
                        file (configuration_basic.yaml).
 
@@ -156,17 +156,17 @@ def test_audit_rules_with_symlink(test_configuration, test_metadata, set_wazuh_c
         - scheduled
         - realtime
     '''
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
+    cyb3rhq_log_monitor = FileMonitor(CYB3RHQ_LOG_PATH)
     testfile_name = 'testie.txt'
 
     file.modify_symlink_target(symlink_new_target, symlink)
     file.write_file(symlink_new_target.joinpath(testfile_name))
 
-    wazuh_log_monitor.start(generate_callback(LINKS_SCAN_FINALIZED))
-    assert wazuh_log_monitor.callback_result
-    wazuh_log_monitor.start(generate_callback(AUDIT_RULES_RELOADED))
+    cyb3rhq_log_monitor.start(generate_callback(LINKS_SCAN_FINALIZED))
+    assert cyb3rhq_log_monitor.callback_result
+    cyb3rhq_log_monitor.start(generate_callback(AUDIT_RULES_RELOADED))
 
-    wazuh_log_monitor.start(generate_callback(EVENT_TYPE_MODIFIED))
+    cyb3rhq_log_monitor.start(generate_callback(EVENT_TYPE_MODIFIED))
     rules_paths = commands.get_rules_path()
-    assert wazuh_log_monitor.callback_result
+    assert cyb3rhq_log_monitor.callback_result
     assert testfile_name not in rules_paths

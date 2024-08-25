@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it
@@ -12,7 +12,7 @@
 #include "active_responses.h"
 #include "dll_load_notify.h"
 
-#define RULE_NAME "WAZUH ACTIVE RESPONSE BLOCKED IP"
+#define RULE_NAME "CYB3RHQ ACTIVE RESPONSE BLOCKED IP"
 
 #define PATH_FIREWALL_PROFILES_REG_DEFAULT "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\"
 #define FIREWALL_DATA_INITIALIZE { false, false, FIREWALL_DOMAIN }
@@ -145,17 +145,17 @@ int main (int argc, char **argv) {
         snprintf(description, OS_MAXSTR -1, "description=\"%s\"", RULE_NAME);
         snprintf(remoteip, OS_MAXSTR -1, "srcaddr=\"%s\"", srcip);
 
-        char *exec_args_delete[12] = { netsh_path, "ipsec", "static", "delete", "filter", "filterlist=\"wazuh_filter\"", "srcmask=\"255.255.255.255\"", remoteip, "dstaddr=Me", "protocol=\"any\"", "mirrored=yes", NULL };
-        char *exec_args_filter[12] = { netsh_path, "ipsec", "static", "add", "filter", "filterlist=\"wazuh_filter\"", "srcmask=\"255.255.255.255\"", remoteip, "dstaddr=Me", "protocol=\"any\"", "mirrored=yes", NULL };
-        char *exec_args_faction[8] = { netsh_path, "ipsec", "static", "add", "filteraction", "name=\"wazuh_action\"", "action=block", NULL };
-        char *exec_args_policy[9]  = { netsh_path, "ipsec", "static", "add", "policy", "name=\"wazuh_policy\"", "assign=yes", description, NULL };
-        char *exec_args_rule[10]   = { netsh_path, "ipsec", "static", "add", "rule", "name=wazuh_rule", "policy=wazuh_policy", "filterlist=wazuh_filter", "filteraction=wazuh_action", NULL };
+        char *exec_args_delete[12] = { netsh_path, "ipsec", "static", "delete", "filter", "filterlist=\"cyb3rhq_filter\"", "srcmask=\"255.255.255.255\"", remoteip, "dstaddr=Me", "protocol=\"any\"", "mirrored=yes", NULL };
+        char *exec_args_filter[12] = { netsh_path, "ipsec", "static", "add", "filter", "filterlist=\"cyb3rhq_filter\"", "srcmask=\"255.255.255.255\"", remoteip, "dstaddr=Me", "protocol=\"any\"", "mirrored=yes", NULL };
+        char *exec_args_faction[8] = { netsh_path, "ipsec", "static", "add", "filteraction", "name=\"cyb3rhq_action\"", "action=block", NULL };
+        char *exec_args_policy[9]  = { netsh_path, "ipsec", "static", "add", "policy", "name=\"cyb3rhq_policy\"", "assign=yes", description, NULL };
+        char *exec_args_rule[10]   = { netsh_path, "ipsec", "static", "add", "rule", "name=cyb3rhq_rule", "policy=cyb3rhq_policy", "filterlist=cyb3rhq_filter", "filteraction=cyb3rhq_action", NULL };
 
         if (action == ADD_COMMAND) {
             wfd = wpopenv(netsh_path, exec_args_filter, W_BIND_STDERR);
             if (!wfd) {
                 memset(log_msg, '\0', OS_MAXSTR);
-                snprintf(log_msg, OS_MAXSTR -1, "Unable to run netsh, action: 'ADD', 'wazuh_filter'");
+                snprintf(log_msg, OS_MAXSTR -1, "Unable to run netsh, action: 'ADD', 'cyb3rhq_filter'");
                 write_debug_file(argv[0], log_msg);
             } else {
                 wpclose(wfd);
@@ -164,7 +164,7 @@ int main (int argc, char **argv) {
             wfd = wpopenv(netsh_path, exec_args_faction, W_BIND_STDERR);
             if (!wfd) {
                 memset(log_msg, '\0', OS_MAXSTR);
-                snprintf(log_msg, OS_MAXSTR -1, "Unable to run netsh, action: 'ADD', 'wazuh_action'");
+                snprintf(log_msg, OS_MAXSTR -1, "Unable to run netsh, action: 'ADD', 'cyb3rhq_action'");
                 write_debug_file(argv[0], log_msg);
             } else {
                 wpclose(wfd);
@@ -173,7 +173,7 @@ int main (int argc, char **argv) {
             wfd = wpopenv(netsh_path, exec_args_policy, W_BIND_STDERR);
             if (!wfd) {
                 memset(log_msg, '\0', OS_MAXSTR);
-                snprintf(log_msg, OS_MAXSTR -1, "Unable to run netsh, action: 'ADD', 'wazuh_policy'");
+                snprintf(log_msg, OS_MAXSTR -1, "Unable to run netsh, action: 'ADD', 'cyb3rhq_policy'");
                 write_debug_file(argv[0], log_msg);
             } else {
                 wpclose(wfd);
@@ -182,7 +182,7 @@ int main (int argc, char **argv) {
             wfd = wpopenv(netsh_path, exec_args_rule, W_BIND_STDERR);
             if (!wfd) {
                 memset(log_msg, '\0', OS_MAXSTR);
-                snprintf(log_msg, OS_MAXSTR -1, "Unable to run netsh, action: 'ADD', 'wazuh_rule'");
+                snprintf(log_msg, OS_MAXSTR -1, "Unable to run netsh, action: 'ADD', 'cyb3rhq_rule'");
                 write_debug_file(argv[0], log_msg);
             } else {
                 wpclose(wfd);
@@ -191,7 +191,7 @@ int main (int argc, char **argv) {
             wfd = wpopenv(netsh_path, exec_args_delete, W_BIND_STDERR);
             if (!wfd) {
                 memset(log_msg, '\0', OS_MAXSTR);
-                snprintf(log_msg, OS_MAXSTR -1, "Unable to run netsh, action: 'DELETE', rule: 'wazuh_rule'");
+                snprintf(log_msg, OS_MAXSTR -1, "Unable to run netsh, action: 'DELETE', rule: 'cyb3rhq_rule'");
                 write_debug_file(argv[0], log_msg);
             } else {
                 wpclose(wfd);

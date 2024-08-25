@@ -1,7 +1,7 @@
 """
- copyright: Copyright (C) 2015-2024, Wazuh Inc.
+ copyright: Copyright (C) 2015-2024, Cyb3rhq Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Cyb3rhq, Inc. <info@wazuh.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -10,7 +10,7 @@ type: integration
 brief: File Integrity Monitoring (FIM) system watches selected files and triggering alerts when
        these files are modified. Specifically, these tests will verify that FIM generates events
        only for file operations in monitored directories that do not match the 'restrict' attribute.
-       The FIM capability is managed by the 'wazuh-syscheckd' daemon, which checks configured
+       The FIM capability is managed by the 'cyb3rhq-syscheckd' daemon, which checks configured
        files for changes to the checksums, permissions, and ownership.
 
 components:
@@ -22,7 +22,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - cyb3rhq-syscheckd
 
 os_platform:
     - linux
@@ -61,16 +61,16 @@ import pytest
 import os
 
 from pathlib import Path
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.constants.platforms import WINDOWS
-from wazuh_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.fim.patterns import EVENT_TYPE_ADDED, FIM_EVENT_RESTRICT
-from wazuh_testing.modules.fim.utils import get_fim_event_data
-from wazuh_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
-from wazuh_testing.modules.fim import configuration
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from cyb3rhq_testing.constants.paths.logs import CYB3RHQ_LOG_PATH
+from cyb3rhq_testing.constants.platforms import WINDOWS
+from cyb3rhq_testing.modules.agentd.configuration import AGENTD_DEBUG, AGENTD_WINDOWS_DEBUG
+from cyb3rhq_testing.modules.fim.patterns import EVENT_TYPE_ADDED, FIM_EVENT_RESTRICT
+from cyb3rhq_testing.modules.fim.utils import get_fim_event_data
+from cyb3rhq_testing.modules.monitord.configuration import MONITORD_ROTATE_LOG
+from cyb3rhq_testing.modules.fim import configuration
+from cyb3rhq_testing.tools.monitors.file_monitor import FileMonitor
+from cyb3rhq_testing.utils.callbacks import generate_callback
+from cyb3rhq_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
 
@@ -88,16 +88,16 @@ local_internal_options = {configuration.SYSCHECK_DEBUG: 2, AGENTD_DEBUG: 2, MONI
 if sys.platform == WINDOWS: local_internal_options.update({AGENTD_WINDOWS_DEBUG: 2})
 
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
-def test_restrict(test_configuration, test_metadata, set_wazuh_configuration, configure_local_internal_options,
+def test_restrict(test_configuration, test_metadata, set_cyb3rhq_configuration, configure_local_internal_options,
                   truncate_monitored_files, folder_to_monitor, daemons_handler, file_to_monitor):
     '''
-    description: Check if the 'wazuh-syscheckd' daemon detects or ignores events in monitored files depending
+    description: Check if the 'cyb3rhq-syscheckd' daemon detects or ignores events in monitored files depending
                  on the value set in the 'restrict' attribute. This attribute limit checks to files that match
                  the entered string or regex and its file name. For this purpose, the test will monitor a folder
                  and create a testing file inside it. Finally, the test will verify that FIM 'added' events are
                  generated only for the testing files that not are restricted.
 
-    wazuh_min_version: 4.2.0
+    cyb3rhq_min_version: 4.2.0
 
     tier: 2
 
@@ -108,7 +108,7 @@ def test_restrict(test_configuration, test_metadata, set_wazuh_configuration, co
         - test_metadata:
             type: dict
             brief: Test case data.
-        - set_wazuh_configuration:
+        - set_cyb3rhq_configuration:
             type: fixture
             brief: Set ossec.conf configuration.
         - configure_local_internal_options:
@@ -125,7 +125,7 @@ def test_restrict(test_configuration, test_metadata, set_wazuh_configuration, co
             brief: File created for monitoring.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Cyb3rhq daemons.
 
 
     assertions:
@@ -133,8 +133,8 @@ def test_restrict(test_configuration, test_metadata, set_wazuh_configuration, co
           that do not match the 'restrict' attribute.
         - Verify that FIM 'ignoring' events are generated for monitored files that are restricted.
 
-    input_description: Different test cases are contained in external YAML file (wazuh_conf.yaml) which
-                       includes configuration settings for the 'wazuh-syscheckd' daemon and, these
+    input_description: Different test cases are contained in external YAML file (cyb3rhq_conf.yaml) which
+                       includes configuration settings for the 'cyb3rhq-syscheckd' daemon and, these
                        are combined with the testing directories to be monitored defined in the module.
 
     expected_output:
@@ -147,7 +147,7 @@ def test_restrict(test_configuration, test_metadata, set_wazuh_configuration, co
 
     path = os.path.join(test_metadata['folder_to_monitor'], test_metadata['data'][0])
 
-    monitor = FileMonitor(WAZUH_LOG_PATH)
+    monitor = FileMonitor(CYB3RHQ_LOG_PATH)
     
     if test_metadata['data'][1] == True:
         monitor.start(generate_callback(EVENT_TYPE_ADDED))

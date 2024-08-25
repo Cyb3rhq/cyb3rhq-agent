@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, Cyb3rhq Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -38,9 +38,9 @@ class DockerListener:
             sys.stderr.write("This wodle does not work on Windows.\n")
             sys.exit(1)
         # socket variables
-        self.wazuh_path = os.path.abspath(os.path.join(__file__, "..", "..", ".."))
-        self.wazuh_queue = os.path.join(self.wazuh_path, "queue", "sockets", "queue")
-        self.msg_header = "1:Wazuh-Docker:"
+        self.cyb3rhq_path = os.path.abspath(os.path.join(__file__, "..", "..", ".."))
+        self.cyb3rhq_queue = os.path.join(self.cyb3rhq_path, "queue", "sockets", "queue")
+        self.msg_header = "1:Cyb3rhq-Docker:"
         # docker variables
         self.client = None
         self.thread1 = None
@@ -125,7 +125,7 @@ class DockerListener:
 
     def send_msg(self, msg):
         """
-        Sends a Docker event to the Wazuh Queue
+        Sends a Docker event to the Cyb3rhq Queue
 
         :param msg: message to be sent.
         """
@@ -133,7 +133,7 @@ class DockerListener:
             json_msg = json.dumps(self.format_msg(msg))
             print(json_msg)
             s = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
-            s.connect(self.wazuh_queue)
+            s.connect(self.cyb3rhq_queue)
 
             encoded_msg = "{header}{msg}".format(header=self.msg_header,
                                                  msg=json_msg).encode()
@@ -145,13 +145,13 @@ class DockerListener:
             s.close()
         except socket.error as e:
             if e.errno == 111:
-                sys.stderr.write('Wazuh must be running.\n')
+                sys.stderr.write('Cyb3rhq must be running.\n')
                 sys.exit(11)
             else:
-                sys.stderr.write("Error sending message to wazuh: {}\n".format(e))
+                sys.stderr.write("Error sending message to cyb3rhq: {}\n".format(e))
                 sys.exit(13)
         except Exception as e:
-            sys.stderr.write("Error sending message to wazuh: {}\n".format(e))
+            sys.stderr.write("Error sending message to cyb3rhq: {}\n".format(e))
             sys.exit(13)
 
 

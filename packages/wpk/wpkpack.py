@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 # Tool to build and compress the WPK package
-# Wazuh package generator
-# Copyright (C) 2015, Wazuh Inc.
+# Cyb3rhq package generator
+# Copyright (C) 2015, Cyb3rhq Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public

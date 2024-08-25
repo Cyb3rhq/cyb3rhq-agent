@@ -1,6 +1,6 @@
 /*
- * Wazuh Module for custom command execution
- * Copyright (C) 2015, Wazuh Inc.
+ * Cyb3rhq Module for custom command execution
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * October 26, 2017.
  *
  * This program is free software; you can redistribute it

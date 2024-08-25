@@ -14,7 +14,7 @@
   description: Parser invalid type in bucket
   configuration_parameters:
     BUCKET_TYPE: invalid_value
-    BUCKET_NAME: wazuh-cloudtrail-integration-tests
+    BUCKET_NAME: cyb3rhq-cloudtrail-integration-tests
     ONLY_LOGS_AFTER: 2023-JAN-31
     REGIONS: us-east-1
     PATH: test_prefix
@@ -26,7 +26,7 @@
   description: Parser invalid only_logs_after in bucket
   configuration_parameters:
     BUCKET_TYPE: cloudtrail
-    BUCKET_NAME: wazuh-cloudtrail-integration-tests
+    BUCKET_NAME: cyb3rhq-cloudtrail-integration-tests
     ONLY_LOGS_AFTER: JAN-31
     REGIONS: us-east-1
     PATH: test_prefix
@@ -38,7 +38,7 @@
   description: Parser invalid regions in bucket
   configuration_parameters:
     BUCKET_TYPE: cloudtrail
-    BUCKET_NAME: wazuh-cloudtrail-integration-tests
+    BUCKET_NAME: cyb3rhq-cloudtrail-integration-tests
     ONLY_LOGS_AFTER: 2023-JAN-31
     REGIONS: 1
     PATH: test_prefix
@@ -50,7 +50,7 @@
   description: Parser invalid path in bucket
   configuration_parameters:
     BUCKET_TYPE: cloudtrail
-    BUCKET_NAME: wazuh-cloudtrail-integration-tests
+    BUCKET_NAME: cyb3rhq-cloudtrail-integration-tests
     ONLY_LOGS_AFTER: 2023-JAN-31
     REGIONS: us-east-1
     PATH: test-prefix>
@@ -62,7 +62,7 @@
   description: Parser invalid path_suffix in bucket
   configuration_parameters:
     BUCKET_TYPE: cloudtrail
-    BUCKET_NAME: wazuh-cloudtrail-integration-tests
+    BUCKET_NAME: cyb3rhq-cloudtrail-integration-tests
     ONLY_LOGS_AFTER: 2023-JAN-31
     REGIONS: us-east-1
     PATH: test_prefix
@@ -74,7 +74,7 @@
   description: Parser invalid remove_from_bucket in bucket
   configuration_parameters:
     BUCKET_TYPE: cloudtrail
-    BUCKET_NAME: wazuh-cloudtrail-integration-tests
+    BUCKET_NAME: cyb3rhq-cloudtrail-integration-tests
     ONLY_LOGS_AFTER: 2023-JAN-31
     REGIONS: us-east-1
     PATH: test_prefix

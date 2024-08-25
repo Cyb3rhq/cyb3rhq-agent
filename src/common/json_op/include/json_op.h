@@ -1,6 +1,6 @@
 /*
  * JSON support library
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * May 11, 2018.
  *
  * This program is free software; you can redistribute it

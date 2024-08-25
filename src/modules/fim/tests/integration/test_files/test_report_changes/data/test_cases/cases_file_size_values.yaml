@@ -1,5 +1,5 @@
 - name: Test 'file_size' information, fim_mode = scheduled
-  description: Check if the 'wazuh-syscheckd' daemon limits the size of the monitored file to generate
+  description: Check if the 'cyb3rhq-syscheckd' daemon limits the size of the monitored file to generate
                 'diff' information from the default value of the 'file_size' option.
   configuration_parameters:
     TEST_DIRECTORIES: !!python/object/apply:os.path.join
@@ -22,7 +22,7 @@
     disk_quota_limit: '2KB'
 
 - name: Test 'file_size' information, fim_mode = scheduled
-  description: Check if the 'wazuh-syscheckd' daemon limits the size of the monitored file to generate
+  description: Check if the 'cyb3rhq-syscheckd' daemon limits the size of the monitored file to generate
                 'diff' information from the default value of the 'file_size' option.
   configuration_parameters:
     TEST_DIRECTORIES: !!python/object/apply:os.path.join
@@ -45,7 +45,7 @@
     disk_quota_limit: '2KB'
 
 - name: Test 'file_size' information, fim_mode = scheduled
-  description: Check if the 'wazuh-syscheckd' daemon limits the size of the monitored file to generate
+  description: Check if the 'cyb3rhq-syscheckd' daemon limits the size of the monitored file to generate
                 'diff' information from the default value of the 'file_size' option.
   configuration_parameters:
     TEST_DIRECTORIES: !!python/object/apply:os.path.join
@@ -68,7 +68,7 @@
     disk_quota_limit: '2KB'
 
 - name: Test 'file_size' information, fim_mode = scheduled
-  description: Check if the 'wazuh-syscheckd' daemon limits the size of the monitored file to generate
+  description: Check if the 'cyb3rhq-syscheckd' daemon limits the size of the monitored file to generate
                 'diff' information from the default value of the 'file_size' option.
   configuration_parameters:
     TEST_DIRECTORIES: !!python/object/apply:os.path.join
@@ -91,7 +91,7 @@
     disk_quota_limit: '2KB'
 
 - name: Test 'file_size' information, fim_mode = realtime
-  description: Check if the 'wazuh-syscheckd' daemon limits the size of the monitored file to generate
+  description: Check if the 'cyb3rhq-syscheckd' daemon limits the size of the monitored file to generate
                 'diff' information from the default value of the 'file_size' option.
   configuration_parameters:
     TEST_DIRECTORIES: !!python/object/apply:os.path.join
@@ -115,7 +115,7 @@
     disk_quota_limit: '2KB'
 
 - name: Test 'file_size' information, fim_mode = realtime
-  description: Check if the 'wazuh-syscheckd' daemon limits the size of the monitored file to generate
+  description: Check if the 'cyb3rhq-syscheckd' daemon limits the size of the monitored file to generate
                 'diff' information from the default value of the 'file_size' option.
   configuration_parameters:
     TEST_DIRECTORIES: !!python/object/apply:os.path.join
@@ -139,7 +139,7 @@
     disk_quota_limit: '2KB'
 
 - name: Test 'file_size' information, fim_mode = realtime
-  description: Check if the 'wazuh-syscheckd' daemon limits the size of the monitored file to generate
+  description: Check if the 'cyb3rhq-syscheckd' daemon limits the size of the monitored file to generate
                 'diff' information from the default value of the 'file_size' option.
   configuration_parameters:
     TEST_DIRECTORIES: !!python/object/apply:os.path.join
@@ -163,7 +163,7 @@
     disk_quota_limit: '2KB'
 
 - name: Test 'file_size' information, fim_mode = realtime
-  description: Check if the 'wazuh-syscheckd' daemon limits the size of the monitored file to generate
+  description: Check if the 'cyb3rhq-syscheckd' daemon limits the size of the monitored file to generate
                 'diff' information from the default value of the 'file_size' option.
   configuration_parameters:
     TEST_DIRECTORIES: !!python/object/apply:os.path.join
@@ -187,7 +187,7 @@
     disk_quota_limit: '2KB'
 
 - name: Test 'file_size' information, fim_mode = whodata
-  description: Check if the 'wazuh-syscheckd' daemon limits the size of the monitored file to generate
+  description: Check if the 'cyb3rhq-syscheckd' daemon limits the size of the monitored file to generate
                 'diff' information from the default value of the 'file_size' option.
   configuration_parameters:
     TEST_DIRECTORIES: !!python/object/apply:os.path.join
@@ -211,7 +211,7 @@
     disk_quota_limit: '2KB'
 
 - name: Test 'file_size' information, fim_mode = whodata
-  description: Check if the 'wazuh-syscheckd' daemon limits the size of the monitored file to generate
+  description: Check if the 'cyb3rhq-syscheckd' daemon limits the size of the monitored file to generate
                 'diff' information from the default value of the 'file_size' option.
   configuration_parameters:
     TEST_DIRECTORIES: !!python/object/apply:os.path.join
@@ -235,7 +235,7 @@
     disk_quota_limit: '2KB'
 
 - name: Test 'file_size' information, fim_mode = whodata
-  description: Check if the 'wazuh-syscheckd' daemon limits the size of the monitored file to generate
+  description: Check if the 'cyb3rhq-syscheckd' daemon limits the size of the monitored file to generate
                 'diff' information from the default value of the 'file_size' option.
   configuration_parameters:
     TEST_DIRECTORIES: !!python/object/apply:os.path.join
@@ -259,7 +259,7 @@
     disk_quota_limit: '2KB'
 
 - name: Test 'file_size' information, fim_mode = whodata
-  description: Check if the 'wazuh-syscheckd' daemon limits the size of the monitored file to generate
+  description: Check if the 'cyb3rhq-syscheckd' daemon limits the size of the monitored file to generate
                 'diff' information from the default value of the 'file_size' option.
   configuration_parameters:
     TEST_DIRECTORIES: !!python/object/apply:os.path.join

@@ -9,7 +9,7 @@ assignees: ''
 
 |Week|Previous issue|
 |---|---|
-|21|https://github.com/wazuh/wazuh/issues/23311|
+|21|https://github.com/cyb3rhq/cyb3rhq/issues/23311|
 
 ## Description
 
@@ -26,4 +26,4 @@ Check the current table:
 
 | OS family | Version | Release date | Estimated frequency  | Links | Check | Support OS issue |
 |-|-|-|-|-|:-:|-|
-| Ubuntu (**_SAMPLE, DELETE_**)                        | 24.10 | 05/23/2024 | Semester   | [Releases](https://wiki.ubuntu.com/Releases) / [Pre-releases](https://wiki.ubuntu.com/Releases#:~:text=mailing%20list.-,Future,-Version)| 🟡 | https://github.com/wazuh/wazuh/issues/23579 |
+| Ubuntu (**_SAMPLE, DELETE_**)                        | 24.10 | 05/23/2024 | Semester   | [Releases](https://wiki.ubuntu.com/Releases) / [Pre-releases](https://wiki.ubuntu.com/Releases#:~:text=mailing%20list.-,Future,-Version)| 🟡 | https://github.com/cyb3rhq/cyb3rhq/issues/23579 |

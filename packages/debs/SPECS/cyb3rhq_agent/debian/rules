@@ -16,7 +16,7 @@ export DH_VERBOSE=1
 # This has to be exported to make some magic below work.
 export DH_OPTIONS
 
-export TARGET_DIR=${CURDIR}/debian/wazuh-agent
+export TARGET_DIR=${CURDIR}/debian/cyb3rhq-agent
 
 # Package build options
 export INSTALLATION_DIR="/var/ossec"
@@ -60,14 +60,14 @@ override_dh_install:
 
 	# Copying init.d script
 	mkdir -p ${TARGET_DIR}/etc/init.d/
-	sed -i "s:WAZUH_HOME_TMP:${INSTALLATION_DIR}:g" src/init/templates/ossec-hids-debian.init
+	sed -i "s:CYB3RHQ_HOME_TMP:${INSTALLATION_DIR}:g" src/init/templates/ossec-hids-debian.init
 
-	cp src/init/templates/ossec-hids-debian.init ${TARGET_DIR}/etc/init.d/wazuh-agent
+	cp src/init/templates/ossec-hids-debian.init ${TARGET_DIR}/etc/init.d/cyb3rhq-agent
 
 	# Copying systemd file
 	mkdir -p ${TARGET_DIR}/usr/lib/systemd/system/
-	sed -i "s:WAZUH_HOME_TMP:${INSTALLATION_DIR}:g" src/init/templates/wazuh-agent.service
-	install -m 0644 src/init/templates/wazuh-agent.service ${TARGET_DIR}/usr/lib/systemd/system/
+	sed -i "s:CYB3RHQ_HOME_TMP:${INSTALLATION_DIR}:g" src/init/templates/cyb3rhq-agent.service
+	install -m 0644 src/init/templates/cyb3rhq-agent.service ${TARGET_DIR}/usr/lib/systemd/system/
 
 	# Generating permission restoration file for postinstall
 	mkdir -p ${TARGET_DIR}$(INSTALLATION_SCRIPTS_DIR)
@@ -146,8 +146,8 @@ override_dh_install:
 
 	# Copying systemd file
 	mkdir -p ${TARGET_DIR}/etc/systemd/system/
-	sed -i "s:WAZUH_HOME_TMP:${INSTALLATION_DIR}:g" src/init/templates/wazuh-agent.service
-	cp src/init/templates/wazuh-agent.service ${TARGET_DIR}/etc/systemd/system/
+	sed -i "s:CYB3RHQ_HOME_TMP:${INSTALLATION_DIR}:g" src/init/templates/cyb3rhq-agent.service
+	cp src/init/templates/cyb3rhq-agent.service ${TARGET_DIR}/etc/systemd/system/
 
 override_dh_auto_clean:
 	$(MAKE) -C src clean

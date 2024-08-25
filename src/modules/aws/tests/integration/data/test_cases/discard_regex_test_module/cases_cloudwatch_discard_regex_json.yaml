@@ -4,7 +4,7 @@
     the content in the specified field inside the incoming JSON log
   configuration_parameters:
     SERVICE_TYPE: cloudwatchlogs
-    LOG_GROUP_NAME: wazuh-cloudwatchlogs-integration-tests
+    LOG_GROUP_NAME: cyb3rhq-cloudwatchlogs-integration-tests
     REGIONS: us-east-1
     DISCARD_FIELD: message
     DISCARD_REGEX: .*event.*number.*0
@@ -12,8 +12,8 @@
   metadata:
     resource_type: log_group
     service_type: cloudwatchlogs
-    log_group_name: wazuh-cloudwatchlogs-integration-tests
-    log_stream_name: wazuh-cloudwatchlogs-integration-tests-stream
+    log_group_name: cyb3rhq-cloudwatchlogs-integration-tests
+    log_stream_name: cyb3rhq-cloudwatchlogs-integration-tests-stream
     only_logs_after: 2023-JUL-03
     discard_field: message
     discard_regex: .*event.*number.*0

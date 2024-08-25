@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -16,12 +16,12 @@
 
 #include "../../headers/shared.h"
 #include "../../os_xml/os_xml.h"
-#include "../../wazuh_modules/wmodules.h"
-#include "../../wazuh_modules/wm_gcp.h"
+#include "../../cyb3rhq_modules/wmodules.h"
+#include "../../cyb3rhq_modules/wm_gcp.h"
 #include "../../wrappers/libc/stdlib_wrappers.h"
-#include "../../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../../wrappers/wazuh/shared/file_op_wrappers.h"
-#include "../../wrappers/wazuh/shared/schedule_scan_wrappers.h"
+#include "../../wrappers/cyb3rhq/shared/debug_op_wrappers.h"
+#include "../../wrappers/cyb3rhq/shared/file_op_wrappers.h"
+#include "../../wrappers/cyb3rhq/shared/schedule_scan_wrappers.h"
 
 static const char *XML_ENABLED = "enabled";
 static const char *XML_PROJECT_ID = "project_id";
@@ -168,7 +168,7 @@ static int setup_test_pubsub(void **state) {
     group_data_t *data = *state;
     char *base_config = "<enabled>yes</enabled>"
                         "<pull_on_start>no</pull_on_start>"
-                        "<project_id>wazuh-gcp-pubsub-tests</project_id>"
+                        "<project_id>cyb3rhq-gcp-pubsub-tests</project_id>"
                         "<subscription_name>testing-id</subscription_name>"
                         "<credentials_file>credentials.json</credentials_file>"
                         "<max_messages>100</max_messages>"
@@ -211,7 +211,7 @@ static int setup_test_pubsub_no_subscription_name(void **state) {
     group_data_t *data = *state;
     char *base_config = "<enabled>yes</enabled>"
                         "<pull_on_start>no</pull_on_start>"
-                        "<project_id>wazuh-gcp-pubsub-tests</project_id>"
+                        "<project_id>cyb3rhq-gcp-pubsub-tests</project_id>"
                         "<credentials_file>credentials.json</credentials_file>"
                         "<max_messages>100</max_messages>"
                         "<num_threads>2</num_threads>"
@@ -232,7 +232,7 @@ static int setup_test_pubsub_no_credentials_file(void **state) {
     group_data_t *data = *state;
     char *base_config = "<enabled>yes</enabled>"
                         "<pull_on_start>no</pull_on_start>"
-                        "<project_id>wazuh-gcp-pubsub-tests</project_id>"
+                        "<project_id>cyb3rhq-gcp-pubsub-tests</project_id>"
                         "<subscription_name>testing-id</subscription_name>"
                         "<max_messages>100</max_messages>"
                         "<num_threads>2</num_threads>"
@@ -274,14 +274,14 @@ static int setup_test_bucket(void **state) {
     char *base_config = "<enabled>yes</enabled>"
                         "<run_on_start>no</run_on_start>"
                         "<bucket type='access_logs'>"
-                          "<name>wazuh-gcp-bucket-tests</name>"
+                          "<name>cyb3rhq-gcp-bucket-tests</name>"
                           "<credentials_file>credentials.json</credentials_file>"
                           "<only_logs_after>2021-JUN-01</only_logs_after>"
                           "<path>access_logs/</path>"
                           "<remove_from_bucket>no</remove_from_bucket>"
                         "</bucket>"
                         "<bucket type='access_logs'>"
-                          "<name>wazuh-gcp-bucket-tests-2</name>"
+                          "<name>cyb3rhq-gcp-bucket-tests-2</name>"
                           "<credentials_file>credentials.json</credentials_file>"
                           "<only_logs_after>2021-JUN-02</only_logs_after>"
                           "<path>access_logs/</path>"
@@ -319,7 +319,7 @@ static int setup_test_element_invalid(void **state) {
     char *base_config = "<enabled>yes</enabled>"
                         "<run_on_start>no</run_on_start>"
                         "<bucket type='access_logs'>"
-                          "<invalid>wazuh-gcp-bucket-tests</invalid>"
+                          "<invalid>cyb3rhq-gcp-bucket-tests</invalid>"
                         "</bucket>";
 
     if(OS_ReadXMLString(base_config, data->xml) != 0){
@@ -337,7 +337,7 @@ static int setup_test_bucket_attribute_invalid(void **state) {
     char *base_config = "<enabled>yes</enabled>"
                         "<run_on_start>no</run_on_start>"
                         "<bucket invalid='access_logs'>"
-                          "<name>wazuh-gcp-bucket-tests</name>"
+                          "<name>cyb3rhq-gcp-bucket-tests</name>"
                           "<credentials_file>credentials.json</credentials_file>"
                           "<only_logs_after>2021-JUN-01</only_logs_after>"
                           "<path>access_logs/</path>"
@@ -381,7 +381,7 @@ static int setup_test_bucket_no_bucket_type(void **state) {
     char *base_config = "<enabled>yes</enabled>"
                         "<run_on_start>no</run_on_start>"
                         "<bucket>"
-                          "<name>wazuh-gcp-bucket-tests</name>"
+                          "<name>cyb3rhq-gcp-bucket-tests</name>"
                           "<credentials_file>credentials.json</credentials_file>"
                           "<only_logs_after>2021-JUN-01</only_logs_after>"
                           "<path>access_logs/</path>"
@@ -405,7 +405,7 @@ static int setup_test_bucket_no_only_logs_after(void **state) {
     char *base_config = "<enabled>yes</enabled>"
                         "<run_on_start>no</run_on_start>"
                         "<bucket type='access_logs'>"
-                          "<name>wazuh-gcp-bucket-tests</name>"
+                          "<name>cyb3rhq-gcp-bucket-tests</name>"
                           "<credentials_file>credentials.json</credentials_file>"
                           "<path>access_logs/</path>"
                           "<remove_from_bucket>no</remove_from_bucket>"
@@ -427,14 +427,14 @@ static int setup_test_bucket_no_credentials_file(void **state) {
     char *base_config = "<enabled>yes</enabled>"
                         "<run_on_start>no</run_on_start>"
                         "<bucket type='access_logs'>"
-                          "<name>wazuh-gcp-bucket-tests</name>"
+                          "<name>cyb3rhq-gcp-bucket-tests</name>"
                           "<credentials_file>credentials.json</credentials_file>"
                           "<only_logs_after>2021-JUN-01</only_logs_after>"
                           "<path>access_logs/</path>"
                           "<remove_from_bucket>no</remove_from_bucket>"
                         "</bucket>"
                         "<bucket type='access_logs'>"
-                          "<name>wazuh-gcp-bucket-tests</name>"
+                          "<name>cyb3rhq-gcp-bucket-tests</name>"
                           "<only_logs_after>2021-JUN-01</only_logs_after>"
                           "<path>access_logs/</path>"
                           "<remove_from_bucket>no</remove_from_bucket>"
@@ -456,7 +456,7 @@ static int setup_test_bucket_no_path(void **state) {
     char *base_config = "<enabled>yes</enabled>"
                         "<run_on_start>no</run_on_start>"
                         "<bucket type='access_logs'>"
-                          "<name>wazuh-gcp-bucket-tests</name>"
+                          "<name>cyb3rhq-gcp-bucket-tests</name>"
                           "<credentials_file>credentials.json</credentials_file>"
                           "<only_logs_after>2021-JUN-01</only_logs_after>"
                           "<remove_from_bucket>no</remove_from_bucket>"
@@ -478,7 +478,7 @@ static int setup_test_bucket_no_remove(void **state) {
     char *base_config = "<enabled>yes</enabled>"
                         "<run_on_start>no</run_on_start>"
                         "<bucket type='access_logs'>"
-                          "<name>wazuh-gcp-bucket-tests</name>"
+                          "<name>cyb3rhq-gcp-bucket-tests</name>"
                           "<credentials_file>credentials.json</credentials_file>"
                           "<only_logs_after>2021-JUN-01</only_logs_after>"
                           "<path>access_logs/</path>"
@@ -557,7 +557,7 @@ static void test_wm_gcp_pubsub_read_full_configuration(void **state) {
     assert_non_null(gcp);
     assert_int_equal(gcp->enabled, 1);
     assert_int_equal(gcp->pull_on_start, 0);
-    assert_string_equal(gcp->project_id, "wazuh-gcp-pubsub-tests");
+    assert_string_equal(gcp->project_id, "cyb3rhq-gcp-pubsub-tests");
     assert_string_equal(gcp->subscription_name, "testing-id");
     assert_string_equal(gcp->credentials_file, "credentials.json");
     assert_int_equal(gcp->max_messages, 100);
@@ -695,7 +695,7 @@ static void test_wm_gcp_pubsub_read_credentials_file_full_path(void **state) {
     assert_non_null(gcp);
     assert_int_equal(gcp->enabled, 1);
     assert_int_equal(gcp->pull_on_start, 0);
-    assert_string_equal(gcp->project_id, "wazuh-gcp-pubsub-tests");
+    assert_string_equal(gcp->project_id, "cyb3rhq-gcp-pubsub-tests");
     assert_string_equal(gcp->subscription_name, "testing-id");
     assert_string_equal(gcp->credentials_file, "/some/path/credentials.json");
     assert_int_equal(gcp->max_messages, 100);
@@ -954,7 +954,7 @@ static void test_wm_gcp_bucket_read_full_configuration(void **state) {
     assert_non_null(gcp);
     assert_int_equal(gcp->enabled, 1);
     assert_int_equal(gcp->run_on_start, 0);
-    assert_string_equal(gcp->buckets->bucket, "wazuh-gcp-bucket-tests");
+    assert_string_equal(gcp->buckets->bucket, "cyb3rhq-gcp-bucket-tests");
     assert_string_equal(gcp->buckets->only_logs_after, "2021-JUN-01");
     assert_string_equal(gcp->buckets->credentials_file, "credentials.json");
     assert_string_equal(gcp->buckets->prefix, "access_logs/");
@@ -1212,7 +1212,7 @@ static void test_wm_gcp_bucket_read_credentials_file_full_path(void **state) {
     assert_non_null(gcp);
     assert_int_equal(gcp->enabled, 1);
     assert_int_equal(gcp->run_on_start, 0);
-    assert_string_equal(gcp->buckets->bucket, "wazuh-gcp-bucket-tests");
+    assert_string_equal(gcp->buckets->bucket, "cyb3rhq-gcp-bucket-tests");
     assert_string_equal(gcp->buckets->only_logs_after, "2021-JUN-01");
     assert_string_equal(gcp->buckets->credentials_file, "/some/path/credentials.json");
     assert_string_equal(gcp->buckets->prefix, "access_logs/");

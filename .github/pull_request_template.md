@@ -63,7 +63,7 @@ Depending on the affected components by this PR, the following checks should be 
   - [ ] AddressSanitizer
 
 <!-- Checks for huge PRs that affect the product more generally -->
-- [ ] Retrocompatibility with older Wazuh versions
+- [ ] Retrocompatibility with older Cyb3rhq versions
 - [ ] Working on cluster environments
 - [ ] Configuration on demand reports new parameters
 - [ ] The data flow works as expected (agent-manager-api-app)

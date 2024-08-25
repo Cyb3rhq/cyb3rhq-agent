@@ -1,6 +1,6 @@
 /*
- * Wazuh Module for custom command execution
- * Copyright (C) 2015, Wazuh Inc.
+ * Cyb3rhq Module for custom command execution
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * October 26, 2017.
  *
  * This program is free software; you can redistribute it
@@ -54,7 +54,7 @@ void * wm_command_main(wm_command_t * command) {
         pthread_exit(0);
     }
 
-    if (!getDefine_Int("wazuh_command", "remote_commands", 0, 1) && command->agent_cfg) {
+    if (!getDefine_Int("cyb3rhq_command", "remote_commands", 0, 1) && command->agent_cfg) {
         mtwarn(WM_COMMAND_LOGTAG, "Remote commands are disabled. Ignoring '%s'.", command->tag);
         pthread_exit(0);
     }

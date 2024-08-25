@@ -1,5 +1,5 @@
 /* Remote request listener
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * Mar 12, 2018.
  *
  * This program is free software; you can redistribute it
@@ -10,7 +10,7 @@
 
 #include <shared.h>
 #include "logcollector.h"
-#include "wazuh_modules/wmodules.h"
+#include "cyb3rhq_modules/wmodules.h"
 #include "os_net/os_net.h"
 #include "state.h"
 

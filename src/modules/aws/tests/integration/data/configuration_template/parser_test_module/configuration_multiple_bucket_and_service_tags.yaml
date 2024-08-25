@@ -10,7 +10,7 @@
               - type: cloudtrail
             elements:
               - name:
-                  value: wazuh-cloudtrail-integration-tests
+                  value: cyb3rhq-cloudtrail-integration-tests
               - regions:
                   value: us-east-1
         - bucket:
@@ -18,7 +18,7 @@
               - type: cloudtrail
             elements:
               - name:
-                  value: wazuh-cloudtrail-integration-tests
+                  value: cyb3rhq-cloudtrail-integration-tests
               - regions:
                   value: us-east-2
         - service:
@@ -26,7 +26,7 @@
               - type: cloudwatchlogs
             elements:
               - aws_log_groups:
-                  value: wazuh-cloudwatchlogs-integration-tests
+                  value: cyb3rhq-cloudwatchlogs-integration-tests
               - regions:
                   value: us-east-1
         - service:
@@ -34,6 +34,6 @@
               - type: cloudwatchlogs
             elements:
               - aws_log_groups:
-                  value: wazuh-cloudwatchlogs-integration-tests
+                  value: cyb3rhq-cloudwatchlogs-integration-tests
               - regions:
                   value: us-east-2

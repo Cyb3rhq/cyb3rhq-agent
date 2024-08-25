@@ -1,13 +1,13 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Cyb3rhq Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Cyb3rhq, Inc. <info@wazuh.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 type: integration
 
-brief: The Wazuh 'ms-graph' module is capable of communicating with Microsoft Graph & parsing its various
+brief: The Cyb3rhq 'ms-graph' module is capable of communicating with Microsoft Graph & parsing its various
        logging sources, with an emphasis on the security resource. This includes a full set of rules for
        categorizing these logs, alongside a standardized suite of configuration options that mirror other
        modules, such as Azure, GCP, and Office365.
@@ -21,9 +21,9 @@ targets:
     - agent
 
 daemons:
-    - wazuh-analysisd
-    - wazuh-monitord
-    - wazuh-modulesd
+    - cyb3rhq-analysisd
+    - cyb3rhq-monitord
+    - cyb3rhq-modulesd
 
 os_platform:
     - linux
@@ -45,13 +45,13 @@ tags:
 import pytest
 from pathlib import Path
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.modules.modulesd.configuration import MODULESD_DEBUG
-from wazuh_testing.modules.modulesd import patterns
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.configuration import get_test_cases_data
-from wazuh_testing.utils.configuration import load_configuration_template
-from wazuh_testing.utils import callbacks
+from cyb3rhq_testing.constants.paths.logs import CYB3RHQ_LOG_PATH
+from cyb3rhq_testing.modules.modulesd.configuration import MODULESD_DEBUG
+from cyb3rhq_testing.modules.modulesd import patterns
+from cyb3rhq_testing.tools.monitors.file_monitor import FileMonitor
+from cyb3rhq_testing.utils.configuration import get_test_cases_data
+from cyb3rhq_testing.utils.configuration import load_configuration_template
+from cyb3rhq_testing.utils import callbacks
 from . import CONFIGS_PATH, TEST_CASES_PATH
 
 # Marks
@@ -69,14 +69,14 @@ local_internal_options = {MODULESD_DEBUG: '2'}
 
 # Tests
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=test_cases_ids)
-def test_invalid(test_configuration, test_metadata, set_wazuh_configuration, configure_local_internal_options,
+def test_invalid(test_configuration, test_metadata, set_cyb3rhq_configuration, configure_local_internal_options,
                  truncate_monitored_files, daemons_handler, wait_for_msgraph_start):
     '''
     description: Check if the 'ms-graph' module detects invalid configurations. For this purpose, the test
                  will configure that module using invalid configuration settings with different attributes.
                  Finally, it will verify that error events are generated indicating the source of the errors.
 
-    wazuh_min_version: 4.6.0
+    cyb3rhq_min_version: 4.6.0
 
     tier: 0
 
@@ -87,7 +87,7 @@ def test_invalid(test_configuration, test_metadata, set_wazuh_configuration, con
         - test_metadata:
             type: data
             brief: Configuration cases.
-        - set_wazuh_configuration:
+        - set_cyb3rhq_configuration:
             type: fixture
             brief: Configure a custom environment for testing.
         - configure_local_internal_options:
@@ -98,7 +98,7 @@ def test_invalid(test_configuration, test_metadata, set_wazuh_configuration, con
             brief: Reset the 'ossec.log' file and start a new monitor.
         - daemons_handler:
             type: fixture
-            brief: Manages daemons to reset Wazuh.
+            brief: Manages daemons to reset Cyb3rhq.
         - wait_for_msgraph_start:
             type: fixture
             brief: Checks integration start message does not appear.
@@ -118,11 +118,11 @@ def test_invalid(test_configuration, test_metadata, set_wazuh_configuration, con
         - invalid_settings
     '''
 
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
-    wazuh_log_monitor.start(callback=callbacks.generate_callback(patterns.MODULESD_CONFIGURATION_ERROR, {
+    cyb3rhq_log_monitor = FileMonitor(CYB3RHQ_LOG_PATH)
+    cyb3rhq_log_monitor.start(callback=callbacks.generate_callback(patterns.MODULESD_CONFIGURATION_ERROR, {
                               'error_type': str(test_metadata['error_type']),
                               'tag': str(test_metadata['event_monitor']),
                               'integration': str(test_metadata['module']),
                           }))
 
-    assert (wazuh_log_monitor.callback_result != None), f'Error invalid configuration event not detected'
+    assert (cyb3rhq_log_monitor.callback_result != None), f'Error invalid configuration event not detected'

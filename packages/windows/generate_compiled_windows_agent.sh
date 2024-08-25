@@ -21,8 +21,8 @@ help() {
     echo
     echo "Usage: $0 [OPTIONS]"
     echo
-    echo "    -b, --branch <branch>     [Optional] Select Git branch to compile Wazuh code."
-    echo "    --sources <path>          [Optional] Absolute path containing wazuh source code. This option will use local source code instead of downloading it from GitHub. By default: '../../src'."
+    echo "    -b, --branch <branch>     [Optional] Select Git branch to compile Cyb3rhq code."
+    echo "    --sources <path>          [Optional] Absolute path containing cyb3rhq source code. This option will use local source code instead of downloading it from GitHub. By default: '../../src'."
     echo "    -o, --output <rev>        [Required] Name to the output package."
     echo "    -j, --jobs <number>       [Optional] Change number of parallel jobs when compiling the Windows agent. By default: 4."
     echo "    -s, --store <path>        [Optional] Set the directory where the package will be stored. By default the current path."

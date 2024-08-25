@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -14,12 +14,12 @@
 #include <stdio.h>
 
 #include "../../wrappers/posix/pthread_wrappers.h"
-#include "../../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../../wrappers/wazuh/wazuh_modules/wm_agent_upgrade_wrappers.h"
-#include "../../wrappers/wazuh/wazuh_modules/wm_agent_upgrade_agent_wrappers.h"
+#include "../../wrappers/cyb3rhq/shared/debug_op_wrappers.h"
+#include "../../wrappers/cyb3rhq/cyb3rhq_modules/wm_agent_upgrade_wrappers.h"
+#include "../../wrappers/cyb3rhq/cyb3rhq_modules/wm_agent_upgrade_agent_wrappers.h"
 
-#include "../../wazuh_modules/wmodules.h"
-#include "../../wazuh_modules/agent_upgrade/wm_agent_upgrade.h"
+#include "../../cyb3rhq_modules/wmodules.h"
+#include "../../cyb3rhq_modules/agent_upgrade/wm_agent_upgrade.h"
 #include "../../headers/shared.h"
 
 void* wm_agent_upgrade_main(wm_agent_upgrade* upgrade_config);
@@ -120,7 +120,7 @@ void test_wm_agent_upgrade_destroy(void **state)
     wm_agent_upgrade *config = NULL;
     os_calloc(1, sizeof(wm_agent_upgrade), config);
 
-    expect_string(__wrap__mtinfo, tag, "wazuh-modulesd:agent-upgrade");
+    expect_string(__wrap__mtinfo, tag, "cyb3rhq-modulesd:agent-upgrade");
     expect_string(__wrap__mtinfo, formatted_msg, "(8154): Module Agent Upgrade finished.");
 
     wm_agent_upgrade_destroy(config);

@@ -1,10 +1,10 @@
 # Integration Tests
 ## Index
-1. [Compile Wazuh](#compile-wazuh)
+1. [Compile Cyb3rhq](#compile-cyb3rhq)
 2. [Compile and run unit tests for Linux targets](#compile-and-run-unit-tests-for-linux-targets)
 
-## Compile Wazuh
-In order to run unit tests on a specific wazuh target, the project needs to be built with the `DEBUG` and `TEST` options as shown below:
+## Compile Cyb3rhq
+In order to run unit tests on a specific cyb3rhq target, the project needs to be built with the `DEBUG` and `TEST` options as shown below:
 ```
 make deps RESOURCES_URL=file:///path/to/deps/
 make TARGET=server|agent DEBUG=1 TEST=1
@@ -13,11 +13,11 @@ make TARGET=server|agent DEBUG=1 TEST=1
 ## Compile and run unit tests for Linux targets
 In order to run unit tests for dbsync, these need to be built using [CMake](#installing\ cmake) version 3.12 or higher.
 
-Navigate into `wazuh/src/dbsync/` and run the following commands:
+Navigate into `cyb3rhq/src/dbsync/` and run the following commands:
 ```
 mkdir build
 cd build
-cmake -DEXTERNAL_LIB=~/path/to/wazuh/src/external/ -DCMAKE_BUILD_TYPE=Debug -DUNIT_TEST=ON ..
+cmake -DEXTERNAL_LIB=~/path/to/cyb3rhq/src/external/ -DCMAKE_BUILD_TYPE=Debug -DUNIT_TEST=ON ..
 cmake --build .
 ```
 

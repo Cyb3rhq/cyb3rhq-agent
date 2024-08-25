@@ -1,5 +1,5 @@
 - name: Test 'diff' information, fim_mode = scheduled
-  description: Check if the 'wazuh-syscheckd' daemon limits
+  description: Check if the 'cyb3rhq-syscheckd' daemon limits
                 the size of 'diff' information.
   configuration_parameters:
     TEST_DIRECTORIES: !!python/object/apply:os.path.join [/test_dir]
@@ -21,7 +21,7 @@
     disk_quota_limit: '2KB'
 
 - name: Test 'diff' information, fim_mode = realtime
-  description: Check if the 'wazuh-syscheckd' daemon limits
+  description: Check if the 'cyb3rhq-syscheckd' daemon limits
                 the size of 'diff' information.
   configuration_parameters:
     TEST_DIRECTORIES: !!python/object/apply:os.path.join [/test_dir]
@@ -44,7 +44,7 @@
     disk_quota_limit: '2KB'
 
 - name: Test 'diff' information, fim_mode = whodata
-  description: Check if the 'wazuh-syscheckd' daemon limits
+  description: Check if the 'cyb3rhq-syscheckd' daemon limits
                 the size of 'diff' information.
   configuration_parameters:
     TEST_DIRECTORIES: !!python/object/apply:os.path.join [/test_dir]
@@ -67,7 +67,7 @@
     disk_quota_limit: '2KB'
 
 - name: Test 'diff' information, fim_mode = scheduled
-  description: Check if the default 'wazuh-syscheckd' daemon limits
+  description: Check if the default 'cyb3rhq-syscheckd' daemon limits
                 the size of 'diff' information.
   configuration_parameters:
     TEST_DIRECTORIES: !!python/object/apply:os.path.join [/test_dir]
@@ -81,7 +81,7 @@
     diff_size_limit_kb: '51200'
 
 - name: Test 'diff' information, fim_mode = realtime
-  description: Check if the default 'wazuh-syscheckd' daemon limits
+  description: Check if the default 'cyb3rhq-syscheckd' daemon limits
                 the size of 'diff' information.
   configuration_parameters:
     TEST_DIRECTORIES: !!python/object/apply:os.path.join [/test_dir]
@@ -95,7 +95,7 @@
     diff_size_limit_kb: '51200'
 
 - name: Test 'diff' information, fim_mode = whodata
-  description: Check if the default 'wazuh-syscheckd' daemon limits
+  description: Check if the default 'cyb3rhq-syscheckd' daemon limits
                 the size of 'diff' information.
   configuration_parameters:
     TEST_DIRECTORIES: !!python/object/apply:os.path.join [/test_dir]

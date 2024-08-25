@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * Copyright (C) 2010 Trend Micro Inc.
  * All right reserved.
  *
@@ -24,7 +24,7 @@
 #include "../rootcheck/rootcheck.h"
 #include "db/include/db.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 unsigned int files_read = 0;
 time_t last_time = 0;
 void audit_set_db_consistency(void);
@@ -148,7 +148,7 @@ void fim_send_scan_info(fim_scan_event event) {
 }
 
 void check_max_fps() {
-#ifndef WAZUH_UNIT_TESTING
+#ifndef CYB3RHQ_UNIT_TESTING
     static unsigned int files_read = 0;
     static time_t last_time = 0;
 #endif
@@ -564,7 +564,7 @@ int fim_whodata_initialize() {
     }
 
     /* If the initialization of the Whodata engine fails,
-    Wazuh must monitor files/directories in Realtime mode. */
+    Cyb3rhq must monitor files/directories in Realtime mode. */
     if (!run_whodata_scan()) {
         if (t_hdle = CreateThread(NULL, 0, state_checker, NULL, 0, &t_id), !t_hdle) {
             merror(FIM_ERROR_CHECK_THREAD);

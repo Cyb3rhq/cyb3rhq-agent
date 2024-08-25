@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it
@@ -13,6 +13,6 @@
 
 #include <stdbool.h>
 
-int __wrap_compare_wazuh_versions(const char *version1, const char *version2, bool compare_patch);
+int __wrap_compare_cyb3rhq_versions(const char *version1, const char *version2, bool compare_patch);
 
 #endif

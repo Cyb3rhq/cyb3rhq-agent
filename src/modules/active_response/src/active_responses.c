@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it
@@ -46,7 +46,7 @@ int setup_and_check_message(char **argv, cJSON **message) {
 #ifndef WIN32
     char *home_path = w_homedir(argv[0]);
 
-    /* Trim absolute path to get Wazuh's installation directory */
+    /* Trim absolute path to get Cyb3rhq's installation directory */
     home_path = w_strtok_r_str_delim("/active-response", &home_path);
 
     /* Change working directory */

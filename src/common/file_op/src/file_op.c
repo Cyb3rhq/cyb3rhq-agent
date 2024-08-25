@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -16,7 +16,7 @@
 
 #include "../external/zlib/zlib.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 #ifdef WIN32
 #include "unit_tests/wrappers/windows/libc/stdio_wrappers.h"
 #include "unit_tests/wrappers/windows/fileapi_wrappers.h"
@@ -3434,12 +3434,12 @@ int w_is_compressed_bz2_file(const char * path) {
 
 #ifndef WIN32
 /**
- * @brief Get the Wazuh installation directory
+ * @brief Get the Cyb3rhq installation directory
  *
- * It is obtained from the /proc directory, argv[0], or the env variable WAZUH_HOME
+ * It is obtained from the /proc directory, argv[0], or the env variable CYB3RHQ_HOME
  *
  * @param arg ARGV0 - Program name
- * @return Pointer to the Wazuh installation path on success
+ * @return Pointer to the Cyb3rhq installation path on success
  */
 char *w_homedir(char *arg) {
     char *buff = NULL;
@@ -3469,9 +3469,9 @@ char *w_homedir(char *arg) {
         dirname(buff);
         buff = w_strtok_r_str_delim(delim, &buff);
     } else {
-        // The path was not found so read WAZUH_HOME env var
+        // The path was not found so read CYB3RHQ_HOME env var
         char * home_env = NULL;
-        if (home_env = getenv(WAZUH_HOME_ENV), home_env) {
+        if (home_env = getenv(CYB3RHQ_HOME_ENV), home_env) {
             snprintf(buff, PATH_MAX, "%s", home_env);
         }
     }

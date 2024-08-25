@@ -1,8 +1,8 @@
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Created by Cyb3rhq, Inc. <info@wazuh.com>.
 # This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 param (
-    [string]$MSI_NAME = "wazuh-agent.msi",
+    [string]$MSI_NAME = "cyb3rhq-agent.msi",
     [string]$SIGN = "no",
     [string]$WIX_TOOLS_PATH = "",
     [string]$SIGN_TOOLS_PATH = "",
@@ -15,9 +15,9 @@ $SIGNTOOL_EXE = "signtool.exe"
 
 if(($help.isPresent)) {
     "
-    This tool can be used to generate the Windows Wazuh agent msi package.
+    This tool can be used to generate the Windows Cyb3rhq agent msi package.
 
-    PARAMETERS TO BUILD WAZUH-AGENT MSI (OPTIONALS):
+    PARAMETERS TO BUILD CYB3RHQ-AGENT MSI (OPTIONALS):
         1. MSI_NAME: MSI package name output.
         2. SIGN: yes or no. By default 'no'.
         3. WIX_TOOLS_PATH: Wix tools path.
@@ -25,11 +25,11 @@ if(($help.isPresent)) {
 
     USAGE:
 
-        * WAZUH:
-          $ ./generate_wazuh_msi.ps1  -MSI_NAME {{ NAME }} -SIGN {{ yes|no }} -WIX_TOOLS_PATH {{ PATH }} -SIGN_TOOLS_PATH {{ PATH }}
+        * CYB3RHQ:
+          $ ./generate_cyb3rhq_msi.ps1  -MSI_NAME {{ NAME }} -SIGN {{ yes|no }} -WIX_TOOLS_PATH {{ PATH }} -SIGN_TOOLS_PATH {{ PATH }}
 
-            Build a devel msi:    $ ./generate_wazuh_msi.ps1 -MSI_NAME wazuh-agent_4.9.0-0_windows_0ceb378.msi -SIGN no
-            Build a prod msi:     $ ./generate_wazuh_msi.ps1 -MSI_NAME wazuh-agent-4.9.0-1.msi -SIGN yes
+            Build a devel msi:    $ ./generate_cyb3rhq_msi.ps1 -MSI_NAME cyb3rhq-agent_4.9.0-0_windows_0ceb378.msi -SIGN no
+            Build a prod msi:     $ ./generate_cyb3rhq_msi.ps1 -MSI_NAME cyb3rhq-agent-4.9.0-1.msi -SIGN yes
     "
     Exit
 }
@@ -40,7 +40,7 @@ if ($PSversion -eq $null) {
     $PSversion = 1 # $PSVersionTable is new with Powershell 2.0
 }
 
-function BuildWazuhMsi(){
+function BuildCyb3rhqMsi(){
     Write-Host "MSI_NAME = $MSI_NAME"
 
     if($WIX_TOOLS_PATH -ne ""){
@@ -64,14 +64,14 @@ function BuildWazuhMsi(){
         & $SIGNTOOL_EXE sign /a /tr http://timestamp.digicert.com /fd SHA256 /td SHA256 "..\data_provider\build\bin\sysinfo.dll"
         & $SIGNTOOL_EXE sign /a /tr http://timestamp.digicert.com /fd SHA256 /td SHA256 "..\shared_modules\dbsync\build\bin\dbsync.dll"
         & $SIGNTOOL_EXE sign /a /tr http://timestamp.digicert.com /fd SHA256 /td SHA256 "..\shared_modules\rsync\build\bin\rsync.dll"
-        & $SIGNTOOL_EXE sign /a /tr http://timestamp.digicert.com /fd SHA256 /td SHA256 "..\wazuh_modules\syscollector\build\bin\syscollector.dll"
+        & $SIGNTOOL_EXE sign /a /tr http://timestamp.digicert.com /fd SHA256 /td SHA256 "..\cyb3rhq_modules\syscollector\build\bin\syscollector.dll"
         & $SIGNTOOL_EXE sign /a /tr http://timestamp.digicert.com /fd SHA256 /td SHA256 "..\syscheckd\build\bin\libfimdb.dll"
     }
 
     Write-Host "Building MSI installer..."
 
-    & $CANDLE_EXE -nologo .\wazuh-installer.wxs -out "wazuh-installer.wixobj" -ext WixUtilExtension -ext WixUiExtension
-    & $LIGHT_EXE ".\wazuh-installer.wixobj" -out $MSI_NAME -ext WixUtilExtension -ext WixUiExtension
+    & $CANDLE_EXE -nologo .\cyb3rhq-installer.wxs -out "cyb3rhq-installer.wixobj" -ext WixUtilExtension -ext WixUiExtension
+    & $LIGHT_EXE ".\cyb3rhq-installer.wixobj" -out $MSI_NAME -ext WixUtilExtension -ext WixUiExtension
 
     if($SIGN -eq "yes"){
         Write-Host "Signing $MSI_NAME..."
@@ -83,4 +83,4 @@ function BuildWazuhMsi(){
 # MAIN
 ############################
 
-BuildWazuhMsi
+BuildCyb3rhqMsi

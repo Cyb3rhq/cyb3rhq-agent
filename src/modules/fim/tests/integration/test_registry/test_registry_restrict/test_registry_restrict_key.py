@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Cyb3rhq Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Cyb3rhq, Inc. <info@wazuh.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -11,7 +11,7 @@ brief: File Integrity Monitoring (FIM) system watches selected files and trigger
        these files are modified. Specifically, these tests will verify that FIM generates events
        only for registry entry operations in monitored keys that do not match the 'restrict_key'
        or the 'restrict_value' attributes.
-       The FIM capability is managed by the 'wazuh-syscheckd' daemon, which checks configured
+       The FIM capability is managed by the 'cyb3rhq-syscheckd' daemon, which checks configured
        files for changes to the checksums, permissions, and ownership.
 
 components:
@@ -23,7 +23,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - cyb3rhq-syscheckd
 
 os_platform:
     - windows
@@ -64,15 +64,15 @@ if sys.platform == 'win32':
     from win32con import KEY_WOW64_32KEY, KEY_WOW64_64KEY
 
 import pytest
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils import file
-from wazuh_testing.modules.fim.patterns import EVENT_TYPE_ADDED, EVENT_TYPE_DELETED, IGNORING_DUE_TO_RESTRICTION
-from wazuh_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.fim.configuration import SYSCHECK_DEBUG
-from wazuh_testing.modules.fim.utils import get_fim_event_data, delete_registry
+from cyb3rhq_testing.constants.paths.logs import CYB3RHQ_LOG_PATH
+from cyb3rhq_testing.tools.monitors.file_monitor import FileMonitor
+from cyb3rhq_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from cyb3rhq_testing.utils.callbacks import generate_callback
+from cyb3rhq_testing.utils import file
+from cyb3rhq_testing.modules.fim.patterns import EVENT_TYPE_ADDED, EVENT_TYPE_DELETED, IGNORING_DUE_TO_RESTRICTION
+from cyb3rhq_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
+from cyb3rhq_testing.modules.fim.configuration import SYSCHECK_DEBUG
+from cyb3rhq_testing.modules.fim.utils import get_fim_event_data, delete_registry
 
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
@@ -94,16 +94,16 @@ local_internal_options = {SYSCHECK_DEBUG: 2}
 # Tests
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
 def test_restrict_key(test_configuration, test_metadata,configure_local_internal_options,
-                            truncate_monitored_files, set_wazuh_configuration, daemons_handler, detect_end_scan, create_registry_key):
+                            truncate_monitored_files, set_cyb3rhq_configuration, daemons_handler, detect_end_scan, create_registry_key):
     '''
-    description: Check if the 'wazuh-syscheckd' daemon detects or ignores events in monitored registry entries
+    description: Check if the 'cyb3rhq-syscheckd' daemon detects or ignores events in monitored registry entries
                  depending on the value set in the 'restrict_key' attribute. This attribute limit checks to
                  keys that match the entered string or regex and its name. For this purpose, the test will
                  monitor a key, create testing subkeys inside it, and make operations on those subkeys. Finally,
                  the test will verify that FIM 'added' and 'deleted' events are generated only for the testing
                  subkeys that are not restricted.
 
-    wazuh_min_version: 4.2.0
+    cyb3rhq_min_version: 4.2.0
 
     tier: 1
 
@@ -120,12 +120,12 @@ def test_restrict_key(test_configuration, test_metadata,configure_local_internal
         - truncate_monitored_files:
             type: fixture
             brief: Truncate all the log files and json alerts files before and after the test execution.
-        - set_wazuh_configuration:
+        - set_cyb3rhq_configuration:
             type: fixture
             brief: Set ossec.conf configuration.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Cyb3rhq daemons.
         - create_registry_key
             type: fixture
             brief: Create windows registry key.
@@ -148,31 +148,31 @@ def test_restrict_key(test_configuration, test_metadata,configure_local_internal
         - r'.*Ignoring entry .* due to restriction .*'
 
     '''
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
+    cyb3rhq_log_monitor = FileMonitor(CYB3RHQ_LOG_PATH)
 
     if test_metadata['triggers_event']:
-        wazuh_log_monitor.start(callback=generate_callback(EVENT_TYPE_ADDED))
-        assert wazuh_log_monitor.callback_result
-        event = get_fim_event_data(wazuh_log_monitor.callback_result)
+        cyb3rhq_log_monitor.start(callback=generate_callback(EVENT_TYPE_ADDED))
+        assert cyb3rhq_log_monitor.callback_result
+        event = get_fim_event_data(cyb3rhq_log_monitor.callback_result)
         assert event['type'] == 'added', 'Event type not equal'
         assert event['path'] == os.path.join(test_metadata['key'], test_metadata['sub_key']), 'Event path not equal'
         assert event['arch'].strip('[]') == test_metadata['arch'], 'Arch not equal'
 
         delete_registry(win32con.HKEY_LOCAL_MACHINE, test_metadata['sub_key'], KEY_WOW64_64KEY if test_metadata['arch'] == 'x64' else KEY_WOW64_32KEY)
-        wazuh_log_monitor.start(callback=generate_callback(EVENT_TYPE_DELETED))
-        assert wazuh_log_monitor.callback_result
-        event = get_fim_event_data(wazuh_log_monitor.callback_result)
+        cyb3rhq_log_monitor.start(callback=generate_callback(EVENT_TYPE_DELETED))
+        assert cyb3rhq_log_monitor.callback_result
+        event = get_fim_event_data(cyb3rhq_log_monitor.callback_result)
         assert event['type'] == 'deleted', 'Event type not equal'
         assert event['path'] == os.path.join(test_metadata['key'], test_metadata['sub_key']), 'Event path not equal'
         assert event['arch'].strip('[]') == test_metadata['arch'], 'Arch not equal'
     else:
-        wazuh_log_monitor.start(callback=generate_callback(IGNORING_DUE_TO_RESTRICTION))
-        assert wazuh_log_monitor.callback_result
+        cyb3rhq_log_monitor.start(callback=generate_callback(IGNORING_DUE_TO_RESTRICTION))
+        assert cyb3rhq_log_monitor.callback_result
 
         delete_registry(win32con.HKEY_LOCAL_MACHINE, test_metadata['sub_key'], KEY_WOW64_64KEY if test_metadata['arch'] == 'x64' else KEY_WOW64_32KEY)
 
-        wazuh_log_monitor.start(callback=generate_callback(IGNORING_DUE_TO_RESTRICTION), only_new_events=True)
-        assert not wazuh_log_monitor.callback_result
+        cyb3rhq_log_monitor.start(callback=generate_callback(IGNORING_DUE_TO_RESTRICTION), only_new_events=True)
+        assert not cyb3rhq_log_monitor.callback_result
 
-        wazuh_log_monitor.start(callback=generate_callback(EVENT_TYPE_DELETED))
-        assert not wazuh_log_monitor.callback_result
+        cyb3rhq_log_monitor.start(callback=generate_callback(EVENT_TYPE_DELETED))
+        assert not cyb3rhq_log_monitor.callback_result

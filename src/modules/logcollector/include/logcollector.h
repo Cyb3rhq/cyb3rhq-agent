@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -12,7 +12,7 @@
 #define LOGREADER_H
 
 #ifndef ARGV0
-#define ARGV0 "wazuh-logcollector"
+#define ARGV0 "cyb3rhq-logcollector"
 #endif
 
 #define N_MIN_INPUT_THREADS 1
@@ -118,7 +118,7 @@ int check_ignore_and_restrict(OSList * ignore_exp, OSList * restrict_exp, const 
  */
 void *read_multiline_regex(logreader *lf, int *rc, int drop_it);
 
-#if defined(Darwin) || (defined(__linux__) && defined(WAZUH_UNIT_TESTING))
+#if defined(Darwin) || (defined(__linux__) && defined(CYB3RHQ_UNIT_TESTING))
 /**
  * @brief Read macOS log process output
  *
@@ -335,7 +335,7 @@ extern int OUTPUT_QUEUE_SIZE;
 extern rlim_t nofile;
 #endif
 
-#if defined(Darwin) || (defined(__linux__) && defined(WAZUH_UNIT_TESTING))
+#if defined(Darwin) || (defined(__linux__) && defined(CYB3RHQ_UNIT_TESTING))
 /**
  * @brief This function is called to release macOS log's "show" and/or "stream" resources
  */

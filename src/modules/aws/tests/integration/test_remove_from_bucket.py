@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Cyb3rhq Inc.
+# Created by Cyb3rhq, Inc. <info@wazuh.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 """
@@ -9,9 +9,9 @@ This module will contain all cases for the remove from bucket test suite
 import pytest
 
 # qa-integration-framework imports
-from wazuh_testing import session_parameters
-from wazuh_testing.modules.aws.utils import log_stream_exists, file_exists
-from wazuh_testing.modules.aws.patterns import REMOVE_S3_FILE
+from cyb3rhq_testing import session_parameters
+from cyb3rhq_testing.modules.aws.utils import log_stream_exists, file_exists
+from cyb3rhq_testing.modules.aws.patterns import REMOVE_S3_FILE
 
 # Local module imports
 from . import event_monitor
@@ -35,25 +35,25 @@ configurator.configure_test(configuration_file='configuration_remove_from_bucket
                          ids=configurator.cases_ids)
 def test_remove_from_bucket(
         test_configuration, metadata, mark_cases_as_skipped, create_test_bucket, manage_bucket_files, s3_client,
-        load_wazuh_basic_configuration, set_wazuh_configuration, clean_s3_cloudtrail_db,
-        configure_local_internal_options_function, truncate_monitored_files, restart_wazuh_function, file_monitoring
+        load_cyb3rhq_basic_configuration, set_cyb3rhq_configuration, clean_s3_cloudtrail_db,
+        configure_local_internal_options_function, truncate_monitored_files, restart_cyb3rhq_function, file_monitoring
 ):
     """
     description: The uploaded file was removed after the execution.
     test_phases:
         - setup:
-            - Load Wazuh light configuration.
+            - Load Cyb3rhq light configuration.
             - Apply ossec.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
-            - Truncate wazuh logs.
-            - Restart wazuh-manager service to apply configuration changes.
+            - Truncate cyb3rhq logs.
+            - Restart cyb3rhq-manager service to apply configuration changes.
         - test:
             - Check in the ossec.log that a line has appeared calling the module with correct parameters.
             - Check that the uploaded log was removed by the module after the execution.
         - teardown:
-            - Truncate wazuh logs.
+            - Truncate cyb3rhq logs.
             - Restore initial configuration, both ossec.conf and local_internal_options.conf.
-    wazuh_min_version: 4.6.0
+    cyb3rhq_min_version: 4.6.0
     parameters:
         - test_configuration:
             type: dict
@@ -73,10 +73,10 @@ def test_remove_from_bucket(
         - s3_client:
             type: fixture
             brief: S3 client to access AWS.
-        - load_wazuh_basic_configuration:
+        - load_cyb3rhq_basic_configuration:
             type: fixture
-            brief: Load basic wazuh configuration.
-        - set_wazuh_configuration:
+            brief: Load basic cyb3rhq configuration.
+        - set_cyb3rhq_configuration:
             type: fixture
             brief: Apply changes to the ossec.conf configuration.
         - clean_s3_cloudtrail_db:
@@ -87,10 +87,10 @@ def test_remove_from_bucket(
             brief: Apply changes to the local_internal_options.conf configuration.
         - truncate_monitored_files:
             type: fixture
-            brief: Truncate wazuh logs.
-        - restart_wazuh_daemon_function:
+            brief: Truncate cyb3rhq logs.
+        - restart_cyb3rhq_daemon_function:
             type: fixture
-            brief: Restart the wazuh service.
+            brief: Restart the cyb3rhq service.
         - file_monitoring:
             type: fixture
             brief: Handle the monitoring of a specified file.
@@ -161,25 +161,25 @@ configurator.configure_test(configuration_file='configuration_remove_log_stream.
                          ids=configurator.cases_ids)
 def test_remove_log_stream(
         test_configuration, metadata, create_test_log_group, create_test_log_stream, manage_log_group_events,
-        logs_clients, load_wazuh_basic_configuration, set_wazuh_configuration, clean_aws_services_db,
-        configure_local_internal_options_function, truncate_monitored_files, restart_wazuh_function, file_monitoring
+        logs_clients, load_cyb3rhq_basic_configuration, set_cyb3rhq_configuration, clean_aws_services_db,
+        configure_local_internal_options_function, truncate_monitored_files, restart_cyb3rhq_function, file_monitoring
 ):
     """
     description: The created log stream was removed after the execution.
     test_phases:
         - setup:
-            - Load Wazuh light configuration.
+            - Load Cyb3rhq light configuration.
             - Apply ossec.conf configuration changes according to the configuration template and use case.
             - Apply custom settings in local_internal_options.conf.
-            - Truncate wazuh logs.
-            - Restart wazuh-manager service to apply configuration changes.
+            - Truncate cyb3rhq logs.
+            - Restart cyb3rhq-manager service to apply configuration changes.
         - test:
             - Check in the ossec.log that a line has appeared calling the module with correct parameters.
             - Check that the created log stream was removed by the module after the execution.
         - teardown:
-            - Truncate wazuh logs.
+            - Truncate cyb3rhq logs.
             - Restore initial configuration, both ossec.conf and local_internal_options.conf.
-    wazuh_min_version: 4.6.0
+    cyb3rhq_min_version: 4.6.0
     parameters:
         - test_configuration:
             type: dict
@@ -199,10 +199,10 @@ def test_remove_log_stream(
         - logs_clients:
             type: fixture
             brief: CloudWatch Logs client to check the log stream existence.
-        - load_wazuh_basic_configuration:
+        - load_cyb3rhq_basic_configuration:
             type: fixture
-            brief: Load basic wazuh configuration.
-        - set_wazuh_configuration:
+            brief: Load basic cyb3rhq configuration.
+        - set_cyb3rhq_configuration:
             type: fixture
             brief: Apply changes to the ossec.conf configuration.
         - clean_aws_services_db:
@@ -213,10 +213,10 @@ def test_remove_log_stream(
             brief: Apply changes to the local_internal_options.conf configuration.
         - truncate_monitored_files:
             type: fixture
-            brief: Truncate wazuh logs.
-        - restart_wazuh_daemon_function:
+            brief: Truncate cyb3rhq logs.
+        - restart_cyb3rhq_daemon_function:
             type: fixture
-            brief: Restart the wazuh service.
+            brief: Restart the cyb3rhq service.
         - file_monitoring:
             type: fixture
             brief: Handle the monitoring of a specified file.

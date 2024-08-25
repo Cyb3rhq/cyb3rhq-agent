@@ -1,6 +1,6 @@
 /*
  * Shared functions for Syscheck events decoding
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -17,7 +17,7 @@ const char *SYSCHECK_EVENT_STRINGS[] = {
     [FIM_DELETED] = "deleted"
 };
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 /* Replace assert with mock_assert */
 extern void mock_assert(const int result, const char* const expression,
                         const char * const file, const int line);

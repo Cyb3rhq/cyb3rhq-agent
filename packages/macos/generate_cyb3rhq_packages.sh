@@ -1,8 +1,8 @@
 #!/bin/bash
 set -ex
-# Program to build and package OSX wazuh-agent
-# Wazuh package generator
-# Copyright (C) 2015, Wazuh Inc.
+# Program to build and package OSX cyb3rhq-agent
+# Cyb3rhq package generator
+# Copyright (C) 2015, Cyb3rhq Inc.
 #
 # This program is a free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -12,7 +12,7 @@ set -ex
 export PATH=/usr/local/bin:/Applications/CMake.app/Contents/bin:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH
 CURRENT_PATH="$( cd $(dirname ${0}) ; pwd -P )"
 ARCH="intel64"
-WAZUH_SOURCE_REPOSITORY="https://github.com/wazuh/wazuh"
+CYB3RHQ_SOURCE_REPOSITORY="https://github.com/cyb3rhq/cyb3rhq"
 INSTALLATION_PATH="/Library/Ossec"    # Installation path.
 VERSION=""                            # Default VERSION (branch/tag).
 REVISION="1"                          # Package revision.
@@ -41,7 +41,7 @@ function clean_and_exit() {
     exit_code=$1
     rm -rf "${SOURCES_DIRECTORY}"
     if [ -z "$BRANCH_TAG" ]; then
-        make -C $WAZUH_PATH/src clean clean-deps
+        make -C $CYB3RHQ_PATH/src clean clean-deps
     fi
     ${CURRENT_PATH}/uninstall.sh
 
@@ -83,7 +83,7 @@ function notarize_pkg() {
 function sign_binaries() {
     if [ ! -z "${KEYCHAIN}" ] && [ ! -z "${CERT_APPLICATION_ID}" ] ; then
         security -v unlock-keychain -p "${KC_PASS}" "${KEYCHAIN}" > /dev/null
-        # Sign every single binary in Wazuh's installation. This also includes library files.
+        # Sign every single binary in Cyb3rhq's installation. This also includes library files.
         for bin in $(find ${INSTALLATION_PATH} -exec file {} \; | grep bit | cut -d: -f1); do
             codesign -f --sign "${CERT_APPLICATION_ID}" --entitlements ${ENTITLEMENTS_PATH} --deep --timestamp  --options=runtime --verbose=4 "${bin}"
         done
@@ -109,7 +109,7 @@ function get_pkgproj_specs() {
     VERSION="$1"
     pkg_final_name="$2"
 
-    pkg_file="${WAZUH_PACKAGES_PATH}/specs/wazuh_agent_${ARCH}.pkgproj"
+    pkg_file="${CYB3RHQ_PACKAGES_PATH}/specs/cyb3rhq_agent_${ARCH}.pkgproj"
 
     if [ ! -f "${pkg_file}" ]; then
         echo "Warning: the file ${pkg_file} does not exists. Check the version selected."
@@ -128,45 +128,45 @@ function build_package() {
     # Download source code
     if [ -n "$BRANCH_TAG" ]; then
         SOURCES_DIRECTORY="${CURRENT_PATH}/repository"
-        WAZUH_PATH="${SOURCES_DIRECTORY}/wazuh"
-        git clone --depth=1 -b ${BRANCH_TAG} ${WAZUH_SOURCE_REPOSITORY} "${WAZUH_PATH}"
+        CYB3RHQ_PATH="${SOURCES_DIRECTORY}/cyb3rhq"
+        git clone --depth=1 -b ${BRANCH_TAG} ${CYB3RHQ_SOURCE_REPOSITORY} "${CYB3RHQ_PATH}"
     else
-        WAZUH_PATH="${CURRENT_PATH}/../.."
+        CYB3RHQ_PATH="${CURRENT_PATH}/../.."
     fi
-    short_commit_hash="$(cd "${WAZUH_PATH}" && git rev-parse --short HEAD)"
+    short_commit_hash="$(cd "${CYB3RHQ_PATH}" && git rev-parse --short HEAD)"
 
-    export CONFIG="${WAZUH_PATH}/etc/preloaded-vars.conf"
-    WAZUH_PACKAGES_PATH="${WAZUH_PATH}/packages/macos"
-    AGENT_PKG_FILE="${WAZUH_PACKAGES_PATH}/package_files/wazuh_agent_${ARCH}.pkgproj"
-    ENTITLEMENTS_PATH="${WAZUH_PACKAGES_PATH}/entitlements.plist"
+    export CONFIG="${CYB3RHQ_PATH}/etc/preloaded-vars.conf"
+    CYB3RHQ_PACKAGES_PATH="${CYB3RHQ_PATH}/packages/macos"
+    AGENT_PKG_FILE="${CYB3RHQ_PACKAGES_PATH}/package_files/cyb3rhq_agent_${ARCH}.pkgproj"
+    ENTITLEMENTS_PATH="${CYB3RHQ_PACKAGES_PATH}/entitlements.plist"
 
-    VERSION=$(cat ${WAZUH_PATH}/src/VERSION | cut -d "-" -f1 | cut -c 2-)
+    VERSION=$(cat ${CYB3RHQ_PATH}/src/VERSION | cut -d "-" -f1 | cut -c 2-)
 
     # Define output package name
     if [ $IS_STAGE == "no" ]; then
-        pkg_name="wazuh-agent_${VERSION}-${REVISION}_${ARCH}_${short_commit_hash}"
+        pkg_name="cyb3rhq-agent_${VERSION}-${REVISION}_${ARCH}_${short_commit_hash}"
     else
-        pkg_name="wazuh-agent-${VERSION}-${REVISION}.${ARCH}"
+        pkg_name="cyb3rhq-agent-${VERSION}-${REVISION}.${ARCH}"
     fi
 
     get_pkgproj_specs $VERSION $pkg_name
 
     if [ -d "${INSTALLATION_PATH}" ]; then
 
-        echo "\nThe wazuh agent is already installed on this machine."
+        echo "\nThe cyb3rhq agent is already installed on this machine."
         echo "Removing it from the system."
 
         ${CURRENT_PATH}/uninstall.sh
     fi
 
-    ${WAZUH_PACKAGES_PATH}/package_files/build.sh "${INSTALLATION_PATH}" "${WAZUH_PATH}" ${JOBS} ${DEBUG} ${MAKE_COMPILATION}
+    ${CYB3RHQ_PACKAGES_PATH}/package_files/build.sh "${INSTALLATION_PATH}" "${CYB3RHQ_PATH}" ${JOBS} ${DEBUG} ${MAKE_COMPILATION}
 
     # sign the binaries and the libraries
     sign_binaries
 
     # create package
     if packagesbuild ${AGENT_PKG_FILE} --build-folder "${DESTINATION}/" ; then
-        echo "The wazuh agent package for macOS has been successfully built."
+        echo "The cyb3rhq agent package for macOS has been successfully built."
         pkg_name+=".pkg"
         sign_pkg
         if [[ "${CHECKSUM}" == "yes" ]]; then

@@ -2,7 +2,7 @@
   description: Parser invalid type in service
   configuration_parameters:
     SERVICE_TYPE: fakeservice
-    LOG_GROUPS: wazuh-cloudwatch-integration-tests
+    LOG_GROUPS: cyb3rhq-cloudwatch-integration-tests
     ONLY_LOGS_AFTER: 2023-JAN-31
     REGIONS: us-east-1
     REMOVE_LOG_STREAMS: 'no'
@@ -22,7 +22,7 @@
   description: Parser invalid only_logs_after in service
   configuration_parameters:
     SERVICE_TYPE: cloudwatchlogs
-    LOG_GROUPS: wazuh-cloudwatchlogs-integration-tests
+    LOG_GROUPS: cyb3rhq-cloudwatchlogs-integration-tests
     ONLY_LOGS_AFTER: JAN-31
     REGIONS: us-east-1
     REMOVE_LOG_STREAMS: 'no'
@@ -32,7 +32,7 @@
   description: Parser invalid regions in service
   configuration_parameters:
     SERVICE_TYPE: cloudwatchlogs
-    LOG_GROUPS: wazuh-cloudwatchlogs-integration-tests
+    LOG_GROUPS: cyb3rhq-cloudwatchlogs-integration-tests
     ONLY_LOGS_AFTER: 2023-JAN-31
     REGIONS: 1
     REMOVE_LOG_STREAMS: 'no'
@@ -42,7 +42,7 @@
   description: Parser invalid remove_log_stream in service
   configuration_parameters:
     SERVICE_TYPE: cloudwatchlogs
-    LOG_GROUPS: wazuh-cloudwatchlogs-integration-tests
+    LOG_GROUPS: cyb3rhq-cloudwatchlogs-integration-tests
     ONLY_LOGS_AFTER: 2023-JAN-31
     REGIONS: 1
     REMOVE_LOG_STREAMS: nein

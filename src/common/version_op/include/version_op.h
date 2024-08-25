@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -87,6 +87,6 @@ int get_nproc();
  * @retval 1 version1 > version2
  * @retval -1 version1 < version2
  * */
-int compare_wazuh_versions(const char *version1, const char *version2, bool compare_patch);
+int compare_cyb3rhq_versions(const char *version1, const char *version2, bool compare_patch);
 
 #endif /* VERSION_H */

@@ -4,7 +4,7 @@ include_directories(${SRC_FOLDER}/unit_tests)
 include_directories(${SRC_FOLDER}/config)
 
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/cyb3rhq/shared/shared.cmake)
 
 if(NOT ${TARGET} STREQUAL "winagent")
     # test_audit_healthcheck tests

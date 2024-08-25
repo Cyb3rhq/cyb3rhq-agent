@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -17,15 +17,15 @@
 #include "../wrappers/common.h"
 #include "../wrappers/posix/stat_wrappers.h"
 #include "../wrappers/linux/inotify_wrappers.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/shared/file_op_wrappers.h"
-#include "../wrappers/wazuh/shared/hash_op_wrappers.h"
-#include "../wrappers/wazuh/shared/mq_op_wrappers.h"
-#include "../wrappers/wazuh/shared/randombytes_wrappers.h"
-#include "../wrappers/wazuh/syscheckd/create_db_wrappers.h"
-#include "../wrappers/wazuh/syscheckd/fim_db_wrappers.h"
-#include "../wrappers/wazuh/syscheckd/run_realtime_wrappers.h"
-#include "../wrappers/wazuh/syscheckd/win_whodata_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/debug_op_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/file_op_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/hash_op_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/mq_op_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/randombytes_wrappers.h"
+#include "../wrappers/cyb3rhq/syscheckd/create_db_wrappers.h"
+#include "../wrappers/cyb3rhq/syscheckd/fim_db_wrappers.h"
+#include "../wrappers/cyb3rhq/syscheckd/run_realtime_wrappers.h"
+#include "../wrappers/cyb3rhq/syscheckd/win_whodata_wrappers.h"
 
 #include "../syscheckd/include/syscheck.h"
 #include "../syscheckd/src/db/include/db.h"

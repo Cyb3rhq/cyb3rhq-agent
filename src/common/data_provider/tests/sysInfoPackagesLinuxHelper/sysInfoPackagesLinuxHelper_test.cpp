@@ -1,6 +1,6 @@
 /*
- * Wazuh SysInfo
- * Copyright (C) 2015, Wazuh Inc.
+ * Cyb3rhq SysInfo
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * January 28, 2021.
  *
  * This program is free software; you can redistribute it
@@ -336,7 +336,7 @@ TEST_F(SysInfoPackagesLinuxHelperTest, parsePacmanInformation)
     __alpm_handle_t dataHandle  {};
     __alpm_list_t   dataGroups  {};
 
-    constexpr auto PKG_GROUP    {"wazuh"};
+    constexpr auto PKG_GROUP    {"cyb3rhq"};
     constexpr auto PKG_ARCH     {"x86_64"};
     constexpr auto PKG_NAME     {"firefox"};
     constexpr auto PKG_DESC     {"Standalone web browser from mozilla.org"};
@@ -378,7 +378,7 @@ TEST_F(SysInfoPackagesLinuxHelperTest, parsePacmanMultipleGroups)
     __alpm_list_t   dataThirdGroup  {};
     __alpm_list_t   dataFourthGroup {};
 
-    dataFirstGroup.data    = const_cast<char*>("Wazuh");
+    dataFirstGroup.data    = const_cast<char*>("Cyb3rhq");
     dataFirstGroup.next    = &dataSecondGroup;
     dataSecondGroup.data   = const_cast<char*>("test");
     dataSecondGroup.next   = &dataThirdGroup;
@@ -400,7 +400,7 @@ TEST_F(SysInfoPackagesLinuxHelperTest, parsePacmanMultipleGroups)
 
     const auto& jsPackageInfo { PackageLinuxHelper::parsePacman(&mock) };
     EXPECT_FALSE(jsPackageInfo.empty());
-    EXPECT_EQ("Wazuh-test-Arch-lorem", jsPackageInfo["groups"]);
+    EXPECT_EQ("Cyb3rhq-test-Arch-lorem", jsPackageInfo["groups"]);
 }
 
 TEST_F(SysInfoPackagesLinuxHelperTest, parsePacmanInformationNull)

@@ -23,7 +23,7 @@ file(GLOB DBSYNC_IMP_SRC
     "${SRC_FOLDER}/shared_modules/dbsync/src/*.cpp"
     "${SRC_FOLDER}/shared_modules/dbsync/src/sqlite/*.cpp")
 
-add_definitions(-DWAZUH_UNIT_TESTING)
+add_definitions(-DCYB3RHQ_UNIT_TESTING)
 
 add_executable(syscollectorimp_unit_test
     ${SYSCOLLECTOR_IMP_UNIT_TEST_SRC}

@@ -2,7 +2,7 @@
   description: Parser empty type in service
   configuration_parameters:
     SERVICE_TYPE: ''
-    LOG_GROUPS: wazuh-cloudwatch-integration-tests
+    LOG_GROUPS: cyb3rhq-cloudwatch-integration-tests
     ONLY_LOGS_AFTER: 2023-JAN-31
     REGIONS: us-east-1
     REMOVE_FROM_BUCKET: 'no'
@@ -22,7 +22,7 @@
   description: Parser empty only_logs_after in service
   configuration_parameters:
     SERVICE_TYPE: cloudwatchlogs
-    LOG_GROUPS: wazuh-cloudwatchlogs-integration-tests
+    LOG_GROUPS: cyb3rhq-cloudwatchlogs-integration-tests
     ONLY_LOGS_AFTER: ''
     REGIONS: us-east-1
     REMOVE_FROM_BUCKET: 'no'
@@ -32,7 +32,7 @@
   description: Parser empty regions in service
   configuration_parameters:
     SERVICE_TYPE: cloudwatchlogs
-    LOG_GROUPS: wazuh-cloudwatchlogs-integration-tests
+    LOG_GROUPS: cyb3rhq-cloudwatchlogs-integration-tests
     ONLY_LOGS_AFTER: 2023-JAN-31
     REGIONS: ''
     REMOVE_FROM_BUCKET: 'no'

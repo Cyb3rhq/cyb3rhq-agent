@@ -11,7 +11,7 @@ file(GLOB SYS_NORMALIZER_UNIT_TEST_SRC
 file(GLOB SYS_NORMALIZER_SRC
     "${CMAKE_SOURCE_DIR}/src/syscollectorNormalizer.cpp")
 
-add_definitions(-DWAZUH_UNIT_TESTING)
+add_definitions(-DCYB3RHQ_UNIT_TESTING)
 
 add_executable(sys_normalizer_unit_test
     ${SYS_NORMALIZER_UNIT_TEST_SRC}

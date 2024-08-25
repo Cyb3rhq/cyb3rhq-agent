@@ -1,7 +1,7 @@
 ---
 name: Release Candidate - WPK upgrade tests
 about: Report the results after upgrade agent via WPK.
-title: Release [WAZUH VERSION] - Release Candidate [RC VERSION] - WPK upgrade tests
+title: Release [CYB3RHQ VERSION] - Release Candidate [RC VERSION] - WPK upgrade tests
 labels: ''
 assignees: ''
 
@@ -41,7 +41,7 @@ An extended report of the test results must be attached as a zip or txt. This re
 
 To evaluate this feature, it is necessary to test upgrading the agent and also the case when the upgrade fails (rollback). The `tree` command will be used to compare, before and after the upgrade/rollback process, and check that the presence, ownership and permissions of the files and directories are expected.
 
-Wazuh versions to test (Upgrade to the current agent version):
+Cyb3rhq versions to test (Upgrade to the current agent version):
 ### Linux
 
 |OS|Version|Status|Upgrade fail|Upgrade OK|
@@ -147,21 +147,21 @@ For each operating system and version, check the following points and add a comm
 ## Linux:
 ###  UPGRADE FAIL
 
-- [ ] The wazuh home backup is restored correctly (no traces of the installation, but only the `.tar.gz` backup and the logs).
+- [ ] The cyb3rhq home backup is restored correctly (no traces of the installation, but only the `.tar.gz` backup and the logs).
 - [ ] The permissions and owners of the following directories did NOT change:
       - `/`
       - `/var`
       - `/usr`, `/usr/lib/`, `/usr/lib/systemd/`, `/usr/lib/systemd/system/`
       - `/etc`, `/etc/systemd/`, `/etc/systemd/system/`, `/etc/rc.d`, `/etc/initd.d/`, `/etc/initd.d/rc.d/`
-- [ ] Wazuh service runs wazuh-control (`systemctl cat wazuh-agent.service`)
-- [ ] Wazuh service runs ossec-control (`systemctl cat wazuh-agent.service`)
-- [ ] The service was enabled (`systemctl is-enabled wazuh-agent.service`)
-- [ ] Init file runs wazuh-control (`cat /etc/rc.d/init.d/wazuh-agent`)
-- [ ] Init file runs ossec-control (`cat /etc/rc.d/init.d/wazuh-agent`)
-- [ ] Wazuh as service is enabled `chkconfig --list` 
-- [ ] Wazuh starts and connects when the backup is restored (`cat /var/ossec/var/run/ossec-agentd.state`)
-- [ ] Wazuh starts and connects automatically when the system is rebooted.
-- [ ] Restore SELinux policies (`semodule -l | grep -i wazuh`) (DISABLED)
+- [ ] Cyb3rhq service runs cyb3rhq-control (`systemctl cat cyb3rhq-agent.service`)
+- [ ] Cyb3rhq service runs ossec-control (`systemctl cat cyb3rhq-agent.service`)
+- [ ] The service was enabled (`systemctl is-enabled cyb3rhq-agent.service`)
+- [ ] Init file runs cyb3rhq-control (`cat /etc/rc.d/init.d/cyb3rhq-agent`)
+- [ ] Init file runs ossec-control (`cat /etc/rc.d/init.d/cyb3rhq-agent`)
+- [ ] Cyb3rhq as service is enabled `chkconfig --list` 
+- [ ] Cyb3rhq starts and connects when the backup is restored (`cat /var/ossec/var/run/ossec-agentd.state`)
+- [ ] Cyb3rhq starts and connects automatically when the system is rebooted.
+- [ ] Restore SELinux policies (`semodule -l | grep -i cyb3rhq`) (DISABLED)
 
 ###  UPGRADE OK
 
@@ -171,29 +171,29 @@ For each operating system and version, check the following points and add a comm
 
 ## Windows:
 ### UPGRADE FAIL
-- [ ] Wazuh-Agent folder tree:  No files are lost after the rollback. The logs of the failed upgrade (`ossec.log`) are kept.
+- [ ] Cyb3rhq-Agent folder tree:  No files are lost after the rollback. The logs of the failed upgrade (`ossec.log`) are kept.
 - [ ] After the rollback the agent connects to the manager
-- [ ] After reboot, the Wazuh-Agent starts and connects to the manager.
-- [ ] The correct Wazuh-Agent version is shown in the list of Windows' `programs and features`.
-- [ ] A new version of Wazuh-Agent can be manually installed via MSI after the rollback process.
+- [ ] After reboot, the Cyb3rhq-Agent starts and connects to the manager.
+- [ ] The correct Cyb3rhq-Agent version is shown in the list of Windows' `programs and features`.
+- [ ] A new version of Cyb3rhq-Agent can be manually installed via MSI after the rollback process.
 
 ### UPGRADE OK
 
 - [ ] Message `Upgrade finished successfully.` is shown in `upgrade.log` file.
-- [ ] Wazuh service is started and the agent is connected to the manager.
+- [ ] Cyb3rhq service is started and the agent is connected to the manager.
 - [ ] The version shown in the control panel is 4.3
 
 ## MacOS:
 ### UPGRADE FAIL
 
-- [ ] Wazuh-Agent folder tree:  No files are lost after the rollback. The logs of the failed upgrade (`ossec.log`) are kept.
+- [ ] Cyb3rhq-Agent folder tree:  No files are lost after the rollback. The logs of the failed upgrade (`ossec.log`) are kept.
 - [ ] After the rollback the agent connects to the manager
-- [ ] After reboot, the Wazuh-Agent starts and connects to the manager.
+- [ ] After reboot, the Cyb3rhq-Agent starts and connects to the manager.
 
 ### UPGRADE OK
 
 - [ ] Message `Upgrade finished successfully.` is shown in `upgrade.log` file.
-- [ ] Wazuh service is started and the agent is connected to the manager.
+- [ ] Cyb3rhq service is started and the agent is connected to the manager.
 -->
 
 

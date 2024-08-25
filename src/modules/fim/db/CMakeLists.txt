@@ -64,13 +64,13 @@ elseif(UNIX AND NOT APPLE)
 endif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "AIX")
-  target_link_libraries(fimdb dbsync rsync wazuhext)
+  target_link_libraries(fimdb dbsync rsync cyb3rhqext)
 else()
   target_link_libraries(
     fimdb
     dbsync
     rsync
-    wazuhext
+    cyb3rhqext
     -Wl,-blibpath:${INSTALL_PREFIX}/lib:${CXX_IMPLICIT_LINK_DIRECTORIES_STR}:${PLATFORM_REQUIRED_RUNTIME_PATH_STR}
   )
 endif(NOT CMAKE_SYSTEM_NAME STREQUAL "AIX")

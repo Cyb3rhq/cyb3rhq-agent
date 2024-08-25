@@ -1,4 +1,4 @@
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, Cyb3rhq Inc.
 #
 # This program is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -6,7 +6,7 @@
 # Foundation.
 
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/cyb3rhq/shared/shared.cmake)
 
 # Tests list and flags
 list(APPEND tests_names "test_wm_gcp")
@@ -20,9 +20,9 @@ list(APPEND tests_names "test_wmodules_gcp")
 list(APPEND tests_flags "-Wl,--wrap,sched_scan_read,--wrap,realpath,--wrap,IsFile,--wrap,atexit -Wl,--wrap,wfopen ${DEBUG_OP_WRAPPERS}")
 list(APPEND use_shared_libs 0)
 
-# Generate wazuh modules library
-file(GLOB gcp ../../../wazuh_modules/*.o ../../../config/*.o)
-list(REMOVE_ITEM gcp ../../../wazuh_modules/main.o)
+# Generate cyb3rhq modules library
+file(GLOB gcp ../../../cyb3rhq_modules/*.o ../../../config/*.o)
+list(REMOVE_ITEM gcp ../../../cyb3rhq_modules/main.o)
 
 add_library(GCP_O STATIC ${gcp})
 
@@ -39,7 +39,7 @@ set_target_properties(
   LINKER_LANGUAGE C
   )
 
-target_link_libraries(GCP_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(GCP_O ${CYB3RHQLIB} ${CYB3RHQEXT} -lpthread)
 
 
 # Compiling tests
@@ -53,8 +53,8 @@ foreach(counter RANGE ${count})
 
     target_link_libraries(
         ${test_name}
-        ${WAZUHLIB}
-        ${WAZUHEXT}
+        ${CYB3RHQLIB}
+        ${CYB3RHQEXT}
         GCP_O
         -ldl
         -lcmocka

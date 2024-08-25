@@ -1,6 +1,6 @@
 /*
  * Utils abstract wait
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * May 4, 2022.
  *
  * This program is free software; you can redistribute it

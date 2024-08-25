@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -17,7 +17,7 @@
 #include "syscheck.h"
 #include "syscheck_op.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 #ifdef WIN32
 #include "../../unit_tests/wrappers/windows/fileapi_wrappers.h"
 #include "../../unit_tests/wrappers/windows/handleapi_wrappers.h"

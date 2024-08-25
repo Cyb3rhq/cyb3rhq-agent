@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * Contributed by Arshad Khan (@arshad01)
  *
  * This program is free software; you can redistribute it

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -17,20 +17,20 @@
 #include <time.h>
 
 #include "shared.h"
-#include "../wazuh_modules/wmodules.h"
-#include "../wazuh_modules/wm_office365.h"
-#include "../wazuh_modules/wm_office365.c"
+#include "../cyb3rhq_modules/wmodules.h"
+#include "../cyb3rhq_modules/wm_office365.h"
+#include "../cyb3rhq_modules/wm_office365.c"
 
 #include "../scheduling/wmodules_scheduling_helpers.h"
 #include "../../wrappers/common.h"
 #include "../../wrappers/libc/stdlib_wrappers.h"
-#include "../../wrappers/wazuh/shared/mq_op_wrappers.h"
-#include "../../wrappers/wazuh/wazuh_modules/wmodules_wrappers.h"
-#include "../../wrappers/wazuh/shared/time_op_wrappers.h"
-#include "../../wrappers/wazuh/shared/url_wrappers.h"
+#include "../../wrappers/cyb3rhq/shared/mq_op_wrappers.h"
+#include "../../wrappers/cyb3rhq/cyb3rhq_modules/wmodules_wrappers.h"
+#include "../../wrappers/cyb3rhq/shared/time_op_wrappers.h"
+#include "../../wrappers/cyb3rhq/shared/url_wrappers.h"
 #include "../../wrappers/libc/time_wrappers.h"
 #ifdef WIN32
-#include "../../wrappers/wazuh/shared/file_op_wrappers.h"
+#include "../../wrappers/cyb3rhq/shared/file_op_wrappers.h"
 #endif
 
 int __wrap_access(const char *__name, int __type) {
@@ -71,7 +71,7 @@ static int setup_conf(void **state) {
 static int teardown_conf(void **state) {
     test_struct_t *data  = (test_struct_t *)*state;
     test_mode = 0;
-    expect_string(__wrap__mtinfo, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtinfo, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtinfo, formatted_msg, "Module Office365 finished.");
 
     wm_office365_destroy(data->office365_config);
@@ -1180,7 +1180,7 @@ void test_wm_office365_main_disabled(void **state) {
     test_struct_t *data  = (test_struct_t *)*state;
     data->office365_config->enabled = 0;
 
-    expect_string(__wrap__mtinfo, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtinfo, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtinfo, formatted_msg, "Module Office365 disabled.");
 
     wm_office365_main(data->office365_config);
@@ -1190,10 +1190,10 @@ void test_wm_office365_main_fail_StartMQ(void **state) {
     test_struct_t *data  = (test_struct_t *)*state;
     data->office365_config->enabled = 1;
 
-    expect_string(__wrap__mtinfo, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtinfo, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtinfo, formatted_msg, "Module Office365 started.");
 
-    expect_string(__wrap__mterror, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mterror, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mterror, formatted_msg, "Can't connect to queue. Closing module.");
 
     expect_string(__wrap_StartMQ, path, DEFAULTQUEUE);
@@ -1222,10 +1222,10 @@ void test_wm_office365_main_enable(void **state) {
     expect_value(__wrap_StartMQ, type, WRITE);
     will_return(__wrap_StartMQ, 1);
 
-    expect_string(__wrap__mtinfo, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtinfo, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtinfo, formatted_msg, "Module Office365 started.");
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Scanning tenant: 'test_tenant_id'");
 
     expect_string(__wrap_wm_state_io, tag, "office365-test_tenant_id-test_subscription_name");
@@ -1242,7 +1242,7 @@ void test_wm_office365_main_enable(void **state) {
     expect_any(__wrap_wm_state_io, size);
     will_return(__wrap_wm_state_io, 1);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Scanning tenant: 'test_tenant_id'");
 
     expect_any(__wrap_wurl_http_request, method);
@@ -1253,9 +1253,9 @@ void test_wm_office365_main_enable(void **state) {
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, NULL);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Unknown error while getting access token.");
 
     wm_office365_main(data->office365_config);
@@ -1283,9 +1283,9 @@ void test_wm_office365_get_access_token_with_auth_secret(void **state) {
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Unknown error while getting access token.");
 
     access_token = wm_office365_get_access_token(data->office365_config->auth, max_size, &error_msg);
@@ -1320,9 +1320,9 @@ void test_wm_office365_get_access_token_with_auth_secret_path(void **state) {
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Unknown error while getting access token.");
 
     test_mode = 0;
@@ -1361,9 +1361,9 @@ void test_wm_office365_get_access_token_with_auth_secret_response_400(void **sta
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Error while getting access token: '{\"error\":\"bad_request\"}'");
 
     expect_value(__wrap_wurl_free_response, response, data->response);
@@ -1405,9 +1405,9 @@ void test_wm_office365_get_access_token_with_auth_secret_response_null(void **st
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, NULL);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Unknown error while getting access token.");
 
     access_token = wm_office365_get_access_token(data->office365_config->auth, max_size, &error_msg);
@@ -1447,9 +1447,9 @@ void test_wm_office365_get_access_token_with_auth_secret_response_max_size_reach
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Libcurl error, reached maximum response size.");
 
     expect_value(__wrap_wurl_free_response, response, data->response);
@@ -1490,9 +1490,9 @@ void test_wm_office365_get_access_token_with_auth_secret_error_json_response(voi
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Error while parsing access token JSON response.");
 
     expect_value(__wrap_wurl_free_response, response, data->response);
@@ -1522,7 +1522,7 @@ void test_wm_office365_get_access_token_with_auth_secret_response_200(void **sta
 
     os_calloc(1, sizeof(curl_response), data->response);
     data->response->status_code = 200;
-    os_strdup("{\"access_token\":\"wazuh\"}", data->response->body);
+    os_strdup("{\"access_token\":\"cyb3rhq\"}", data->response->body);
     os_strdup("test", data->response->header);
 
     expect_any(__wrap_wurl_http_request, method);
@@ -1533,14 +1533,14 @@ void test_wm_office365_get_access_token_with_auth_secret_response_200(void **sta
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
 
     expect_value(__wrap_wurl_free_response, response, data->response);
 
     access_token = wm_office365_get_access_token(data->office365_config->auth, max_size, &error_msg);
 
-    assert_string_equal(access_token, "wazuh");
+    assert_string_equal(access_token, "cyb3rhq");
     assert_null(error_msg);
 
     os_free(data->response->body);
@@ -1572,7 +1572,7 @@ void test_wm_office365_manage_subscription_start_response_null(void **state) {
 
     os_calloc(1, sizeof(curl_response), data->response);
     data->response->status_code = 200;
-    os_strdup("{\"access_token\":\"wazuh\"}", data->response->body);
+    os_strdup("{\"access_token\":\"cyb3rhq\"}", data->response->body);
     os_strdup("test", data->response->header);
 
     expect_string(__wrap_wurl_http_request, header, "Content-Type: application/json");
@@ -1588,9 +1588,9 @@ void test_wm_office365_manage_subscription_start_response_null(void **state) {
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, NULL);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Unknown error while managing subscription.");
 
     value = wm_office365_manage_subscription(data->office365_config->subscription, management_fqdn, client_id, token, start, max_size, &error_msg);
@@ -1626,7 +1626,7 @@ void test_wm_office365_manage_subscription_start_code_200(void **state) {
 
     os_calloc(1, sizeof(curl_response), data->response);
     data->response->status_code = 200;
-    os_strdup("{\"access_token\":\"wazuh\"}", data->response->body);
+    os_strdup("{\"access_token\":\"cyb3rhq\"}", data->response->body);
     os_strdup("test", data->response->header);
 
     expect_any(__wrap_wurl_http_request, method);
@@ -1642,7 +1642,7 @@ void test_wm_office365_manage_subscription_start_code_200(void **state) {
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
 
     expect_value(__wrap_wurl_free_response, response, data->response);
@@ -1696,9 +1696,9 @@ void test_wm_office365_manage_subscription_stop_error_json_response(void **state
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Error while parsing managing subscription JSON response.");
 
     expect_value(__wrap_wurl_free_response, response, data->response);
@@ -1753,9 +1753,9 @@ void test_wm_office365_manage_subscription_stop_error_max_size_reached(void **st
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Libcurl error, reached maximum response size.");
 
     expect_value(__wrap_wurl_free_response, response, data->response);
@@ -1809,7 +1809,7 @@ void test_wm_office365_manage_subscription_stop_code_400_error_AF20024(void **st
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
 
     expect_value(__wrap_wurl_free_response, response, data->response);
@@ -1863,9 +1863,9 @@ void test_wm_office365_manage_subscription_stop_code_400_error_different_AF20024
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Error while managing subscription: '{\"error\":{\"code\":\"AF20023\"}}'");
 
     expect_value(__wrap_wurl_free_response, response, data->response);
@@ -1939,9 +1939,9 @@ void test_wm_office365_get_content_blobs_response_null(void **state) {
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, NULL);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Unknown error while getting content blobs.");
 
     cJSON *blob = wm_office365_get_content_blobs(url, token, next_page, max_size, &buffer_size_reached, &error_msg);
@@ -1963,7 +1963,7 @@ void test_wm_office365_get_content_blobs_response_max_size_reached(void **state)
 
     os_calloc(1, sizeof(curl_response), data->response);
     data->response->status_code = 200;
-    os_strdup("{\"access_token\":\"wazuh\"}", data->response->body);
+    os_strdup("{\"access_token\":\"cyb3rhq\"}", data->response->body);
     os_strdup("test", data->response->header);
     data->response->max_size_reached = 1;
 
@@ -1980,9 +1980,9 @@ void test_wm_office365_get_content_blobs_response_max_size_reached(void **state)
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Libcurl error, reached maximum response size.");
 
     expect_value(__wrap_wurl_free_response, response, data->response);
@@ -2027,9 +2027,9 @@ void test_wm_office365_get_content_blobs_error_json_response(void **state) {
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Error while parsing content blobs JSON response.");
 
     expect_value(__wrap_wurl_free_response, response, data->response);
@@ -2073,9 +2073,9 @@ void test_wm_office365_get_content_blobs_bad_response(void **state) {
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Error while getting content blobs: '{\"response\":\"test\"}'");
 
     expect_value(__wrap_wurl_free_response, response, data->response);
@@ -2120,7 +2120,7 @@ void test_wm_office365_get_content_blobs_400_code_AF20055(void **state) {
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
 
     expect_value(__wrap_wurl_free_response, response, data->response);
@@ -2219,18 +2219,18 @@ void test_wm_office365_scan_failure_action_not_null(void **state) {
     int queue_fd = 1;
     char *error_msg = NULL;
 
-    expect_string(__wrap__mtwarn, tag, "wazuh-modulesd:office365");
-    expect_string(__wrap__mtwarn, formatted_msg, "Sending Office365 internal message: '{\"integration\":\"office365\",\"office365\":{\"actor\":\"wazuh\",\"tenant_id\":\"tenant_id\",\"subscription_name\":\"subscription_name\",\"response\":\"Unknown error\"}}'");
+    expect_string(__wrap__mtwarn, tag, "cyb3rhq-modulesd:office365");
+    expect_string(__wrap__mtwarn, formatted_msg, "Sending Office365 internal message: '{\"integration\":\"office365\",\"office365\":{\"actor\":\"cyb3rhq\",\"tenant_id\":\"tenant_id\",\"subscription_name\":\"subscription_name\",\"response\":\"Unknown error\"}}'");
 
     int result = -1;
     expect_value(__wrap_wm_sendmsg, usec, 1000000);
     expect_value(__wrap_wm_sendmsg, queue, queue_fd);
-    expect_string(__wrap_wm_sendmsg, message, "{\"integration\":\"office365\",\"office365\":{\"actor\":\"wazuh\",\"tenant_id\":\"tenant_id\",\"subscription_name\":\"subscription_name\",\"response\":\"Unknown error\"}}");
+    expect_string(__wrap_wm_sendmsg, message, "{\"integration\":\"office365\",\"office365\":{\"actor\":\"cyb3rhq\",\"tenant_id\":\"tenant_id\",\"subscription_name\":\"subscription_name\",\"response\":\"Unknown error\"}}");
     expect_string(__wrap_wm_sendmsg, locmsg, "office365");
     expect_value(__wrap_wm_sendmsg, loc, LOCALFILE_MQ);
     will_return(__wrap_wm_sendmsg, result);
 
-    expect_string(__wrap__mterror, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mterror, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mterror, formatted_msg, "(1210): Queue 'queue/sockets/queue' not accessible: 'Success'");
 
     wm_office365_scan_failure_action(&fails, tenant_id, subscription_name, error_msg, queue_fd);
@@ -2253,18 +2253,18 @@ void test_wm_office365_scan_failure_action_not_null_error_msg(void **state) {
     int queue_fd = 1;
     char *error_msg = "{\"response\":\"test\"}";
 
-    expect_string(__wrap__mtwarn, tag, "wazuh-modulesd:office365");
-    expect_string(__wrap__mtwarn, formatted_msg, "Sending Office365 internal message: '{\"integration\":\"office365\",\"office365\":{\"actor\":\"wazuh\",\"tenant_id\":\"tenant_id\",\"subscription_name\":\"subscription_name\",\"response\":\"{\\\"response\\\":\\\"test\\\"}\"}}'");
+    expect_string(__wrap__mtwarn, tag, "cyb3rhq-modulesd:office365");
+    expect_string(__wrap__mtwarn, formatted_msg, "Sending Office365 internal message: '{\"integration\":\"office365\",\"office365\":{\"actor\":\"cyb3rhq\",\"tenant_id\":\"tenant_id\",\"subscription_name\":\"subscription_name\",\"response\":\"{\\\"response\\\":\\\"test\\\"}\"}}'");
 
     int result = -1;
     expect_value(__wrap_wm_sendmsg, usec, 1000000);
     expect_value(__wrap_wm_sendmsg, queue, queue_fd);
-    expect_string(__wrap_wm_sendmsg, message, "{\"integration\":\"office365\",\"office365\":{\"actor\":\"wazuh\",\"tenant_id\":\"tenant_id\",\"subscription_name\":\"subscription_name\",\"response\":\"{\\\"response\\\":\\\"test\\\"}\"}}");
+    expect_string(__wrap_wm_sendmsg, message, "{\"integration\":\"office365\",\"office365\":{\"actor\":\"cyb3rhq\",\"tenant_id\":\"tenant_id\",\"subscription_name\":\"subscription_name\",\"response\":\"{\\\"response\\\":\\\"test\\\"}\"}}");
     expect_string(__wrap_wm_sendmsg, locmsg, "office365");
     expect_value(__wrap_wm_sendmsg, loc, LOCALFILE_MQ);
     will_return(__wrap_wm_sendmsg, result);
 
-    expect_string(__wrap__mterror, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mterror, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mterror, formatted_msg, "(1210): Queue 'queue/sockets/queue' not accessible: 'Success'");
 
     wm_office365_scan_failure_action(&fails, tenant_id, subscription_name, error_msg, queue_fd);
@@ -2296,9 +2296,9 @@ void test_wm_office365_get_logs_from_blob_response_null(void **state) {
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, NULL);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Unknown error while getting logs from blob.");
 
     logs_array = wm_office365_get_logs_from_blob(url, token, max_size, &buffer_size_reached, &error_msg);
@@ -2338,9 +2338,9 @@ void test_wm_office365_get_logs_from_blob_response_max_size_reached(void **state
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Libcurl error, reached maximum response size.");
 
     expect_value(__wrap_wurl_free_response, response, data->response);
@@ -2386,9 +2386,9 @@ void test_wm_office365_get_logs_from_blob_response_parsing_error(void **state) {
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Error while parsing logs from blob JSON response.");
 
     expect_value(__wrap_wurl_free_response, response, data->response);
@@ -2434,9 +2434,9 @@ void test_wm_office365_get_logs_from_blob_response_code_400(void **state) {
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Error while getting logs from blob: '[{\"test\":{\"code\":\"test\"}}]'");
 
     expect_value(__wrap_wurl_free_response, response, data->response);
@@ -2483,9 +2483,9 @@ void test_wm_office365_get_logs_from_blob_response_no_array(void **state) {
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Error while getting logs from blob: '{\"test\":{\"code\":\"test\"}}'");
 
     expect_value(__wrap_wurl_free_response, response, data->response);
@@ -2532,7 +2532,7 @@ void test_wm_office365_get_logs_from_blob_ok(void **state) {
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
 
     expect_value(__wrap_wurl_free_response, response, data->response);
@@ -2575,12 +2575,12 @@ void test_wm_office365_execute_scan_all(void **state) {
 
     int initial_scan = 1;
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Scanning tenant: 'test_tenant_id'");
 
     os_calloc(1, sizeof(curl_response), data->response);
     data->response->status_code = 200;
-    os_strdup("{\"access_token\":\"wazuh\"}", data->response->body);
+    os_strdup("{\"access_token\":\"cyb3rhq\"}", data->response->body);
     os_strdup("test", data->response->header);
 
     // wm_office365_get_content_blobs
@@ -2599,7 +2599,7 @@ void test_wm_office365_execute_scan_all(void **state) {
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     const char expected_token_url[] = "Office 365 API access token URL: 'https://" WM_OFFICE365_DEFAULT_API_LOGIN_FQDN "/test_tenant_id/oauth2/v2.0/token'";
     expect_string(__wrap__mtdebug1, formatted_msg, expected_token_url);
 
@@ -2616,7 +2616,7 @@ void test_wm_office365_execute_scan_all(void **state) {
     expect_string(__wrap_wurl_http_request, header, "Content-Type: application/json");
 
     char expHeader[OS_SIZE_8192];
-    snprintf(expHeader, OS_SIZE_8192 -1, "Authorization: Bearer wazuh");
+    snprintf(expHeader, OS_SIZE_8192 -1, "Authorization: Bearer cyb3rhq");
 
     expect_string(__wrap_wurl_http_request, header, expHeader);
     expect_any(__wrap_wurl_http_request, url);
@@ -2625,7 +2625,7 @@ void test_wm_office365_execute_scan_all(void **state) {
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     const char expected_subscription_url[] = "Office 365 API subscription URL: 'https://" WM_OFFICE365_DEFAULT_API_MANAGEMENT_FQDN "/api/v1.0/test_client_id/activity/feed/subscriptions/start?contentType=test_subscription_name'";
     expect_string(__wrap__mtdebug1, formatted_msg, expected_subscription_url);
 
@@ -2644,7 +2644,7 @@ void test_wm_office365_execute_scan_all(void **state) {
     expect_any(__wrap_wurl_http_request, method);
     expect_string(__wrap_wurl_http_request, header, "Content-Type: application/json");
 
-    snprintf(expHeader, OS_SIZE_8192 -1, "Authorization: Bearer wazuh");
+    snprintf(expHeader, OS_SIZE_8192 -1, "Authorization: Bearer cyb3rhq");
 
     expect_string(__wrap_wurl_http_request, header, expHeader);
     expect_any(__wrap_wurl_http_request, url);
@@ -2655,11 +2655,11 @@ void test_wm_office365_execute_scan_all(void **state) {
 
     expect_any(__wrap__mdebug1, formatted_msg);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     const char expected_blob_url[] = "Office 365 API content blobs URL: 'https://" WM_OFFICE365_DEFAULT_API_MANAGEMENT_FQDN "/api/v1.0/test_client_id/activity/feed/subscriptions/content?contentType=test_subscription_name&startTime=2021-05-07 12:24:56&endTime=2021-05-07 12:24:56'";
     expect_string(__wrap__mtdebug1, formatted_msg, expected_blob_url);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Office 365 API content URI: 'https://contentUri1.com'");
 
     expect_value(__wrap_wurl_free_response, response, get_content_blobs_response);
@@ -2667,7 +2667,7 @@ void test_wm_office365_execute_scan_all(void **state) {
     expect_string(__wrap_wurl_http_request, header, "Content-Type: application/json");
     expect_any(__wrap_wurl_http_request, method);
 
-    snprintf(expHeader, OS_SIZE_8192 -1, "Authorization: Bearer wazuh");
+    snprintf(expHeader, OS_SIZE_8192 -1, "Authorization: Bearer cyb3rhq");
 
     expect_string(__wrap_wurl_http_request, header, expHeader);
     expect_any(__wrap_wurl_http_request, url);
@@ -2678,7 +2678,7 @@ void test_wm_office365_execute_scan_all(void **state) {
 
     expect_value(__wrap_wurl_free_response, response, get_content_blobs_response);
 
-    expect_string(__wrap__mtdebug2, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug2, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug2, formatted_msg, "Sending Office365 log: '{\"integration\":\"office365\",\"office365\":{\"contentUri\":\"https://contentUri1.com\",\"Subscription\":\"test_subscription_name\"}}'");
 
     int result = 1;
@@ -2696,7 +2696,7 @@ void test_wm_office365_execute_scan_all(void **state) {
     expect_any(__wrap_wm_state_io, size);
     will_return(__wrap_wm_state_io, 1);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Bookmark updated to '2021-05-07 12:24:56' for tenant 'test_tenant_id' and subscription 'test_subscription_name', waiting '10' seconds to run next scan.");
 
     wm_office365_execute_scan(data->office365_config, initial_scan);
@@ -2724,7 +2724,7 @@ void test_wm_office365_execute_scan_initial_scan_only_future_events(void **state
     data->office365_config->only_future_events = 1;
     data->office365_config->interval = 10;
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Scanning tenant: 'test_tenant_id'");
 
     expect_string(__wrap_wm_state_io, tag, "office365-test_tenant_id-test_subscription_name");
@@ -2747,7 +2747,7 @@ void test_wm_office365_execute_scan_initial_scan_only_future_events(void **state
     will_return(__wrap_strftime,"2021-05-07 12:24:56");
     will_return(__wrap_strftime, 20);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Bookmark updated to '2021-05-07 12:24:56' for tenant 'test_tenant_id' and subscription 'test_subscription_name', waiting '10' seconds to run first scan.");
 
     wm_office365_execute_scan(data->office365_config, 1);
@@ -2772,7 +2772,7 @@ void test_wm_office365_execute_scan_access_token_null(void **state) {
     os_strdup("{\"error\":\"bad_request\"}", data->response->body);
     os_strdup("test", data->response->header);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Scanning tenant: 'test_tenant_id'");
 
     expect_any(__wrap_wurl_http_request, method);
@@ -2783,9 +2783,9 @@ void test_wm_office365_execute_scan_access_token_null(void **state) {
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Error while getting access token: '{\"error\":\"bad_request\"}'");
 
     expect_value(__wrap_wurl_free_response, response, data->response);
@@ -2816,10 +2816,10 @@ void test_wm_office365_execute_scan_manage_subscription_error(void **state) {
 
     os_calloc(1, sizeof(curl_response), data->response);
     data->response->status_code = 200;
-    os_strdup("{\"access_token\":\"wazuh\"}", data->response->body);
+    os_strdup("{\"access_token\":\"cyb3rhq\"}", data->response->body);
     os_strdup("test", data->response->header);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Scanning tenant: 'test_tenant_id'");
 
     expect_any(__wrap_wurl_http_request, method);
@@ -2830,7 +2830,7 @@ void test_wm_office365_execute_scan_manage_subscription_error(void **state) {
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
 
     expect_value(__wrap_wurl_free_response, response, data->response);
@@ -2846,7 +2846,7 @@ void test_wm_office365_execute_scan_manage_subscription_error(void **state) {
     expect_any(__wrap_wurl_http_request, method);
 
     char expHeader[OS_SIZE_8192];
-    snprintf(expHeader, OS_SIZE_8192 -1, "Authorization: Bearer %s", "wazuh");
+    snprintf(expHeader, OS_SIZE_8192 -1, "Authorization: Bearer %s", "cyb3rhq");
 
     expect_string(__wrap_wurl_http_request, header, expHeader);
     expect_any(__wrap_wurl_http_request, url);
@@ -2855,9 +2855,9 @@ void test_wm_office365_execute_scan_manage_subscription_error(void **state) {
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, NULL);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Unknown error while managing subscription.");
 
     wm_office365_execute_scan(data->office365_config, 0);
@@ -2886,7 +2886,7 @@ void test_wm_office365_execute_scan_saving_running_state_error(void **state) {
     os_strdup("{\"access_token\":\"access_token_value\"}", data->response->body);
     os_strdup("test", data->response->header);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Scanning tenant: 'test_tenant_id'");
 
     /* wm_office365_get_access_token */
@@ -2898,7 +2898,7 @@ void test_wm_office365_execute_scan_saving_running_state_error(void **state) {
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
 
     expect_string(__wrap_wm_state_io, tag, "office365-test_tenant_id-test_subscription_name");
@@ -2913,7 +2913,7 @@ void test_wm_office365_execute_scan_saving_running_state_error(void **state) {
     expect_any(__wrap_wm_state_io, size);
     will_return(__wrap_wm_state_io, -1);
 
-    expect_string(__wrap__mterror, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mterror, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mterror, formatted_msg, "Couldn't save running state.");
 
     expect_value(__wrap_wurl_free_response, response, data->response);
@@ -2948,7 +2948,7 @@ void test_wm_office365_execute_scan_content_blobs_fail(void **state) {
     os_strdup("{\"access_token\":\"access_token_value\"}", data->response->body);
     os_strdup("test", data->response->header);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Scanning tenant: 'test_tenant_id'");
 
     /* wm_office365_get_access_token */
@@ -2960,7 +2960,7 @@ void test_wm_office365_execute_scan_content_blobs_fail(void **state) {
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
     /* wm_office365_get_access_token */
 
@@ -2982,7 +2982,7 @@ void test_wm_office365_execute_scan_content_blobs_fail(void **state) {
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
 
     expect_value(__wrap_wurl_free_response, response, data->response);
@@ -3013,9 +3013,9 @@ void test_wm_office365_execute_scan_content_blobs_fail(void **state) {
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, NULL);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Unknown error while getting content blobs.");
     /* wm_office365_get_content_blobs */
 
@@ -3047,10 +3047,10 @@ void test_wm_office365_execute_scan_get_logs_from_blob_response_null(void **stat
 
     os_calloc(1, sizeof(curl_response), data->response);
     data->response->status_code = 200;
-    os_strdup("{\"access_token\":\"wazuh\"}", data->response->body);
+    os_strdup("{\"access_token\":\"cyb3rhq\"}", data->response->body);
     os_strdup("test", data->response->header);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Scanning tenant: 'test_tenant_id'");
 
     expect_any(__wrap_wurl_http_request, method);
@@ -3061,7 +3061,7 @@ void test_wm_office365_execute_scan_get_logs_from_blob_response_null(void **stat
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, data->response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
 
     expect_value(__wrap_wurl_free_response, response, data->response);
@@ -3077,7 +3077,7 @@ void test_wm_office365_execute_scan_get_logs_from_blob_response_null(void **stat
     os_calloc(1, sizeof(curl_response), manage_subscription_response);
     manage_subscription_response->status_code = 200;
     manage_subscription_response->max_size_reached = false;
-    os_strdup("{\"test\":\"wazuh\"}", manage_subscription_response->body);
+    os_strdup("{\"test\":\"cyb3rhq\"}", manage_subscription_response->body);
     os_strdup("test", manage_subscription_response->header);
 
 
@@ -3089,7 +3089,7 @@ void test_wm_office365_execute_scan_get_logs_from_blob_response_null(void **stat
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, manage_subscription_response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
 
     expect_value(__wrap_wurl_free_response, response, manage_subscription_response);
@@ -3127,16 +3127,16 @@ void test_wm_office365_execute_scan_get_logs_from_blob_response_null(void **stat
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, get_content_blobs_response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_any(__wrap__mtdebug1, formatted_msg);
 
     expect_value(__wrap_wurl_free_response, response, get_content_blobs_response);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Office 365 API content URI: 'https://contentUri1.com'");
 
     expect_string(__wrap_wurl_http_request, header, "Content-Type: application/json");
-    expect_string(__wrap_wurl_http_request, header, "Authorization: Bearer wazuh");
+    expect_string(__wrap_wurl_http_request, header, "Authorization: Bearer cyb3rhq");
     expect_any(__wrap_wurl_http_request, header);
     expect_any(__wrap_wurl_http_request, method);
     expect_any(__wrap_wurl_http_request, header);
@@ -3146,7 +3146,7 @@ void test_wm_office365_execute_scan_get_logs_from_blob_response_null(void **stat
     expect_value(__wrap_wurl_http_request, timeout, WM_OFFICE365_DEFAULT_CURL_REQUEST_TIMEOUT);
     will_return(__wrap_wurl_http_request, NULL);
 
-    expect_string(__wrap__mtdebug1, tag, "wazuh-modulesd:office365");
+    expect_string(__wrap__mtdebug1, tag, "cyb3rhq-modulesd:office365");
     expect_string(__wrap__mtdebug1, formatted_msg, "Unknown error while getting logs from blob.");
 
     wm_office365_execute_scan(data->office365_config, 0);

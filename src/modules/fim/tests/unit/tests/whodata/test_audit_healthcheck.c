@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -20,15 +20,15 @@
 #include "wrappers/libc/stdio_wrappers.h"
 #include "wrappers/libc/stdlib_wrappers.h"
 #include "wrappers/posix/unistd_wrappers.h"
-#include "wrappers/wazuh/shared/audit_op_wrappers.h"
-#include "wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "wrappers/wazuh/shared/file_op_wrappers.h"
-#include "wrappers/wazuh/shared/atomic_wrappers.h"
-#include "wrappers/wazuh/shared/time_op_wrappers.h"
-#include "wrappers/wazuh/shared/pthreads_op_wrappers.h"
+#include "wrappers/cyb3rhq/shared/audit_op_wrappers.h"
+#include "wrappers/cyb3rhq/shared/debug_op_wrappers.h"
+#include "wrappers/cyb3rhq/shared/file_op_wrappers.h"
+#include "wrappers/cyb3rhq/shared/atomic_wrappers.h"
+#include "wrappers/cyb3rhq/shared/time_op_wrappers.h"
+#include "wrappers/cyb3rhq/shared/pthreads_op_wrappers.h"
 
 
-#include "wrappers/wazuh/syscheckd/audit_parse_wrappers.h"
+#include "wrappers/cyb3rhq/syscheckd/audit_parse_wrappers.h"
 
 
 #define PERMS (AUDIT_PERM_WRITE | AUDIT_PERM_ATTR)
@@ -94,7 +94,7 @@ void prepare_post_audit_healthcheck_thread() {
 
     expect_string(__wrap_audit_delete_rule, path, AUDIT_HEALTHCHECK_DIR);
     expect_value(__wrap_audit_delete_rule, perms, PERMS);
-    expect_string(__wrap_audit_delete_rule, key, "wazuh_hc");
+    expect_string(__wrap_audit_delete_rule, key, "cyb3rhq_hc");
     will_return(__wrap_audit_delete_rule, 1);
 
     expect_value(__wrap_atomic_int_set, atomic, &hc_thread_active);

@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -104,7 +104,7 @@ int main(int argc, char **argv)
         merror_exit(CHDIR_ERROR, home_path, errno, strerror(errno));
     }
 
-    mdebug1(WAZUH_HOMEDIR, home_path);
+    mdebug1(CYB3RHQ_HOMEDIR, home_path);
     os_free(home_path);
 
     /* Check if the group given is valid */

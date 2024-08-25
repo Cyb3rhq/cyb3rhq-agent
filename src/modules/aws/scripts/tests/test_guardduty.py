@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Cyb3rhq Inc.
+# Created by Cyb3rhq, Inc. <info@wazuh.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import pytest
@@ -36,9 +36,9 @@ def test_aws_guardduty_bucket_initializes_properly(mock_custom_bucket, guardduty
 
 @pytest.mark.parametrize('object_list, result', [(utils.LIST_OBJECT_V2, True),
                                                  (utils.LIST_OBJECT_V2_NO_PREFIXES, False)])
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
-@patch('wazuh_integration.WazuhAWSDatabase.__init__')
-def test_aws_guardduty_bucket_check_guardduty_type(mock_wazuh_aws_integration, mock_sts,
+@patch('cyb3rhq_integration.Cyb3rhqIntegration.get_sts_client')
+@patch('cyb3rhq_integration.Cyb3rhqAWSDatabase.__init__')
+def test_aws_guardduty_bucket_check_guardduty_type(mock_cyb3rhq_aws_integration, mock_sts,
                                                    object_list: dict, result: bool):
     """Test 'check_guardduty_type' method defines if the bucket contains GuardDuty Native logs or not.
 
@@ -58,9 +58,9 @@ def test_aws_guardduty_bucket_check_guardduty_type(mock_wazuh_aws_integration, m
     assert result == instance.check_guardduty_type()
 
 
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
-@patch('wazuh_integration.WazuhAWSDatabase.__init__')
-def test_aws_guardduty_bucket_check_guardduty_type_handles_exceptions(mock_wazuh_aws_integration, mock_sts):
+@patch('cyb3rhq_integration.Cyb3rhqIntegration.get_sts_client')
+@patch('cyb3rhq_integration.Cyb3rhqAWSDatabase.__init__')
+def test_aws_guardduty_bucket_check_guardduty_type_handles_exceptions(mock_cyb3rhq_aws_integration, mock_sts):
     """Test 'check_guardduty_type' handles exceptions raised and exits with the expected exit code."""
     with patch('guardduty.AWSGuardDutyBucket.check_guardduty_type'):
         instance = utils.get_mocked_bucket(class_=guardduty.AWSGuardDutyBucket)
@@ -86,9 +86,9 @@ def test_aws_guardduty_bucket_get_service_prefix(mock_custom_bucket, mock_type, 
 
 @pytest.mark.parametrize('guardduty_native', [True, False])
 @patch('aws_bucket.AWSLogsBucket.get_service_prefix', return_value='service_prefix/')
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
-@patch('wazuh_integration.WazuhAWSDatabase.__init__')
-def test_aws_guardduty_bucket_get_full_prefix(mock_wazuh_aws_integration, mock_sts, mock_service_prefix,
+@patch('cyb3rhq_integration.Cyb3rhqIntegration.get_sts_client')
+@patch('cyb3rhq_integration.Cyb3rhqAWSDatabase.__init__')
+def test_aws_guardduty_bucket_get_full_prefix(mock_cyb3rhq_aws_integration, mock_sts, mock_service_prefix,
                                               guardduty_native):
     """Test 'get_full_prefix' method the expected prefix depending on the GuardDuty bucket type.
 
@@ -108,9 +108,9 @@ def test_aws_guardduty_bucket_get_full_prefix(mock_wazuh_aws_integration, mock_s
 
 
 @pytest.mark.parametrize('guardduty_native', [True, False])
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
-@patch('wazuh_integration.WazuhAWSDatabase.__init__')
-def test_aws_guardduty_bucket_get_base_prefix(mock_wazuh_aws_integration, mock_sts, guardduty_native: bool):
+@patch('cyb3rhq_integration.Cyb3rhqIntegration.get_sts_client')
+@patch('cyb3rhq_integration.Cyb3rhqAWSDatabase.__init__')
+def test_aws_guardduty_bucket_get_base_prefix(mock_cyb3rhq_aws_integration, mock_sts, guardduty_native: bool):
     """Test 'get_full_prefix' method the expected base prefix depending on the GuardDuty bucket type.
 
     Parameters
@@ -128,9 +128,9 @@ def test_aws_guardduty_bucket_get_base_prefix(mock_wazuh_aws_integration, mock_s
 
 
 @pytest.mark.parametrize('guardduty_native', [True, False])
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
-@patch('wazuh_integration.WazuhAWSDatabase.__init__')
-def test_aws_guardduty_bucket_iter_regions_and_accounts(mock_wazuh_aws_integration, mock_sts, guardduty_native: bool):
+@patch('cyb3rhq_integration.Cyb3rhqIntegration.get_sts_client')
+@patch('cyb3rhq_integration.Cyb3rhqAWSDatabase.__init__')
+def test_aws_guardduty_bucket_iter_regions_and_accounts(mock_cyb3rhq_aws_integration, mock_sts, guardduty_native: bool):
     """Test 'iter_regions_and_accounts' method makes the necessary calls in order to process the bucket's files
     depending on the GuardDuty bucket type.
 

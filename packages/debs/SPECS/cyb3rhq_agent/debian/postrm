@@ -1,17 +1,17 @@
 #!/bin/sh
-# postrm script for wazuh-agent
-# Wazuh, Inc 2015
+# postrm script for cyb3rhq-agent
+# Cyb3rhq, Inc 2015
 
 set -e
 
 DIR="/var/ossec"
-WAZUH_TMP_DIR="${DIR}/packages_files/agent_config_files"
+CYB3RHQ_TMP_DIR="${DIR}/packages_files/agent_config_files"
 
 case "$1" in
     remove|failed-upgrade|abort-install|abort-upgrade|disappear)
 
-        if [ -d ${WAZUH_TMP_DIR} ]; then
-            rm -rf ${WAZUH_TMP_DIR}
+        if [ -d ${CYB3RHQ_TMP_DIR} ]; then
+            rm -rf ${CYB3RHQ_TMP_DIR}
         fi
 
         # Back up the old configuration files as .save
@@ -42,11 +42,11 @@ case "$1" in
 
         purge)
 
-        if getent passwd wazuh >/dev/null 2>&1; then
-            deluser wazuh > /dev/null 2>&1
+        if getent passwd cyb3rhq >/dev/null 2>&1; then
+            deluser cyb3rhq > /dev/null 2>&1
         fi
-        if getent group wazuh >/dev/null 2>&1; then
-            delgroup wazuh > /dev/null 2>&1
+        if getent group cyb3rhq >/dev/null 2>&1; then
+            delgroup cyb3rhq > /dev/null 2>&1
         fi
         rm -rf ${DIR}/*
 
@@ -58,8 +58,8 @@ case "$1" in
 
             OSMYSHELL="/sbin/nologin"
 
-            if [ -d ${DIR}/logs/wazuh ]; then
-                mv ${DIR}/logs/wazuh ${DIR}/logs/ossec
+            if [ -d ${DIR}/logs/cyb3rhq ]; then
+                mv ${DIR}/logs/cyb3rhq ${DIR}/logs/ossec
             fi
 
             if [ -d ${DIR}/queue/sockets ]; then
@@ -84,13 +84,13 @@ case "$1" in
             find ${DIR} ! -group root -exec chgrp ossec {} \; > /dev/null 2>&1
             find ${DIR} ! -user root -exec chown ossec {} \; > /dev/null 2>&1
 
-            # delete wazuh user and group
-            if getent passwd wazuh > /dev/null 2>&1; then
-                deluser wazuh
+            # delete cyb3rhq user and group
+            if getent passwd cyb3rhq > /dev/null 2>&1; then
+                deluser cyb3rhq
             fi
 
-            if getent group wazuh > /dev/null 2>&1; then
-                delgroup wazuh
+            if getent group cyb3rhq > /dev/null 2>&1; then
+                delgroup cyb3rhq
             fi
         fi
 

@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Cyb3rhq Inc.
+# Created by Cyb3rhq, Inc. <info@wazuh.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import gzip
@@ -19,7 +19,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '.'))
 import aws_utils as utils
 
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
-import wazuh_integration
+import cyb3rhq_integration
 import aws_tools
 
 TEST_METADATA_SCHEMA = "schema_metadata_test.sql"
@@ -28,19 +28,19 @@ METADATA_TABLE_NAME = 'metadata'
 DB_TABLENAME = "test_table"
 
 
-@patch('wazuh_integration.WazuhIntegration.get_client')
-@patch('wazuh_integration.utils.find_wazuh_path', return_value=utils.TEST_WAZUH_PATH)
-@patch('wazuh_integration.utils.get_wazuh_version')
-def test_wazuh_integration_initializes_properly(mock_version, mock_path, mock_client):
-    """Test if the instances of WazuhIntegration are created properly."""
+@patch('cyb3rhq_integration.Cyb3rhqIntegration.get_client')
+@patch('cyb3rhq_integration.utils.find_cyb3rhq_path', return_value=utils.TEST_CYB3RHQ_PATH)
+@patch('cyb3rhq_integration.utils.get_cyb3rhq_version')
+def test_cyb3rhq_integration_initializes_properly(mock_version, mock_path, mock_client):
+    """Test if the instances of Cyb3rhqIntegration are created properly."""
 
-    args = utils.get_wazuh_integration_parameters()
-    integration = wazuh_integration.WazuhIntegration(**args)
+    args = utils.get_cyb3rhq_integration_parameters()
+    integration = cyb3rhq_integration.Cyb3rhqIntegration(**args)
     mock_path.assert_called_once()
     mock_version.assert_called_once()
-    assert integration.wazuh_path == utils.TEST_WAZUH_PATH
-    assert integration.wazuh_queue == os.path.join(integration.wazuh_path, utils.QUEUE_PATH)
-    assert integration.wazuh_wodle == os.path.join(integration.wazuh_path, utils.WODLE_PATH)
+    assert integration.cyb3rhq_path == utils.TEST_CYB3RHQ_PATH
+    assert integration.cyb3rhq_queue == os.path.join(integration.cyb3rhq_path, utils.QUEUE_PATH)
+    assert integration.cyb3rhq_wodle == os.path.join(integration.cyb3rhq_path, utils.WODLE_PATH)
     mock_client.assert_called_with(profile=args["profile"], iam_role_arn=args["iam_role_arn"],
                                    service_name=args["service_name"], region=args["region"],
                                    sts_endpoint=args["sts_endpoint"], service_endpoint=args["service_endpoint"],
@@ -56,7 +56,7 @@ def test_wazuh_integration_initializes_properly(mock_version, mock_path, mock_cl
                           (False, None, None, None)]
                          )
 def test_default_config(file_exists, options, retry_attempts, retry_mode):
-    """Test if `default_config` function returns the Wazuh default Retry configuration if there is no user-defined
+    """Test if `default_config` function returns the Cyb3rhq default Retry configuration if there is no user-defined
     configuration.
 
     Parameters
@@ -73,13 +73,13 @@ def test_default_config(file_exists, options, retry_attempts, retry_mode):
         the AWS config file.
     """
     profile = utils.TEST_AWS_PROFILE
-    with patch('wazuh_integration.path.exists', return_value=file_exists):
+    with patch('cyb3rhq_integration.path.exists', return_value=file_exists):
         if file_exists:
             with patch('aws_tools.get_aws_config_params') as mock_config:
                 mock_config.options(profile).return_value = options
                 profile_config = {option: mock_config.get(profile, option) for option in mock_config.options(profile)}
 
-                config = wazuh_integration.WazuhIntegration.default_config(profile=utils.TEST_AWS_PROFILE)
+                config = cyb3rhq_integration.Cyb3rhqIntegration.default_config(profile=utils.TEST_AWS_PROFILE)
 
             if aws_tools.RETRY_ATTEMPTS_KEY in profile_config or aws_tools.RETRY_MODE_CONFIG_KEY in profile_config:
                 retries = {
@@ -87,22 +87,22 @@ def test_default_config(file_exists, options, retry_attempts, retry_mode):
                     aws_tools.RETRY_MODE_BOTO_KEY: retry_mode
                 }
             else:
-                retries = aws_tools.WAZUH_DEFAULT_RETRY_CONFIGURATION
+                retries = aws_tools.CYB3RHQ_DEFAULT_RETRY_CONFIGURATION
 
             assert config['config'].retries == retries
         else:
-            config = wazuh_integration.WazuhIntegration.default_config(profile=utils.TEST_AWS_PROFILE)
+            config = cyb3rhq_integration.Cyb3rhqIntegration.default_config(profile=utils.TEST_AWS_PROFILE)
             assert 'config' in config
-            assert config['config'].retries == aws_tools.WAZUH_DEFAULT_RETRY_CONFIGURATION
+            assert config['config'].retries == aws_tools.CYB3RHQ_DEFAULT_RETRY_CONFIGURATION
 
 
 @pytest.mark.parametrize('profile', [
     None,
     utils.TEST_AWS_PROFILE,
 ])
-@pytest.mark.parametrize('region', list(wazuh_integration.DEFAULT_GOV_REGIONS) + ['us-east-1', None])
-@pytest.mark.parametrize('service_name', list(wazuh_integration.SERVICES_REQUIRING_REGION) + ['other'])
-def test_wazuh_integration_get_client_authentication(profile, region, service_name):
+@pytest.mark.parametrize('region', list(cyb3rhq_integration.DEFAULT_GOV_REGIONS) + ['us-east-1', None])
+@pytest.mark.parametrize('service_name', list(cyb3rhq_integration.SERVICES_REQUIRING_REGION) + ['other'])
+def test_cyb3rhq_integration_get_client_authentication(profile, region, service_name):
     """Test `get_client` function uses the different authentication parameters properly.
 
     Parameters
@@ -114,7 +114,7 @@ def test_wazuh_integration_get_client_authentication(profile, region, service_na
     service_name : str
         Name of the service.
     """
-    kwargs = utils.get_wazuh_integration_parameters(
+    kwargs = utils.get_cyb3rhq_integration_parameters(
         profile=profile, region=region, service_name=service_name, iam_role_arn=None
     )
     expected_conn_args = {}
@@ -123,22 +123,22 @@ def test_wazuh_integration_get_client_authentication(profile, region, service_na
         expected_conn_args['profile_name'] = profile
     expected_conn_args['region_name'] = None
 
-    if region and service_name in wazuh_integration.SERVICES_REQUIRING_REGION:
+    if region and service_name in cyb3rhq_integration.SERVICES_REQUIRING_REGION:
         expected_conn_args['region_name'] = region
     else:
-        expected_conn_args['region_name'] = region if region in wazuh_integration.DEFAULT_GOV_REGIONS else None
+        expected_conn_args['region_name'] = region if region in cyb3rhq_integration.DEFAULT_GOV_REGIONS else None
 
-    with patch('wazuh_integration.utils.find_wazuh_path', return_value=utils.TEST_WAZUH_PATH), \
-            patch('wazuh_integration.utils.get_wazuh_version', return_value=utils.WAZUH_VERSION), \
-            patch('wazuh_integration.boto3.Session') as mock_boto:
-        wazuh_integration.WazuhIntegration(**kwargs)
+    with patch('cyb3rhq_integration.utils.find_cyb3rhq_path', return_value=utils.TEST_CYB3RHQ_PATH), \
+            patch('cyb3rhq_integration.utils.get_cyb3rhq_version', return_value=utils.CYB3RHQ_VERSION), \
+            patch('cyb3rhq_integration.boto3.Session') as mock_boto:
+        cyb3rhq_integration.Cyb3rhqIntegration(**kwargs)
         mock_boto.assert_called_with(**expected_conn_args)
 
 
 @pytest.mark.parametrize('external_id', [utils.TEST_EXTERNAL_ID, None])
 @pytest.mark.parametrize('iam_role_arn', [utils.TEST_IAM_ROLE_ARN, None])
 @pytest.mark.parametrize('service_name', ["cloudTrail", "cloudwatchlogs"])
-def test_wazuh_integration_get_client(iam_role_arn, service_name, external_id):
+def test_cyb3rhq_integration_get_client(iam_role_arn, service_name, external_id):
     """Test `get_client` function creates a valid client object both when an IAM Role is provided and when it's not.
 
     Parameters
@@ -150,7 +150,7 @@ def test_wazuh_integration_get_client(iam_role_arn, service_name, external_id):
     external_id : str
         External ID primarily used for Security Lake.
     """
-    kwargs = utils.get_wazuh_integration_parameters(profile=None,
+    kwargs = utils.get_cyb3rhq_integration_parameters(profile=None,
                                                     sts_endpoint=utils.TEST_SERVICE_ENDPOINT,
                                                     service_endpoint=utils.TEST_SERVICE_ENDPOINT,
                                                     service_name=service_name, iam_role_arn=iam_role_arn,
@@ -160,7 +160,7 @@ def test_wazuh_integration_get_client(iam_role_arn, service_name, external_id):
     conn_kwargs = {'region_name': None}
     sts_kwargs = {'aws_access_key_id': None, 'aws_secret_access_key': None, 'aws_session_token': utils.TEST_TOKEN,
                   'region_name': None}
-    assume_role_kwargs = {'RoleArn': iam_role_arn, 'RoleSessionName': 'WazuhLogParsing',
+    assume_role_kwargs = {'RoleArn': iam_role_arn, 'RoleSessionName': 'Cyb3rhqLogParsing',
                           'DurationSeconds': utils.TEST_IAM_ROLE_DURATION}
     if external_id:
         assume_role_kwargs['ExternalId'] = external_id
@@ -174,10 +174,10 @@ def test_wazuh_integration_get_client(iam_role_arn, service_name, external_id):
     mock_boto_session.client.return_value = mock_sts_client
     mock_sts_client.assume_role.return_value = sts_role_assumption
 
-    with patch('wazuh_integration.utils.find_wazuh_path', return_value=utils.TEST_WAZUH_PATH), \
-            patch('wazuh_integration.utils.get_wazuh_version', return_value=utils.WAZUH_VERSION), \
-            patch('wazuh_integration.boto3.Session', side_effect=[mock_boto_session, mock_sts_session]) as mock_session:
-        instance = wazuh_integration.WazuhIntegration(**kwargs)
+    with patch('cyb3rhq_integration.utils.find_cyb3rhq_path', return_value=utils.TEST_CYB3RHQ_PATH), \
+            patch('cyb3rhq_integration.utils.get_cyb3rhq_version', return_value=utils.CYB3RHQ_VERSION), \
+            patch('cyb3rhq_integration.boto3.Session', side_effect=[mock_boto_session, mock_sts_session]) as mock_session:
+        instance = cyb3rhq_integration.Cyb3rhqIntegration(**kwargs)
 
         if iam_role_arn:
             mock_session.assert_has_calls([call(**conn_kwargs), call(**sts_kwargs)])
@@ -194,17 +194,17 @@ def test_wazuh_integration_get_client(iam_role_arn, service_name, external_id):
                                                         **instance.connection_config)
 
 
-def test_wazuh_integration_get_client_handles_exceptions_on_botocore_error():
+def test_cyb3rhq_integration_get_client_handles_exceptions_on_botocore_error():
     """Test `get_client` function handles botocore.exceptions as expected."""
     mock_boto_session = MagicMock()
-    mock_boto_session.client.side_effect = wazuh_integration.botocore.exceptions.ClientError({'Error': {'Code': 1}},
+    mock_boto_session.client.side_effect = cyb3rhq_integration.botocore.exceptions.ClientError({'Error': {'Code': 1}},
                                                                                              'operation')
 
-    with patch('wazuh_integration.utils.find_wazuh_path', return_value=utils.TEST_WAZUH_PATH), \
-            patch('wazuh_integration.utils.get_wazuh_version', return_value=utils.WAZUH_VERSION), \
-            patch('wazuh_integration.boto3.Session', return_value=mock_boto_session):
+    with patch('cyb3rhq_integration.utils.find_cyb3rhq_path', return_value=utils.TEST_CYB3RHQ_PATH), \
+            patch('cyb3rhq_integration.utils.get_cyb3rhq_version', return_value=utils.CYB3RHQ_VERSION), \
+            patch('cyb3rhq_integration.boto3.Session', return_value=mock_boto_session):
         with pytest.raises(SystemExit) as e:
-            wazuh_integration.WazuhIntegration(**utils.get_wazuh_integration_parameters())
+            cyb3rhq_integration.Cyb3rhqIntegration(**utils.get_cyb3rhq_integration_parameters())
         assert e.value.code == utils.INVALID_CREDENTIALS_ERROR_CODE
 
 
@@ -212,7 +212,7 @@ def test_wazuh_integration_get_client_handles_exceptions_on_botocore_error():
     None,
     utils.TEST_AWS_PROFILE,
 ])
-def test_wazuh_integration_get_sts_client(profile):
+def test_cyb3rhq_integration_get_sts_client(profile):
     """Test `get_sts_client` function uses the expected configuration for the session and the client while returning a
     valid sts client object.
 
@@ -221,36 +221,36 @@ def test_wazuh_integration_get_sts_client(profile):
     profile : str
         AWS profile name.
     """
-    instance = utils.get_mocked_wazuh_integration(profile=profile)
+    instance = utils.get_mocked_cyb3rhq_integration(profile=profile)
     expected_conn_args = {}
 
     if profile:
         expected_conn_args['profile_name'] = profile
 
     mock_session = MagicMock()
-    with patch('wazuh_integration.boto3.Session', return_value=mock_session) as mock_boto:
+    with patch('cyb3rhq_integration.boto3.Session', return_value=mock_session) as mock_boto:
         sts_client = instance.get_sts_client(profile=profile)
         mock_boto.assert_called_with(**expected_conn_args)
         mock_session.client.assert_called_with(service_name='sts', **instance.connection_config)
         assert sts_client == mock_session.client()
 
 
-def test_wazuh_integration_get_sts_client_handles_exceptions_when_invalid_creds_provided():
+def test_cyb3rhq_integration_get_sts_client_handles_exceptions_when_invalid_creds_provided():
     """Test `get_sts_client` function handles invalid credentials exception as expected."""
     mock_boto_session = MagicMock()
-    mock_boto_session.client.side_effect = wazuh_integration.botocore.exceptions.ClientError({'Error': {'Code': 1}},
+    mock_boto_session.client.side_effect = cyb3rhq_integration.botocore.exceptions.ClientError({'Error': {'Code': 1}},
                                                                                              'operation')
 
-    instance = utils.get_mocked_wazuh_integration(profile=None)
+    instance = utils.get_mocked_cyb3rhq_integration(profile=None)
 
-    with patch('wazuh_integration.boto3.Session', return_value=mock_boto_session):
+    with patch('cyb3rhq_integration.boto3.Session', return_value=mock_boto_session):
         with pytest.raises(SystemExit) as e:
             instance.get_sts_client(profile=None)
         assert e.value.code == utils.INVALID_CREDENTIALS_ERROR_CODE
 
 
 @pytest.mark.parametrize("dump_json", [True, False])
-def test_wazuh_integration_send_msg(dump_json):
+def test_cyb3rhq_integration_send_msg(dump_json):
     """Test `send_msg` function build the message using the expected format and sends it to the appropriate socket.
 
     Parameters
@@ -258,14 +258,14 @@ def test_wazuh_integration_send_msg(dump_json):
     dump_json : bool
         Determine if the message should be dumped first.
     """
-    instance = utils.get_mocked_wazuh_integration()
+    instance = utils.get_mocked_cyb3rhq_integration()
     msg = dumps(utils.TEST_MESSAGE) if dump_json else utils.TEST_MESSAGE
-    with patch('wazuh_integration.socket.socket') as mock_socket:
+    with patch('cyb3rhq_integration.socket.socket') as mock_socket:
         m = MagicMock()
         mock_socket.return_value = m
         instance.send_msg(utils.TEST_MESSAGE, dump_json=dump_json)
         mock_socket.assert_called_once()
-        m.send.assert_called_with(f"{wazuh_integration.MESSAGE_HEADER}{msg}".encode())
+        m.send.assert_called_with(f"{cyb3rhq_integration.MESSAGE_HEADER}{msg}".encode())
         m.close.assert_called_once()
 
 
@@ -274,7 +274,7 @@ def test_wazuh_integration_send_msg(dump_json):
     (1, utils.SENDING_MESSAGE_SOCKET_ERROR_CODE),
     (90, None)
 ])
-def test_wazuh_integration_send_msg_socket_error(error_code, expected_exit_code):
+def test_cyb3rhq_integration_send_msg_socket_error(error_code, expected_exit_code):
     """Test `send_msg` function handles the different expected socket exceptions.
 
     Parameters
@@ -284,11 +284,11 @@ def test_wazuh_integration_send_msg_socket_error(error_code, expected_exit_code)
     expected_exit_code : int
         Error code number for the expected exit exception.
     """
-    instance = utils.get_mocked_wazuh_integration()
+    instance = utils.get_mocked_cyb3rhq_integration()
     error = socket.error()
     error.errno = error_code
 
-    with patch('wazuh_integration.socket.socket') as mock_socket:
+    with patch('cyb3rhq_integration.socket.socket') as mock_socket:
         mock_socket.side_effect = error
         if expected_exit_code:
             with pytest.raises(SystemExit) as e:
@@ -299,11 +299,11 @@ def test_wazuh_integration_send_msg_socket_error(error_code, expected_exit_code)
 
 
 @patch('io.BytesIO')
-def test_wazuh_integration_decompress_file(mock_io):
+def test_cyb3rhq_integration_decompress_file(mock_io):
     """Test 'decompress_file' method calls the expected function for a determined file type."""
-    integration = utils.get_mocked_wazuh_integration()
+    integration = utils.get_mocked_cyb3rhq_integration()
     integration.client = MagicMock()
-    # Instance that inherits from WazuhIntegration sets the attribute bucket in its constructor
+    # Instance that inherits from Cyb3rhqIntegration sets the attribute bucket in its constructor
     integration.bucket = utils.TEST_BUCKET
 
     with patch('gzip.open', return_value=MagicMock()) as mock_gzip_open:
@@ -331,14 +331,14 @@ def test_wazuh_integration_decompress_file(mock_io):
 
 
 @patch('io.BytesIO')
-def test_aws_wazuh_integration_decompress_file_handles_exceptions_when_decompress_fails(mock_io):
+def test_aws_cyb3rhq_integration_decompress_file_handles_exceptions_when_decompress_fails(mock_io):
     """Test 'decompress_file' method handles exceptions raised when trying to decompress a file and
     exits with the expected exit code.
     """
-    integration = utils.get_mocked_wazuh_integration()
+    integration = utils.get_mocked_cyb3rhq_integration()
     integration.client = MagicMock()
 
-    # Instance that inherits from WazuhIntegration sets the attribute bucket in its constructor
+    # Instance that inherits from Cyb3rhqIntegration sets the attribute bucket in its constructor
     integration.bucket = utils.TEST_BUCKET
 
     with patch('gzip.open', side_effect=[gzip.BadGzipFile, zlib.error, TypeError]), \
@@ -356,48 +356,48 @@ def test_aws_wazuh_integration_decompress_file_handles_exceptions_when_decompres
     assert e.value.code == utils.DECOMPRESS_FILE_ERROR_CODE
 
 
-def test_wazuh_integration_send_msg_handles_exceptions():
+def test_cyb3rhq_integration_send_msg_handles_exceptions():
     """Test `send_msg` function handles the other expected exceptions."""
-    instance = utils.get_mocked_wazuh_integration()
+    instance = utils.get_mocked_cyb3rhq_integration()
 
-    with patch('wazuh_integration.socket.socket') as mock_socket:
+    with patch('cyb3rhq_integration.socket.socket') as mock_socket:
         mock_socket.side_effect = TypeError
         with pytest.raises(SystemExit) as e:
             instance.send_msg(utils.TEST_MESSAGE)
         assert e.value.code == utils.SENDING_MESSAGE_SOCKET_ERROR_CODE
 
 
-@patch('wazuh_integration.utils.find_wazuh_path', return_value=utils.TEST_WAZUH_PATH)
-@patch('wazuh_integration.utils.get_wazuh_version')
-@patch('wazuh_integration.WazuhIntegration.get_client')
-@patch('wazuh_integration.WazuhAWSDatabase.check_metadata_version')
-@patch('wazuh_integration.sqlite3.connect')
-def test_wazuh_aws_database_initializes_properly(mock_connect, mock_metadata, mock_client, mock_version, mock_path):
-    """Test if the instances of WazuhAWSDatabase are created properly."""
+@patch('cyb3rhq_integration.utils.find_cyb3rhq_path', return_value=utils.TEST_CYB3RHQ_PATH)
+@patch('cyb3rhq_integration.utils.get_cyb3rhq_version')
+@patch('cyb3rhq_integration.Cyb3rhqIntegration.get_client')
+@patch('cyb3rhq_integration.Cyb3rhqAWSDatabase.check_metadata_version')
+@patch('cyb3rhq_integration.sqlite3.connect')
+def test_cyb3rhq_aws_database_initializes_properly(mock_connect, mock_metadata, mock_client, mock_version, mock_path):
+    """Test if the instances of Cyb3rhqAWSDatabase are created properly."""
     mock_connect.return_value = MagicMock()
-    args = utils.get_wazuh_aws_database_parameters()
-    wazuh_aws_db = wazuh_integration.WazuhAWSDatabase(**args)
+    args = utils.get_cyb3rhq_aws_database_parameters()
+    cyb3rhq_aws_db = cyb3rhq_integration.Cyb3rhqAWSDatabase(**args)
 
-    assert wazuh_aws_db.db_path == os.path.join(wazuh_aws_db.wazuh_wodle, f"{utils.TEST_DATABASE}.db")
+    assert cyb3rhq_aws_db.db_path == os.path.join(cyb3rhq_aws_db.cyb3rhq_wodle, f"{utils.TEST_DATABASE}.db")
     mock_connect.assert_called_once()
-    wazuh_aws_db.db_connector.cursor.assert_called_once()
+    cyb3rhq_aws_db.db_connector.cursor.assert_called_once()
     mock_metadata.assert_called_once()
 
 
-def test_wazuh_aws_database_create_table():
+def test_cyb3rhq_aws_database_create_table():
     """Test `create_table` function creates the table using the expected SQL."""
-    instance = utils.get_mocked_wazuh_aws_database()
+    instance = utils.get_mocked_cyb3rhq_aws_database()
     instance.db_cursor = MagicMock()
     test_sql = "test"
     instance.create_table(test_sql)
     instance.db_cursor.execute.assert_called_with(test_sql)
 
 
-def test_wazuh_aws_database_create_table_handles_exceptions_when_table_not_created():
+def test_cyb3rhq_aws_database_create_table_handles_exceptions_when_table_not_created():
     """Test `create_table` function handles exceptions raised
     and exits with the expected code when the table cannot be created.
     """
-    instance = utils.get_mocked_wazuh_aws_database()
+    instance = utils.get_mocked_cyb3rhq_aws_database()
     instance.db_cursor = MagicMock()
     instance.db_cursor.execute.side_effect = Exception
 
@@ -412,8 +412,8 @@ def test_wazuh_aws_database_create_table_handles_exceptions_when_table_not_creat
     [DB_TABLENAME],
     []
 ])
-@patch('wazuh_integration.WazuhAWSDatabase.create_table')
-def test_wazuh_aws_database_db_initialization(mock_create_table, table_list):
+@patch('cyb3rhq_integration.Cyb3rhqAWSDatabase.create_table')
+def test_cyb3rhq_aws_database_db_initialization(mock_create_table, table_list):
     """Test `init_db` function checks if the required table exists and creates it if not.
 
     Parameters
@@ -421,7 +421,7 @@ def test_wazuh_aws_database_db_initialization(mock_create_table, table_list):
     table_list : list of str
         Table list to be returned by the mocked database query.
     """
-    instance = utils.get_mocked_wazuh_aws_database()
+    instance = utils.get_mocked_cyb3rhq_aws_database()
     instance.db_cursor = MagicMock()
     instance.db_cursor.execute.return_value = [(x,) for x in table_list]
     instance.db_table_name = DB_TABLENAME
@@ -434,9 +434,9 @@ def test_wazuh_aws_database_db_initialization(mock_create_table, table_list):
         mock_create_table.assert_called_with(test_sql)
 
 
-def test_wazuh_aws_database_db_initialization_handles_exceptions():
+def test_cyb3rhq_aws_database_db_initialization_handles_exceptions():
     """Test `init_db` function handles exception as expected."""
-    instance = utils.get_mocked_wazuh_aws_database()
+    instance = utils.get_mocked_cyb3rhq_aws_database()
     instance.db_cursor = MagicMock()
     instance.db_cursor.execute.side_effect = sqlite3.OperationalError
 
@@ -445,9 +445,9 @@ def test_wazuh_aws_database_db_initialization_handles_exceptions():
     assert e.value.code == utils.METADATA_ERROR_CODE
 
 
-def test_wazuh_aws_database_close_db():
+def test_cyb3rhq_aws_database_close_db():
     """Test `close_db` function closes the database objects properly."""
-    instance = utils.get_mocked_wazuh_aws_database()
+    instance = utils.get_mocked_cyb3rhq_aws_database()
     instance.db_connector = MagicMock()
     instance.db_cursor = MagicMock()
 
@@ -458,34 +458,34 @@ def test_wazuh_aws_database_close_db():
     instance.db_connector.close.assert_called_once()
 
 
-def test_wazuh_aws_database_check_metadata_version_existing_table(custom_database):
+def test_cyb3rhq_aws_database_check_metadata_version_existing_table(custom_database):
     """Test if `check_metadata_version` function updates the metadata value when the table already exists."""
     # Populate the database
     utils.database_execute_script(custom_database, TEST_METADATA_SCHEMA)
 
-    instance = utils.get_mocked_wazuh_aws_database(db_name=utils.TEST_DATABASE)
+    instance = utils.get_mocked_cyb3rhq_aws_database(db_name=utils.TEST_DATABASE)
     instance.db_connector = custom_database
     instance.db_cursor = instance.db_connector.cursor()
     old_metadata_value = utils.database_execute_query(custom_database, instance.sql_get_metadata_version)
-    assert old_metadata_value != utils.WAZUH_VERSION
+    assert old_metadata_value != utils.CYB3RHQ_VERSION
 
     instance.check_metadata_version()
     new_metadata_value = utils.database_execute_query(custom_database, instance.sql_get_metadata_version)
-    assert new_metadata_value == utils.WAZUH_VERSION
+    assert new_metadata_value == utils.CYB3RHQ_VERSION
 
 
-def test_wazuh_aws_database_check_metadata_version_no_table(custom_database):
+def test_cyb3rhq_aws_database_check_metadata_version_no_table(custom_database):
     """Test if `check_metadata_version` function updates the metadata value when the table does not exist."""
-    instance = utils.get_mocked_wazuh_aws_database(db_name=utils.TEST_DATABASE)
+    instance = utils.get_mocked_cyb3rhq_aws_database(db_name=utils.TEST_DATABASE)
     instance.db_connector = custom_database
     instance.db_cursor = instance.db_connector.cursor()
     instance.check_metadata_version()
     new_metadata_value = utils.database_execute_query(custom_database, instance.sql_get_metadata_version)
-    assert new_metadata_value == utils.WAZUH_VERSION
+    assert new_metadata_value == utils.CYB3RHQ_VERSION
 
 
 @pytest.mark.parametrize('table_exists', [True, False, sqlite3.Error])
-def test_wazuh_aws_database_check_metadata_version_handles_exceptions(custom_database, table_exists):
+def test_cyb3rhq_aws_database_check_metadata_version_handles_exceptions(custom_database, table_exists):
     """Test if `check_metadata_version` function handles exceptions properly.
 
     Parameters
@@ -501,7 +501,7 @@ def test_wazuh_aws_database_check_metadata_version_handles_exceptions(custom_dat
     mocked_cursor = MagicMock()
     mocked_cursor.execute.side_effect = [mocked_table_exists, sqlite3.OperationalError]
 
-    instance = utils.get_mocked_wazuh_aws_database(db_name=utils.TEST_DATABASE)
+    instance = utils.get_mocked_cyb3rhq_aws_database(db_name=utils.TEST_DATABASE)
     instance.db_connector = custom_database
     instance.db_cursor = mocked_cursor
 
@@ -510,23 +510,23 @@ def test_wazuh_aws_database_check_metadata_version_handles_exceptions(custom_dat
     assert e.value.code == utils.METADATA_ERROR_CODE
 
 
-def test_wazuh_aws_database_delete_deprecated_tables(custom_database):
+def test_cyb3rhq_aws_database_delete_deprecated_tables(custom_database):
     """Test `delete_deprecated_tables` function remove unwanted tables while keeping the rest intact."""
     # Populate the database
     utils.database_execute_script(custom_database, TEST_METADATA_DEPRECATED_TABLES_SCHEMA)
 
-    instance = utils.get_mocked_wazuh_aws_database(db_name=utils.TEST_DATABASE)
+    instance = utils.get_mocked_cyb3rhq_aws_database(db_name=utils.TEST_DATABASE)
     instance.db_connector = custom_database
     instance.db_cursor = instance.db_connector.cursor()
 
-    for table in wazuh_integration.DEPRECATED_TABLES:
+    for table in cyb3rhq_integration.DEPRECATED_TABLES:
         assert instance.db_cursor.execute(instance.sql_find_table, {'name': table}).fetchone()[0]
     assert instance.db_cursor.execute(instance.sql_find_table, {'name': METADATA_TABLE_NAME}).fetchone()[0]
 
     instance.delete_deprecated_tables()
 
     # The deprecated tables were deleted
-    for table in wazuh_integration.DEPRECATED_TABLES:
+    for table in cyb3rhq_integration.DEPRECATED_TABLES:
         assert not instance.db_cursor.execute(instance.sql_find_table, {'name': table}).fetchone()
     # The metadata table is still present
     assert instance.db_cursor.execute(instance.sql_find_table, {'name': METADATA_TABLE_NAME}).fetchone()[0]

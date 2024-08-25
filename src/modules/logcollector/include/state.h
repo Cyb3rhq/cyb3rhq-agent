@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it
@@ -13,9 +13,9 @@
 #include "shared.h"
 
 #ifdef WIN32
-#define LOGCOLLECTOR_STATE      "wazuh-logcollector.state"
+#define LOGCOLLECTOR_STATE      "cyb3rhq-logcollector.state"
 #else
-#define LOGCOLLECTOR_STATE      "var/run/wazuh-logcollector.state"
+#define LOGCOLLECTOR_STATE      "var/run/cyb3rhq-logcollector.state"
 #endif
 
 #define LOGCOLLECTOR_STATE_FILES_MAX   40                   ///< Size of the statistics hash table

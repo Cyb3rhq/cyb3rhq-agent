@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 #
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Cyb3rhq Inc.
+# Created by Cyb3rhq, Inc. <info@wazuh.com>.
 # This program is free software; you can redistribute
 # it and/or modify it under the terms of GPLv2
 
@@ -36,7 +36,7 @@ def get_script_arguments():
         Namespace with the arguments passed to the script.
     """
     parser = argparse.ArgumentParser(usage="usage: %(prog)s [options]",
-                                     description="Wazuh wodle for monitoring Google Cloud",
+                                     description="Cyb3rhq wodle for monitoring Google Cloud",
                                      formatter_class=argparse.RawTextHelpFormatter)
 
     parser.add_argument('-T', '--integration_type', dest='integration_type',

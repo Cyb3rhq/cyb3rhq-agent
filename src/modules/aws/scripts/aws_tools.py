@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 #
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Cyb3rhq Inc.
+# Created by Cyb3rhq, Inc. <info@wazuh.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 """This module contains generic functions for this wodle."""
@@ -29,7 +29,7 @@ ALL_REGIONS = (
 RETRY_ATTEMPTS_KEY: str = "max_attempts"
 RETRY_MODE_CONFIG_KEY: str = "retry_mode"
 RETRY_MODE_BOTO_KEY: str = "mode"
-WAZUH_DEFAULT_RETRY_CONFIGURATION = {RETRY_ATTEMPTS_KEY: 10, RETRY_MODE_BOTO_KEY: 'standard'}
+CYB3RHQ_DEFAULT_RETRY_CONFIGURATION = {RETRY_ATTEMPTS_KEY: 10, RETRY_MODE_BOTO_KEY: 'standard'}
 
 # Enable/disable debug mode
 debug_level = 0
@@ -347,7 +347,7 @@ def get_aws_config_params() -> configparser.RawConfigParser:
 
 def get_script_arguments():
     parser = argparse.ArgumentParser(usage="usage: %(prog)s [options]",
-                                     description="Wazuh wodle for monitoring AWS",
+                                     description="Cyb3rhq wodle for monitoring AWS",
                                      formatter_class=argparse.RawTextHelpFormatter)
     # only one must be present (bucket or service)
     group = parser.add_mutually_exclusive_group(required=True)

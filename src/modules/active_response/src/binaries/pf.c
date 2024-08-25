@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * All right reserved.
  *
  * This program is free software; you can redistribute it
@@ -11,7 +11,7 @@
 
 #define DEVPF       ("/dev/pf")
 #define PFCTL_RULES ("/etc/pf.conf")
-#define PFCTL_TABLE ("wazuh_fwtable")
+#define PFCTL_TABLE ("cyb3rhq_fwtable")
 
 /**
  * @brief check if firewall is configured
@@ -124,7 +124,7 @@ int main (int argc, char **argv) {
                 os_free(pfctl_path);
                 return OS_SUCCESS;
             } else {
-                // Checking if wazuh table is configured in pf.conf
+                // Checking if cyb3rhq table is configured in pf.conf
                 if (checking_if_its_configured(argv[0], PFCTL_RULES, PFCTL_TABLE) != 0) {
                     memset(log_msg, '\0', OS_MAXSTR);
                     snprintf(log_msg, OS_MAXSTR - 1, "Table '%s' does not exist", PFCTL_TABLE);

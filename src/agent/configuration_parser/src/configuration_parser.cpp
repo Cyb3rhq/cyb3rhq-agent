@@ -2,7 +2,7 @@
 
 namespace
 {
-    const std::string CONFIG_FILE_NAME = "wazuh.conf";
+    const std::string CONFIG_FILE_NAME = "cyb3rhq.conf";
 }
 
 namespace configuration
@@ -15,7 +15,7 @@ namespace configuration
         }
         catch (const std::exception& e)
         {
-            std::cout << "Using default values due to error parsing wazuh.conf file: " << e.what() << std::endl;
+            std::cout << "Using default values due to error parsing cyb3rhq.conf file: " << e.what() << std::endl;
 
             tbl = toml::parse_str(
                 R"([agent]
@@ -34,7 +34,7 @@ namespace configuration
         }
         catch (const std::exception& e)
         {
-            std::cout << "Error parsing wazuh.conf file: " << e.what() << std::endl;
+            std::cout << "Error parsing cyb3rhq.conf file: " << e.what() << std::endl;
             throw;
         }
     }

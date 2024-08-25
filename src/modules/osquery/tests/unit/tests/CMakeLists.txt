@@ -1,4 +1,4 @@
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, Cyb3rhq Inc.
 #
 # This program is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -17,9 +17,9 @@ list(APPEND tests_flags "-Wl,--wrap,access -Wl,--wrap,wurl_http_request \
                          -Wl,--wrap,fim_db_transaction_sync_row -Wl,--wrap,fim_db_file_update -Wl,--wrap,fim_db_file_pattern_search \
                          -Wl,--wrap,fim_db_init,--wrap,getpid")
 
-# Generate wazuh modules library
-file(GLOB osquery ../../../wazuh_modules/*.o)
-list(REMOVE_ITEM osquery ../../../wazuh_modules/main.o)
+# Generate cyb3rhq modules library
+file(GLOB osquery ../../../cyb3rhq_modules/*.o)
+list(REMOVE_ITEM osquery ../../../cyb3rhq_modules/main.o)
 
 add_library(OSQUERY_O STATIC ${osquery})
 
@@ -36,7 +36,7 @@ set_target_properties(
   LINKER_LANGUAGE C
   )
 
-target_link_libraries(OSQUERY_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(OSQUERY_O ${CYB3RHQLIB} ${CYB3RHQEXT} -lpthread)
 
 
 # Compiling tests
@@ -56,8 +56,8 @@ foreach(counter RANGE ${count})
     if(${TARGET} STREQUAL "server")
         target_link_libraries(
             ${test_name}
-            ${WAZUHLIB}
-            ${WAZUHEXT}
+            ${CYB3RHQLIB}
+            ${CYB3RHQEXT}
             OSQUERY_O
             -lcmocka
             -ldl

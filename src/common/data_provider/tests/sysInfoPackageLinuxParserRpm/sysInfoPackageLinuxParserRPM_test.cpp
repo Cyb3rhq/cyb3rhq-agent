@@ -1,6 +1,6 @@
 /*
- * Wazuh SysInfo
- * Copyright (C) 2015, Wazuh Inc.
+ * Cyb3rhq SysInfo
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * December 22, 2021.
  *
  * This program is free software; you can redistribute it
@@ -187,7 +187,7 @@ TEST(SysInfoPackageLinuxParserRPM_test, rpmFromBerkleyDB)
     CallbackMock wrapper;
 
     auto expectedPackage1 =
-        R"({"architecture":"amd64","description":"The Open Source Security Platform","format":"rpm","groups":"test","install_time":"5","name":"Wazuh","size":321,"vendor":"The Wazuh Team","version":"123:4.4-1","location":" ","priority":" ","source":" "})"_json;
+        R"({"architecture":"amd64","description":"The Open Source Security Platform","format":"rpm","groups":"test","install_time":"5","name":"Cyb3rhq","size":321,"vendor":"The Cyb3rhq Team","version":"123:4.4-1","location":" ","priority":" ","source":" "})"_json;
 
     auto utils_mock { std::make_unique<UtilsMock>() };
     auto libdb_mock { std::make_unique<LibDBMock>() };
@@ -213,14 +213,14 @@ TEST(SysInfoPackageLinuxParserRPM_test, rpmFromBerkleyDB)
 
     // Emulate data stored in database
 
-    std::string name { "Wazuh" };
+    std::string name { "Cyb3rhq" };
     std::string version { "4.4" };
     std::string release { "1" };
     int epoch { 123 };
     std::string summary { "The Open Source Security Platform" };
     int itime { 5 };
     int size { 321 };
-    std::string vendor { "The Wazuh Team" };
+    std::string vendor { "The Cyb3rhq Team" };
     std::string group { "test" };
     std::string source { "github" };
     std::string arch { "amd64" };

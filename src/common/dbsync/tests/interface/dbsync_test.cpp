@@ -1,6 +1,6 @@
 /*
- * Wazuh DBSYNC
- * Copyright (C) 2015, Wazuh Inc.
+ * Cyb3rhq DBSYNC
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * July 11, 2020.
  *
  * This program is free software; you can redistribute it
@@ -382,10 +382,10 @@ TEST_F(DBSyncTest, GetDeletedRowsOnlyPKs)
     const auto sql{ "CREATE TABLE processes(`pid` BIGINT, `name` TEXT, `euser` TEXT, PRIMARY KEY (`pid`,`name`)) WITHOUT ROWID;"};
     const auto table { R"({"table":"processes"})" };
     auto syncSqlStmt1 = SyncRowQuery::builder().table("processes")
-                        .data(nlohmann::json::parse(R"({"pid":4,"name":"System","euser":"wazuh"})"))
+                        .data(nlohmann::json::parse(R"({"pid":4,"name":"System","euser":"cyb3rhq"})"))
                         .query();
     auto syncSqlStmt2 = SyncRowQuery::builder().table("processes")
-                        .data(nlohmann::json::parse(R"({"pid":7,"name":"Guake","euser":"wazuh"})"))
+                        .data(nlohmann::json::parse(R"({"pid":7,"name":"Guake","euser":"cyb3rhq"})"))
                         .query();
     const std::unique_ptr<cJSON, CJsonSmartDeleter> jsonTables { cJSON_Parse(table) };
     const std::unique_ptr<cJSON, CJsonSmartDeleter> jsSync1 { cJSON_Parse(syncSqlStmt1.dump().c_str()) };
@@ -395,9 +395,9 @@ TEST_F(DBSyncTest, GetDeletedRowsOnlyPKs)
     CallbackMock wrapper;
     callback_data_t callbackData { callback, &wrapper };
 
-    EXPECT_CALL(wrapper, callbackMock(INSERTED, nlohmann::json::parse(R"({"name":"System","pid":4,"euser":"wazuh"})"))).Times(1);
-    EXPECT_CALL(wrapper, callbackMock(INSERTED, nlohmann::json::parse(R"({"name":"Guake","pid":7,"euser":"wazuh"})"))).Times(1);
-    EXPECT_CALL(wrapper, callbackMock(DELETED, nlohmann::json::parse(R"({"euser":"wazuh","name":"System","pid":4})"))).Times(1);
+    EXPECT_CALL(wrapper, callbackMock(INSERTED, nlohmann::json::parse(R"({"name":"System","pid":4,"euser":"cyb3rhq"})"))).Times(1);
+    EXPECT_CALL(wrapper, callbackMock(INSERTED, nlohmann::json::parse(R"({"name":"Guake","pid":7,"euser":"cyb3rhq"})"))).Times(1);
+    EXPECT_CALL(wrapper, callbackMock(DELETED, nlohmann::json::parse(R"({"euser":"cyb3rhq","name":"System","pid":4})"))).Times(1);
 
     dummyCtx->handle = dbsync_create(HostType::AGENT, DbEngineType::SQLITE3, DATABASE_TEMP, sql);
     ASSERT_NE(nullptr, dummyCtx->handle);
@@ -417,10 +417,10 @@ TEST_F(DBSyncTest, GetDeletedRowsAllAttributes)
     const auto sql{ "CREATE TABLE processes(`pid` BIGINT, `name` TEXT, `euser` TEXT, PRIMARY KEY (`pid`,`name`)) WITHOUT ROWID;"};
     const auto table { R"({"table":"processes"})" };
     auto syncSqlStmt1 = SyncRowQuery::builder().table("processes")
-                        .data(nlohmann::json::parse(R"({"pid":4,"name":"System","euser":"wazuh"})"))
+                        .data(nlohmann::json::parse(R"({"pid":4,"name":"System","euser":"cyb3rhq"})"))
                         .query();
     auto syncSqlStmt2 = SyncRowQuery::builder().table("processes")
-                        .data(nlohmann::json::parse(R"({"pid":7,"name":"Guake","euser":"wazuh"})"))
+                        .data(nlohmann::json::parse(R"({"pid":7,"name":"Guake","euser":"cyb3rhq"})"))
                         .query();
     const std::unique_ptr<cJSON, CJsonSmartDeleter> jsonTables { cJSON_Parse(table) };
     const std::unique_ptr<cJSON, CJsonSmartDeleter> jsSync1 { cJSON_Parse(syncSqlStmt1.dump().c_str()) };
@@ -430,9 +430,9 @@ TEST_F(DBSyncTest, GetDeletedRowsAllAttributes)
     CallbackMock wrapper;
     callback_data_t callbackData { callback, &wrapper };
 
-    EXPECT_CALL(wrapper, callbackMock(INSERTED, nlohmann::json::parse(R"({"name":"System","pid":4,"euser":"wazuh"})"))).Times(1);
-    EXPECT_CALL(wrapper, callbackMock(INSERTED, nlohmann::json::parse(R"({"name":"Guake","pid":7,"euser":"wazuh"})"))).Times(1);
-    EXPECT_CALL(wrapper, callbackMock(DELETED, nlohmann::json::parse(R"({"name":"System","pid":4,"euser":"wazuh"})"))).Times(1);
+    EXPECT_CALL(wrapper, callbackMock(INSERTED, nlohmann::json::parse(R"({"name":"System","pid":4,"euser":"cyb3rhq"})"))).Times(1);
+    EXPECT_CALL(wrapper, callbackMock(INSERTED, nlohmann::json::parse(R"({"name":"Guake","pid":7,"euser":"cyb3rhq"})"))).Times(1);
+    EXPECT_CALL(wrapper, callbackMock(DELETED, nlohmann::json::parse(R"({"name":"System","pid":4,"euser":"cyb3rhq"})"))).Times(1);
 
     dummyCtx->handle = dbsync_create(HostType::AGENT, DbEngineType::SQLITE3, DATABASE_TEMP, sql);
     ASSERT_NE(nullptr, dummyCtx->handle);

@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All right reserved.
  *
@@ -21,7 +21,7 @@
 #define NULL_ERROR    "(1105): Attempted to use null string."
 #define FORMAT_ERROR  "(1106): String not correctly formatted."
 #define MKDIR_ERROR   "(1107): Could not create directory '%s' due to [(%d)-(%s)]."
-#define HOME_ERROR    "(1108): Unable to find Wazuh install directory. Export it to WAZUH_HOME environment variable."
+#define HOME_ERROR    "(1108): Unable to find Cyb3rhq install directory. Export it to CYB3RHQ_HOME environment variable."
 #define THREAD_ERROR  "(1109): Unable to create new pthread."
 #define FWRITE_ERROR  "(1110): Could not write file '%s' due to [(%d)-(%s)]."
 #define WAITPID_ERROR "(1111): Error during waitpid()-call due to [(%d)-(%s)]."
@@ -150,9 +150,9 @@
 #define INVALID_PREFIX          "(1283): Incorrect prefix message, message type: %s."
 #define INVALID_OPERATION       "(1284): Incorrect/unknown operation, type: %s."
 #define INVALID_RESPONSE        "(1285): Response with unexpected content."
-#define A_QUERY_ERROR           "(1286): Wazuh-db query error, check wdb logs."
+#define A_QUERY_ERROR           "(1286): Cyb3rhq-db query error, check wdb logs."
 #define INVALID_TYPE            "(1287): Incorrect/unknown type value %s."
-#define WDBC_QUERY_EX_ERROR     "(1288): Wazuh-db query execution error."
+#define WDBC_QUERY_EX_ERROR     "(1288): Cyb3rhq-db query execution error."
 
 /* logcollector */
 #define SYSTEM_ERROR     "(1600): Internal error. Exiting.."
@@ -342,7 +342,7 @@
 #define DB_MISS_CONFIG        "(5205): Missing database configuration. "\
                               "It requires host, user, pass and database."
 #define DB_CONFIGERR          "(5206): Database configuration error."
-#define DB_COMPILED           "(5207): Wazuh not compiled with support for '%s'."
+#define DB_COMPILED           "(5207): Cyb3rhq not compiled with support for '%s'."
 #define DB_MAINERROR          "(5208): Multiple database errors. Exiting."
 #define DB_CLOSING            "(5209): Closing connection to database."
 #define DB_ATTEMPT            "(5210): Attempting to reconnect to database."
@@ -472,12 +472,12 @@
 #define FIM_AUDITPOL_ATTEMPT_FAIL                   "(6955): Auditpol command failed, attempt number: %d"
 #define FIM_AUDITPOL_FINAL_FAIL                     "(6956): After %d attempts the Auditpol command could not be executed successfully."
 
-/* Wazuh Logtest error messsages */
+/* Cyb3rhq Logtest error messsages */
 #define LOGTEST_ERROR_BIND_SOCK                     "(7300): Unable to bind to socket '%s'. Errno: (%d) %s"
 #define LOGTEST_ERROR_ACCEPT_CONN                   "(7301): Failure to accept connection. Errno: %s"
 #define LOGTEST_ERROR_RECV_MSG_ERRNO                "(7302): Failure to receive message: Errno: %s"
 #define LOGTEST_ERROR_INIT_HASH                     "(7303): Failure to initialize all_sessions hash"
-#define LOGTEST_ERROR_INV_CONF                      "(7304): Invalid wazuh-logtest configuration"
+#define LOGTEST_ERROR_INV_CONF                      "(7304): Invalid cyb3rhq-logtest configuration"
 #define LOGTEST_ERROR_SIZE_HASH                     "(7305): Failure to resize all_sessions hash"
 #define LOGTEST_ERROR_COMMAND_NOT_ALLOWED           "(7306): Unable to process command"
 #define LOGTEST_ERROR_JSON_PARSE_POS                "(7307): Error parsing JSON in position %i, ... %s ..."
@@ -562,7 +562,7 @@
                         " access list (allowed-ips). Syslog server disabled."
 #define CONN_TO     "Connected to '%s' (%s queue)"
 #define MAIL_DIS    "E-Mail notification disabled. Clean Exit."
-#define WAZUH_HOMEDIR "Wazuh home directory: %s"
+#define CYB3RHQ_HOMEDIR "Cyb3rhq home directory: %s"
 
 /* Debug Messages */
 #define FOUND_USER  "Found user/group ..."
@@ -591,10 +591,10 @@
 #define OS_AG_DISCON    "ossec: Agent disconnected: '%s'."
 #define OS_AG_REMOVED   "ossec: Agent removed: '%s'."
 
-#define OS_NORMAL_BUFFER  "wazuh: Agent buffer: 'normal'."
-#define OS_WARN_BUFFER  "wazuh: Agent buffer: '%d%%'."
-#define OS_FULL_BUFFER  "wazuh: Agent buffer: 'full'."
-#define OS_FLOOD_BUFFER "wazuh: Agent buffer: 'flooded'."
+#define OS_NORMAL_BUFFER  "cyb3rhq: Agent buffer: 'normal'."
+#define OS_WARN_BUFFER  "cyb3rhq: Agent buffer: '%d%%'."
+#define OS_FULL_BUFFER  "cyb3rhq: Agent buffer: 'full'."
+#define OS_FLOOD_BUFFER "cyb3rhq: Agent buffer: 'flooded'."
 
 /* WIN32 errors */
 #define CONF_ERROR      "Could not read (%s) (Make sure config exists and executable is running with Administrative privileges)."

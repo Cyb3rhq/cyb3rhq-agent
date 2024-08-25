@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General Public
@@ -20,9 +20,9 @@
 #endif
 #include "../wrappers/libc/stdio_wrappers.h"
 #include "../wrappers/posix/select_wrappers.h"
-#include "../wrappers/wazuh/shared/debug_op_wrappers.h"
-#include "../wrappers/wazuh/shared/exec_op_wrappers.h"
-#include "../wrappers/wazuh/shared/binaries_op_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/debug_op_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/exec_op_wrappers.h"
+#include "../wrappers/cyb3rhq/shared/binaries_op_wrappers.h"
 #include "../wrappers/common.h"
 #include "../headers/audit_op.h"
 #include "../headers/defs.h"

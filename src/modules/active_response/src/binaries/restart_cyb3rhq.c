@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it
@@ -26,7 +26,7 @@ int main (int argc, char **argv) {
 
 #ifndef WIN32
     char log_msg[OS_MAXSTR];
-    char *exec_cmd[3] = { "bin/wazuh-control", "restart", NULL };
+    char *exec_cmd[3] = { "bin/cyb3rhq-control", "restart", NULL };
 
     wfd_t *wfd = wpopenv(*exec_cmd, exec_cmd, W_BIND_STDERR);
     if (!wfd) {
@@ -42,10 +42,10 @@ int main (int argc, char **argv) {
 #else
     char cmd[OS_MAXSTR + 1];
 
-    snprintf(cmd, OS_MAXSTR, "%%WINDIR%%\\system32\\net.exe stop Wazuh");
+    snprintf(cmd, OS_MAXSTR, "%%WINDIR%%\\system32\\net.exe stop Cyb3rhq");
     system(cmd);
 
-    snprintf(cmd, OS_MAXSTR, "%%WINDIR%%\\system32\\net.exe start Wazuh");
+    snprintf(cmd, OS_MAXSTR, "%%WINDIR%%\\system32\\net.exe start Cyb3rhq");
     system(cmd);
 #endif
 

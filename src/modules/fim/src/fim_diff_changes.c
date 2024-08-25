@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it
@@ -13,7 +13,7 @@
 
 
 // Remove static qualifier from tests
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 
 #ifdef WIN32
 #include "../unit_tests/wrappers/windows/libc/stdio_wrappers.h"

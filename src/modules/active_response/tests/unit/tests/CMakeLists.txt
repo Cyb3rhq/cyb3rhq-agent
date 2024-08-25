@@ -18,14 +18,14 @@ set_target_properties(
     LINKER_LANGUAGE C
 )
 
-target_link_libraries(EXECD_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(EXECD_O ${CYB3RHQLIB} ${CYB3RHQEXT} -lpthread)
 
 if(${TARGET} STREQUAL "winagent")
     link_directories(${SRC_FOLDER}/syscheckd/build/bin)
 endif(${TARGET} STREQUAL "winagent")
 
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/cyb3rhq/shared/shared.cmake)
 
 # Generate Execd tests
 if(${TARGET} STREQUAL "winagent")
@@ -63,8 +63,8 @@ foreach(counter RANGE ${count})
 
     target_link_libraries(
         ${execd_test_name}
-        ${WAZUHLIB}
-        ${WAZUHEXT}
+        ${CYB3RHQLIB}
+        ${CYB3RHQEXT}
         EXECD_O
         ${TEST_DEPS}
     )

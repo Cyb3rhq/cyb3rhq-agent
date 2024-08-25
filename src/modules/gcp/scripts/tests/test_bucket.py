@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 #
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Cyb3rhq Inc.
+# Created by Cyb3rhq, Inc. <info@wazuh.com>.
 # This program is free software; you can redistribute
 # it and/or modify it under the terms of GPLv2
 
@@ -24,7 +24,7 @@ from google.api_core import exceptions as google_exceptions
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))  # noqa: E501
 import exceptions
 from buckets.access_logs import GCSAccessLogs
-from buckets.bucket import WazuhGCloudBucket
+from buckets.bucket import Cyb3rhqGCloudBucket
 
 
 BUCKET_ATTRIBUTES = ['bucket_name', 'bucket', 'client', 'project_id', 'prefix', 'delete_file', 'only_logs_after',
@@ -60,7 +60,7 @@ def _drop_all_tables():
 def get_wodle_config(credentials_file: str = "credentials.json", logger: Logger = None,
                      bucket_name: str = "test_bucket", prefix: str = "", delete_file: bool = False,
                      only_logs_after: str = None, reparse: bool = False) -> dict:
-    """Return a dict containing every parameter supported by WazuhGCloudBucket. Used to simulate different ossec.conf
+    """Return a dict containing every parameter supported by Cyb3rhqGCloudBucket. Used to simulate different ossec.conf
     configurations.
 
     Parameters
@@ -186,9 +186,9 @@ def create_custom_database():
 
 
 @patch('buckets.bucket.storage.client.Client.from_service_account_json')
-def test_WazuhGCloudBucket__init__(mock_client):
-    """Test if an instance of WazuhGCloudBucket is created properly."""
-    bucket = WazuhGCloudBucket(**get_wodle_config())
+def test_Cyb3rhqGCloudBucket__init__(mock_client):
+    """Test if an instance of Cyb3rhqGCloudBucket is created properly."""
+    bucket = Cyb3rhqGCloudBucket(**get_wodle_config())
     for attribute in BUCKET_ATTRIBUTES:
         assert hasattr(bucket, attribute)
 
@@ -197,18 +197,18 @@ def test_WazuhGCloudBucket__init__(mock_client):
     ('un-existent_file', 1001),
     ('invalid_credentials_file.json', 1000)
 ])
-def test_WazuhGCloudBucket__init__ko(credentials_file, errcode):
-    """Test that the appropriate exceptions are raised when the WazuhGCloudBucket constructor is called with
+def test_Cyb3rhqGCloudBucket__init__ko(credentials_file, errcode):
+    """Test that the appropriate exceptions are raised when the Cyb3rhqGCloudBucket constructor is called with
     invalid parameters."""
     with pytest.raises(exceptions.GCloudError) as e:
-        WazuhGCloudBucket(**get_wodle_config(credentials_file=os.path.join(data_path, credentials_file)))
+        Cyb3rhqGCloudBucket(**get_wodle_config(credentials_file=os.path.join(data_path, credentials_file)))
     assert e.value.errcode == errcode
 
 
 @patch('buckets.bucket.storage.client.Client.from_service_account_json')
-def test_WazuhGCloudBucket_init_db(mock_client, clean_shared_cache):
+def test_Cyb3rhqGCloudBucket_init_db(mock_client, clean_shared_cache):
     """Test init_db creates the database with the expected tables with valid structures."""
-    bucket = WazuhGCloudBucket(**get_wodle_config())
+    bucket = Cyb3rhqGCloudBucket(**get_wodle_config())
     bucket.db_table_name = TEST_TABLE_NAME
     # Set database in memory using cache
     with patch('buckets.bucket.sqlite3.connect', return_value=sqlite3.connect('file::memory:?cache=shared', uri=True)):
@@ -227,11 +227,11 @@ def test_WazuhGCloudBucket_init_db(mock_client, clean_shared_cache):
 
 
 @pytest.mark.parametrize('project_id, expected_length', [(TEST_PROJECT_ID, 2), ("invalid_project_id", 0)])
-@patch('buckets.bucket.WazuhGCloudBucket.init_db')
+@patch('buckets.bucket.Cyb3rhqGCloudBucket.init_db')
 @patch('buckets.bucket.storage.client.Client.from_service_account_json')
-def test_WazuhGCloudBucket_get_last_processed_files(mock_client, mock_db, project_id, expected_length):
+def test_Cyb3rhqGCloudBucket_get_last_processed_files(mock_client, mock_db, project_id, expected_length):
     """Test _get_last_processed_files returns the expected number of items."""
-    bucket = WazuhGCloudBucket(**get_wodle_config())
+    bucket = Cyb3rhqGCloudBucket(**get_wodle_config())
     bucket.db_connector = create_custom_database()
     bucket.db_table_name = TEST_TABLE_NAME
     bucket.project_id = project_id
@@ -246,12 +246,12 @@ def test_WazuhGCloudBucket_get_last_processed_files(mock_client, mock_db, projec
     (TEST_PROJECT_ID, "prefix/", TEST_BLOB_LIST),
     ("non-existent_project_id", "", TEST_BLOB_LIST),
 ])
-@patch('buckets.bucket.WazuhGCloudBucket.init_db')
+@patch('buckets.bucket.Cyb3rhqGCloudBucket.init_db')
 @patch('buckets.bucket.storage.client.Client.from_service_account_json')
-def test_WazuhGCloudBucket_update_last_processed_files(mock_client, mock_db, project_id, prefix,
+def test_Cyb3rhqGCloudBucket_update_last_processed_files(mock_client, mock_db, project_id, prefix,
                                                        processed_files):
     """Test _update_last_processed_files updates the database by adding and removing rows when required."""
-    bucket = WazuhGCloudBucket(**get_wodle_config(prefix=prefix))
+    bucket = Cyb3rhqGCloudBucket(**get_wodle_config(prefix=prefix))
     bucket.db_connector = create_custom_database()
     bucket.db_table_name = TEST_TABLE_NAME
     bucket.project_id = project_id
@@ -284,11 +284,11 @@ def test_WazuhGCloudBucket_update_last_processed_files(mock_client, mock_db, pro
         assert set(previous_processed_files) == set(new_processed_files)
 
 
-@patch('buckets.bucket.WazuhGCloudBucket.init_db')
+@patch('buckets.bucket.Cyb3rhqGCloudBucket.init_db')
 @patch('buckets.bucket.storage.client.Client.from_service_account_json')
-def test_WazuhGCloudBucket_update_last_processed_files_ko(mock_client, mock_db):
+def test_Cyb3rhqGCloudBucket_update_last_processed_files_ko(mock_client, mock_db):
     """Test _update_last_processed_files does not remove any row when an exception is raised."""
-    bucket = WazuhGCloudBucket(**get_wodle_config())
+    bucket = Cyb3rhqGCloudBucket(**get_wodle_config())
     bucket.db_connector = create_custom_database()
     bucket.db_table_name = TEST_TABLE_NAME
     bucket.project_id = TEST_PROJECT_ID
@@ -309,11 +309,11 @@ def test_WazuhGCloudBucket_update_last_processed_files_ko(mock_client, mock_db):
 
 
 @pytest.mark.parametrize('project_id, expected_result', [("project_123", 2), ("invalid_project_id", 0)])
-@patch('buckets.bucket.WazuhGCloudBucket.init_db')
+@patch('buckets.bucket.Cyb3rhqGCloudBucket.init_db')
 @patch('buckets.bucket.storage.client.Client.from_service_account_json')
-def test_WazuhGCloudBucket_get_last_creation_time(mock_client, mock_db, project_id, expected_result):
+def test_Cyb3rhqGCloudBucket_get_last_creation_time(mock_client, mock_db, project_id, expected_result):
     """Test _get_last_creation_time always returns a datetime object."""
-    bucket = WazuhGCloudBucket(**get_wodle_config())
+    bucket = Cyb3rhqGCloudBucket(**get_wodle_config())
     bucket.db_connector = create_custom_database()
     bucket.db_table_name = TEST_TABLE_NAME
     bucket.project_id = project_id
@@ -326,17 +326,17 @@ def test_WazuhGCloudBucket_get_last_creation_time(mock_client, mock_db, project_
     (google_exceptions.NotFound, 1100),
     (google_exceptions.Forbidden, 1101)
 ])
-def test_WazuhGCloudBucket_check_permissions(mock_client, google_exception, errcode):
+def test_Cyb3rhqGCloudBucket_check_permissions(mock_client, google_exception, errcode):
     """Test check_permissions raises the expected exceptions when the user doesn't have the required permissions."""
     mock_client.get_bucket.side_effect = google_exception("placeholder")
-    bucket = WazuhGCloudBucket(**get_wodle_config())
+    bucket = Cyb3rhqGCloudBucket(**get_wodle_config())
     bucket.client = mock_client
     with pytest.raises(exceptions.GCloudError) as e:
         bucket.check_permissions()
     assert e.value.errcode == errcode
 
 
-@patch('buckets.bucket.WazuhGCloudBucket.init_db')
+@patch('buckets.bucket.Cyb3rhqGCloudBucket.init_db')
 @patch('buckets.bucket.storage.client.Client.from_service_account_json')
 @pytest.mark.parametrize('prefix, blob_creation_time, only_logs_after, last_creation_time, reparse, message_per_blob, total_messages', [
     # Every blob will be skipped because of comparison_date
@@ -358,11 +358,11 @@ def test_WazuhGCloudBucket_check_permissions(mock_client, google_exception, errc
     ('', datetime.min, datetime(2022, 1, 1, 12, 00, 00, 0), datetime.min, False, 100, 0),
     ('prefix/', datetime.min, datetime(2022, 1, 1, 12, 00, 00, 0), datetime.min, False, 100, 0)
 ])
-def test_WazuhGCloudBucket_process_data(mock_client, mock_init_db, prefix, blob_creation_time,
+def test_Cyb3rhqGCloudBucket_process_data(mock_client, mock_init_db, prefix, blob_creation_time,
                                         only_logs_after, last_creation_time, reparse, message_per_blob, total_messages):
     """Test process_data ignore or process the different blobs taking into account only_logs_after, creation dates and
     already processed files."""
-    bucket = WazuhGCloudBucket(**get_wodle_config(prefix=prefix, only_logs_after=only_logs_after, reparse=reparse))
+    bucket = Cyb3rhqGCloudBucket(**get_wodle_config(prefix=prefix, only_logs_after=only_logs_after, reparse=reparse))
     bucket.db_table_name = TEST_TABLE_NAME
     blob_list = [create_mocked_blob(blob_name=name, creation_time=blob_creation_time) for name in TEST_BLOB_LIST_WITH_FOLDER]
     filtered_blob_list = [blob for blob in blob_list if not blob.name.endswith('/')]
@@ -413,9 +413,9 @@ def test_WazuhGCloudBucket_process_data(mock_client, mock_init_db, prefix, blob_
 
 
 @patch('buckets.bucket.storage.client.Client.from_service_account_json')
-def test_WazuhGCloudBucket_load_information_from_file(mock_client):
+def test_Cyb3rhqGCloudBucket_load_information_from_file(mock_client):
     """Test load_information_from_file is not implemented for this base class."""
-    bucket = WazuhGCloudBucket(**get_wodle_config())
+    bucket = Cyb3rhqGCloudBucket(**get_wodle_config())
     with pytest.raises(NotImplementedError):
         bucket.load_information_from_file('')
 
@@ -425,7 +425,7 @@ def test_WazuhGCloudBucket_load_information_from_file(mock_client):
 @patch('buckets.access_logs.GCSAccessLogs.load_information_from_file')
 @patch('buckets.bucket.storage.client.Client.from_service_account_json')
 @pytest.mark.parametrize('delete_file', [False, True])
-def test_WazuhGCloudBucket_process_blob(mock_client, mock_load_information, mock_socket, mock_send_msg, delete_file):
+def test_Cyb3rhqGCloudBucket_process_blob(mock_client, mock_load_information, mock_socket, mock_send_msg, delete_file):
     """Test process_blob sends formatted messages to the socket and request blob deletion if required."""
     num_events = 100
     mock_load_information.return_value = [f"event {i}" for i in range(num_events)]
@@ -441,7 +441,7 @@ def test_WazuhGCloudBucket_process_blob(mock_client, mock_load_information, mock
 
 @patch('buckets.access_logs.GCSAccessLogs.load_information_from_file')
 @patch('buckets.bucket.storage.client.Client.from_service_account_json')
-def test_WazuhGCloudBucket_process_blob_ko(mock_client, mock_load_information):
+def test_Cyb3rhqGCloudBucket_process_blob_ko(mock_client, mock_load_information):
     """Test process_blob handles exceptions as expected."""
     mock_load_information.side_effect = google_exceptions.NotFound("")
     bucket = GCSAccessLogs(**get_wodle_config())

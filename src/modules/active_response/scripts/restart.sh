@@ -1,6 +1,6 @@
 #!/bin/sh
-# Restarts Wazuh.
-# Copyright (C) 2015, Wazuh Inc.
+# Restarts Cyb3rhq.
+# Copyright (C) 2015, Cyb3rhq Inc.
 
 
 PARAM_TYPE=$1
@@ -36,11 +36,11 @@ echo "`date` $0 $1 $2 $3 $4 $5" >> ${PWD}/logs/active-responses.log
 
 # Rules and decoders test
 if [ "$TYPE" = "manager" ]; then
-    if !(${PWD}/bin/wazuh-logtest-legacy -t > /dev/null 2>&1); then
+    if !(${PWD}/bin/cyb3rhq-logtest-legacy -t > /dev/null 2>&1); then
         exit 1;
     fi
 fi
 
-${PWD}/bin/wazuh-control restart
+${PWD}/bin/cyb3rhq-control restart
 
 exit $?;

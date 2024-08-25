@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Cyb3rhq Inc.
+# Created by Cyb3rhq, Inc. <info@wazuh.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import os
@@ -13,7 +13,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '.'))
 import aws_utils as utils
 
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
-import wazuh_integration
+import cyb3rhq_integration
 
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'services'))
 import aws_service
@@ -22,7 +22,7 @@ import inspector
 TEST_SERVICES_SCHEMA = 'schema_services_test.sql'
 
 
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
+@patch('cyb3rhq_integration.Cyb3rhqIntegration.get_sts_client')
 @patch('aws_service.AWSService.__init__', side_effect=aws_service.AWSService.__init__)
 def test_aws_inspector_initializes_properly(mock_aws_service, mock_sts_client):
     """Test if the instances of AWSInspector are created properly."""
@@ -53,7 +53,7 @@ def test_aws_inspector_send_describe_findings(mock_sts_client):
             }
         ]
     }
-    with patch('wazuh_integration.WazuhIntegration.send_msg') as mock_send_msg, \
+    with patch('cyb3rhq_integration.Cyb3rhqIntegration.send_msg') as mock_send_msg, \
             patch('aws_service.AWSService.format_message') as mock_format:
         instance.send_describe_findings(arn_list)
         assert instance.sent_events == 1
@@ -63,11 +63,11 @@ def test_aws_inspector_send_describe_findings(mock_sts_client):
 
 @pytest.mark.parametrize('reparse', [True, False])
 @pytest.mark.parametrize('only_logs_after', [utils.TEST_ONLY_LOGS_AFTER, None])
-@patch('wazuh_integration.WazuhAWSDatabase.init_db')
-@patch('wazuh_integration.WazuhAWSDatabase.close_db')
+@patch('cyb3rhq_integration.Cyb3rhqAWSDatabase.init_db')
+@patch('cyb3rhq_integration.Cyb3rhqAWSDatabase.close_db')
 @patch('inspector.AWSInspector.send_describe_findings')
 @patch('inspector.aws_tools.debug')
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
+@patch('cyb3rhq_integration.Cyb3rhqIntegration.get_sts_client')
 def test_aws_inspector_get_alerts(mock_sts_client, mock_debug, mock_send_describe_findings, mock_init_db, mock_close_db,
                                   only_logs_after, reparse, custom_database):
     """Test 'get_alerts' method sends the collected events and updates the DB accordingly.

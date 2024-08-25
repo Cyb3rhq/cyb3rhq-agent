@@ -8,4 +8,4 @@
         - service:
             elements:
               - name:
-                  aws_log_groups: wazuh-cloudwatch-integration-tests
+                  aws_log_groups: cyb3rhq-cloudwatch-integration-tests

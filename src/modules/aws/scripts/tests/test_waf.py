@@ -1,5 +1,5 @@
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Cyb3rhq Inc.
+# Created by Cyb3rhq, Inc. <info@wazuh.com>.
 # This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
 import pytest
@@ -31,8 +31,8 @@ def test_aws_waf_bucket_initializes_properly(mock_custom_bucket):
     (os.path.join(logs_path, 'WAF', 'aws_waf_invalid_json'), True),
     (os.path.join(logs_path, 'WAF', 'aws_waf_wrong_structure'), True),
 ])
-@patch('wazuh_integration.WazuhAWSDatabase.__init__')
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
+@patch('cyb3rhq_integration.Cyb3rhqAWSDatabase.__init__')
+@patch('cyb3rhq_integration.Cyb3rhqIntegration.get_sts_client')
 @patch('aws_bucket.AWSBucket.__init__', side_effect=aws_bucket.AWSBucket.__init__)
 @patch('aws_bucket.AWSCustomBucket.__init__', side_effect=aws_bucket.AWSCustomBucket.__init__)
 def test_aws_waf_bucket_load_information_from_file(mock_custom_bucket, mock_bucket, mock_sts, mock_integration,
@@ -58,8 +58,8 @@ def test_aws_waf_bucket_load_information_from_file(mock_custom_bucket, mock_buck
     (os.path.join(logs_path, 'WAF', 'aws_waf_invalid_json'), False, SystemExit),
     (os.path.join(logs_path, 'WAF', 'aws_waf_wrong_structure'), False, SystemExit),
 ])
-@patch('wazuh_integration.WazuhAWSDatabase.__init__')
-@patch('wazuh_integration.WazuhIntegration.get_sts_client')
+@patch('cyb3rhq_integration.Cyb3rhqAWSDatabase.__init__')
+@patch('cyb3rhq_integration.Cyb3rhqIntegration.get_sts_client')
 @patch('aws_bucket.AWSBucket.__init__', side_effect=aws_bucket.AWSBucket.__init__)
 @patch('aws_bucket.AWSCustomBucket.__init__', side_effect=aws_bucket.AWSCustomBucket.__init__)
 def test_aws_waf_bucket_load_information_from_file_handles_exception_on_invalid_argument(mock_custom_bucket,

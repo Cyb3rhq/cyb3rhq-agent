@@ -1,5 +1,5 @@
 {
-    "name": "wazuh-agent-mvp",
+    "name": "cyb3rhq-agent-mvp",
     "version": "5.0.0",
     "dependencies": [
       "boost-asio",

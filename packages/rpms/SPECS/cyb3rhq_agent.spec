@@ -11,8 +11,8 @@
   %define _rpmfilename %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm
 %endif
 
-Summary:     Wazuh helps you to gain security visibility into your infrastructure by monitoring hosts at an operating system and application level. It provides the following capabilities: log analysis, file integrity monitoring, intrusions detection and policy and compliance monitoring
-Name:        wazuh-agent
+Summary:     Cyb3rhq helps you to gain security visibility into your infrastructure by monitoring hosts at an operating system and application level. It provides the following capabilities: log analysis, file integrity monitoring, intrusions detection and policy and compliance monitoring
+Name:        cyb3rhq-agent
 Version:     %{_version}
 Release:     %{_release}
 License:     GPL
@@ -20,11 +20,11 @@ Group:       System Environment/Daemons
 Source0:     %{name}-%{version}.tar.gz
 URL:         https://www.wazuh.com/
 BuildRoot:   %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Vendor:      Wazuh, Inc <info@wazuh.com>
-Packager:    Wazuh, Inc <info@wazuh.com>
+Vendor:      Cyb3rhq, Inc <info@wazuh.com>
+Packager:    Cyb3rhq, Inc <info@wazuh.com>
 Requires(pre):    /usr/sbin/groupadd /usr/sbin/useradd
 Requires(postun): /usr/sbin/groupdel /usr/sbin/userdel
-Conflicts:   ossec-hids ossec-hids-agent wazuh-manager wazuh-local
+Conflicts:   ossec-hids ossec-hids-agent cyb3rhq-manager cyb3rhq-local
 AutoReqProv: no
 
 Requires: coreutils
@@ -37,7 +37,7 @@ BuildRequires: coreutils glibc-devel automake autoconf libtool policycoreutils p
 ExclusiveOS: linux
 
 %description
-Wazuh helps you to gain security visibility into your infrastructure by monitoring
+Cyb3rhq helps you to gain security visibility into your infrastructure by monitoring
 hosts at an operating system and application level. It provides the following capabilities:
 log analysis, file integrity monitoring, intrusions detection and policy and compliance monitoring
 
@@ -97,10 +97,10 @@ mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/.ssh
 # Copy the installed files into RPM_BUILD_ROOT directory
 cp -pr %{_localstatedir}/* ${RPM_BUILD_ROOT}%{_localstatedir}/
 mkdir -p ${RPM_BUILD_ROOT}/usr/lib/systemd/system/
-sed -i "s:WAZUH_HOME_TMP:%{_localstatedir}:g" src/init/templates/ossec-hids-rh.init
-install -m 0755 src/init/templates/ossec-hids-rh.init ${RPM_BUILD_ROOT}%{_initrddir}/wazuh-agent
-sed -i "s:WAZUH_HOME_TMP:%{_localstatedir}:g" src/init/templates/wazuh-agent.service
-install -m 0644 src/init/templates/wazuh-agent.service ${RPM_BUILD_ROOT}/usr/lib/systemd/system/
+sed -i "s:CYB3RHQ_HOME_TMP:%{_localstatedir}:g" src/init/templates/ossec-hids-rh.init
+install -m 0755 src/init/templates/ossec-hids-rh.init ${RPM_BUILD_ROOT}%{_initrddir}/cyb3rhq-agent
+sed -i "s:CYB3RHQ_HOME_TMP:%{_localstatedir}:g" src/init/templates/cyb3rhq-agent.service
+install -m 0644 src/init/templates/cyb3rhq-agent.service ${RPM_BUILD_ROOT}/usr/lib/systemd/system/
 
 # Clean the preinstalled configuration assesment files
 rm -f ${RPM_BUILD_ROOT}%{_localstatedir}/ruleset/sca/*
@@ -177,7 +177,7 @@ mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/packages_files/agent_installation_sc
 mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/packages_files/agent_installation_scripts/etc/templates/config/sles
 
 # Add SUSE initscript
-sed -i "s:WAZUH_HOME_TMP:%{_localstatedir}:g" src/init/templates/ossec-hids-suse.init
+sed -i "s:CYB3RHQ_HOME_TMP:%{_localstatedir}:g" src/init/templates/ossec-hids-suse.init
 cp -rp src/init/templates/ossec-hids-suse.init ${RPM_BUILD_ROOT}%{_localstatedir}/packages_files/agent_installation_scripts/src/init/
 
 # Copy scap templates
@@ -196,15 +196,15 @@ cp src/REVISION ${RPM_BUILD_ROOT}%{_localstatedir}/packages_files/agent_installa
 exit 0
 
 %pre
-# Create the wazuh group if it doesn't exists
-if command -v getent > /dev/null 2>&1 && ! getent group wazuh > /dev/null 2>&1; then
-  groupadd -r wazuh
-elif ! getent group wazuh > /dev/null 2>&1; then
-  groupadd -r wazuh
+# Create the cyb3rhq group if it doesn't exists
+if command -v getent > /dev/null 2>&1 && ! getent group cyb3rhq > /dev/null 2>&1; then
+  groupadd -r cyb3rhq
+elif ! getent group cyb3rhq > /dev/null 2>&1; then
+  groupadd -r cyb3rhq
 fi
-# Create the wazuh user if it doesn't exists
-if ! getent passwd wazuh > /dev/null 2>&1; then
-  useradd -g wazuh -G wazuh -d %{_localstatedir} -r -s /sbin/nologin wazuh
+# Create the cyb3rhq user if it doesn't exists
+if ! getent passwd cyb3rhq > /dev/null 2>&1; then
+  useradd -g cyb3rhq -G cyb3rhq -d %{_localstatedir} -r -s /sbin/nologin cyb3rhq
 fi
 
 # Stop the services to upgrade the package
@@ -214,28 +214,28 @@ if [ $1 = 2 ]; then
     exit 1
   fi
 
-  if command -v systemctl > /dev/null 2>&1 && systemctl > /dev/null 2>&1 && systemctl is-active --quiet wazuh-agent > /dev/null 2>&1; then
-    systemctl stop wazuh-agent.service > /dev/null 2>&1
-    touch %{_localstatedir}/tmp/wazuh.restart
+  if command -v systemctl > /dev/null 2>&1 && systemctl > /dev/null 2>&1 && systemctl is-active --quiet cyb3rhq-agent > /dev/null 2>&1; then
+    systemctl stop cyb3rhq-agent.service > /dev/null 2>&1
+    touch %{_localstatedir}/tmp/cyb3rhq.restart
   # Check for SysV
-  elif command -v service > /dev/null 2>&1 && service wazuh-agent status 2>/dev/null | grep "is running" > /dev/null 2>&1; then
-    service wazuh-agent stop > /dev/null 2>&1
-    touch %{_localstatedir}/tmp/wazuh.restart
-  elif %{_localstatedir}/bin/wazuh-control status 2>/dev/null | grep "is running" > /dev/null 2>&1; then
-    touch %{_localstatedir}/tmp/wazuh.restart
+  elif command -v service > /dev/null 2>&1 && service cyb3rhq-agent status 2>/dev/null | grep "is running" > /dev/null 2>&1; then
+    service cyb3rhq-agent stop > /dev/null 2>&1
+    touch %{_localstatedir}/tmp/cyb3rhq.restart
+  elif %{_localstatedir}/bin/cyb3rhq-control status 2>/dev/null | grep "is running" > /dev/null 2>&1; then
+    touch %{_localstatedir}/tmp/cyb3rhq.restart
   elif %{_localstatedir}/bin/ossec-control status 2>/dev/null | grep "is running" > /dev/null 2>&1; then
-    touch %{_localstatedir}/tmp/wazuh.restart
+    touch %{_localstatedir}/tmp/cyb3rhq.restart
   fi
-  %{_localstatedir}/bin/ossec-control stop > /dev/null 2>&1 || %{_localstatedir}/bin/wazuh-control stop > /dev/null 2>&1
+  %{_localstatedir}/bin/ossec-control stop > /dev/null 2>&1 || %{_localstatedir}/bin/cyb3rhq-control stop > /dev/null 2>&1
 fi
 
 %post
 
-echo "VERSION=\"$(%{_localstatedir}/bin/wazuh-control info -v)\"" > /etc/ossec-init.conf
+echo "VERSION=\"$(%{_localstatedir}/bin/cyb3rhq-control info -v)\"" > /etc/ossec-init.conf
 if [ $1 = 2 ]; then
   if [ -d %{_localstatedir}/logs/ossec ]; then
-    rm -rf %{_localstatedir}/logs/wazuh
-    cp -rp %{_localstatedir}/logs/ossec %{_localstatedir}/logs/wazuh
+    rm -rf %{_localstatedir}/logs/cyb3rhq
+    cp -rp %{_localstatedir}/logs/ossec %{_localstatedir}/logs/cyb3rhq
   fi
 
   if [ -d %{_localstatedir}/queue/ossec ]; then
@@ -247,25 +247,25 @@ fi
 if [ $1 = 1 ]; then
 
   touch %{_localstatedir}/logs/active-responses.log
-  chown wazuh:wazuh %{_localstatedir}/logs/active-responses.log
+  chown cyb3rhq:cyb3rhq %{_localstatedir}/logs/active-responses.log
   chmod 0660 %{_localstatedir}/logs/active-responses.log
 
   . %{_localstatedir}/packages_files/agent_installation_scripts/src/init/dist-detect.sh
 
   # Generating ossec.conf file
   %{_localstatedir}/packages_files/agent_installation_scripts/gen_ossec.sh conf agent ${DIST_NAME} ${DIST_VER}.${DIST_SUBVER} %{_localstatedir} > %{_localstatedir}/etc/ossec.conf
-  chown root:wazuh %{_localstatedir}/etc/ossec.conf
+  chown root:cyb3rhq %{_localstatedir}/etc/ossec.conf
 
   # Add default local_files to ossec.conf
   %{_localstatedir}/packages_files/agent_installation_scripts/add_localfiles.sh %{_localstatedir} >> %{_localstatedir}/etc/ossec.conf
 
 
-  # Register and configure agent if Wazuh environment variables are defined
+  # Register and configure agent if Cyb3rhq environment variables are defined
   %{_localstatedir}/packages_files/agent_installation_scripts/src/init/register_configure_agent.sh %{_localstatedir} > /dev/null || :
 fi
 
 if [[ -d /run/systemd/system ]]; then
-  rm -f %{_initrddir}/wazuh-agent
+  rm -f %{_initrddir}/cyb3rhq-agent
 fi
 
 # Delete the installation files used to configure the agent
@@ -373,16 +373,16 @@ fi
 if ([ "X${DIST_NAME}" = "Xrhel" ] || [ "X${DIST_NAME}" = "Xcentos" ] || [ "X${DIST_NAME}" = "XCentOS" ]) && [ "${DIST_VER}" == "5" ]; then
   if command -v getenforce > /dev/null 2>&1; then
     if [ $(getenforce) !=  "Disabled" ]; then
-      chcon -t textrel_shlib_t  %{_localstatedir}/lib/libwazuhext.so
-      chcon -t textrel_shlib_t  %{_localstatedir}/lib/libwazuhshared.so
+      chcon -t textrel_shlib_t  %{_localstatedir}/lib/libcyb3rhqext.so
+      chcon -t textrel_shlib_t  %{_localstatedir}/lib/libcyb3rhqshared.so
     fi
   fi
 else
   # Add the SELinux policy
   if command -v getenforce > /dev/null 2>&1 && command -v semodule > /dev/null 2>&1; then
     if [ $(getenforce) != "Disabled" ]; then
-      semodule -i %{_localstatedir}/var/selinux/wazuh.pp
-      semodule -e wazuh
+      semodule -i %{_localstatedir}/var/selinux/cyb3rhq.pp
+      semodule -e cyb3rhq
     fi
   fi
 fi
@@ -393,17 +393,17 @@ chmod 0660 %{_localstatedir}/etc/ossec.conf
 # Remove old ossec user and group if exists and change ownwership of files
 
 if getent group ossec > /dev/null 2>&1; then
-  find %{_localstatedir}/ -group ossec -user root -exec chown root:wazuh {} \; > /dev/null 2>&1 || true
+  find %{_localstatedir}/ -group ossec -user root -exec chown root:cyb3rhq {} \; > /dev/null 2>&1 || true
   if getent passwd ossec > /dev/null 2>&1; then
-    find %{_localstatedir}/ -group ossec -user ossec -exec chown wazuh:wazuh {} \; > /dev/null 2>&1 || true
+    find %{_localstatedir}/ -group ossec -user ossec -exec chown cyb3rhq:cyb3rhq {} \; > /dev/null 2>&1 || true
     userdel ossec > /dev/null 2>&1
   fi
   if getent passwd ossecm > /dev/null 2>&1; then
-    find %{_localstatedir}/ -group ossec -user ossecm -exec chown wazuh:wazuh {} \; > /dev/null 2>&1 || true
+    find %{_localstatedir}/ -group ossec -user ossecm -exec chown cyb3rhq:cyb3rhq {} \; > /dev/null 2>&1 || true
     userdel ossecm > /dev/null 2>&1
   fi
   if getent passwd ossecr > /dev/null 2>&1; then
-    find %{_localstatedir}/ -group ossec -user ossecr -exec chown wazuh:wazuh {} \; > /dev/null 2>&1 || true
+    find %{_localstatedir}/ -group ossec -user ossecr -exec chown cyb3rhq:cyb3rhq {} \; > /dev/null 2>&1 || true
     userdel ossecr > /dev/null 2>&1
   fi
   if grep -q ossec /etc/group; then
@@ -417,19 +417,19 @@ if [ $1 = 0 ]; then
 
   # Stop the services before uninstall the package
   # Check for systemd
-  if command -v systemctl > /dev/null 2>&1 && systemctl > /dev/null 2>&1 && systemctl is-active --quiet wazuh-agent > /dev/null 2>&1; then
-    systemctl stop wazuh-agent.service > /dev/null 2>&1
+  if command -v systemctl > /dev/null 2>&1 && systemctl > /dev/null 2>&1 && systemctl is-active --quiet cyb3rhq-agent > /dev/null 2>&1; then
+    systemctl stop cyb3rhq-agent.service > /dev/null 2>&1
   # Check for SysV
-  elif command -v service > /dev/null 2>&1 && service wazuh-agent status 2>/dev/null | grep "is running" > /dev/null 2>&1; then
-    service wazuh-agent stop > /dev/null 2>&1
+  elif command -v service > /dev/null 2>&1 && service cyb3rhq-agent status 2>/dev/null | grep "is running" > /dev/null 2>&1; then
+    service cyb3rhq-agent stop > /dev/null 2>&1
   fi
-  %{_localstatedir}/bin/wazuh-control stop > /dev/null 2>&1
+  %{_localstatedir}/bin/cyb3rhq-control stop > /dev/null 2>&1
 
   # Remove the SELinux policy
   if command -v getenforce > /dev/null 2>&1 && command -v semodule > /dev/null 2>&1; then
     if [ $(getenforce) != "Disabled" ]; then
-      if (semodule -l | grep wazuh > /dev/null); then
-        semodule -r wazuh > /dev/null
+      if (semodule -l | grep cyb3rhq > /dev/null); then
+        semodule -r cyb3rhq > /dev/null
       fi
     fi
   fi
@@ -440,7 +440,7 @@ if [ $1 = 0 ]; then
     sles=$(grep "SUSE Linux Enterprise Server" /etc/SuSE-release)
   fi
   if [ ! -z "$sles" ]; then
-    rm -f /etc/init.d/wazuh-agent
+    rm -f /etc/init.d/cyb3rhq-agent
   fi
 
   # Remove SCA files
@@ -450,20 +450,20 @@ fi
 
 %triggerin -- glibc
 [ -r %{_sysconfdir}/localtime ] && cp -fpL %{_sysconfdir}/localtime %{_localstatedir}/etc
- chown root:wazuh %{_localstatedir}/etc/localtime
+ chown root:cyb3rhq %{_localstatedir}/etc/localtime
  chmod 0640 %{_localstatedir}/etc/localtime
 
 %postun
 
-DELETE_WAZUH_USER_AND_GROUP=0
+DELETE_CYB3RHQ_USER_AND_GROUP=0
 
 # If the upgrade downgrades to earlier versions, it will create the ossec
-# group and user, we need to delete wazuh ones
+# group and user, we need to delete cyb3rhq ones
 if [ $1 = 1 ]; then
   if command -v %{_localstatedir}/bin/ossec-control > /dev/null 2>&1; then
-    find %{_localstatedir} -group wazuh -exec chgrp ossec {} +
-    find %{_localstatedir} -user wazuh -exec chown ossec {} +
-    DELETE_WAZUH_USER_AND_GROUP=1
+    find %{_localstatedir} -group cyb3rhq -exec chgrp ossec {} +
+    find %{_localstatedir} -user cyb3rhq -exec chown ossec {} +
+    DELETE_CYB3RHQ_USER_AND_GROUP=1
   fi
 
   if [ ! -f %{_localstatedir}/etc/client.keys ]; then
@@ -475,17 +475,17 @@ if [ $1 = 1 ]; then
   fi
 fi
 
-# If the package is been uninstalled or we want to delete wazuh user and group
-if [ $1 = 0 ] || [ $DELETE_WAZUH_USER_AND_GROUP = 1 ]; then
-  # Remove the wazuh user if it exists
-  if getent passwd wazuh > /dev/null 2>&1; then
-    userdel wazuh >/dev/null 2>&1
+# If the package is been uninstalled or we want to delete cyb3rhq user and group
+if [ $1 = 0 ] || [ $DELETE_CYB3RHQ_USER_AND_GROUP = 1 ]; then
+  # Remove the cyb3rhq user if it exists
+  if getent passwd cyb3rhq > /dev/null 2>&1; then
+    userdel cyb3rhq >/dev/null 2>&1
   fi
-  # Remove the wazuh group if it exists
-  if command -v getent > /dev/null 2>&1 && getent group wazuh > /dev/null 2>&1; then
-    groupdel wazuh >/dev/null 2>&1
-  elif getent group wazuh > /dev/null 2>&1; then
-    groupdel wazuh >/dev/null 2>&1
+  # Remove the cyb3rhq group if it exists
+  if command -v getent > /dev/null 2>&1 && getent group cyb3rhq > /dev/null 2>&1; then
+    groupdel cyb3rhq >/dev/null 2>&1
+  elif getent group cyb3rhq > /dev/null 2>&1; then
+    groupdel cyb3rhq >/dev/null 2>&1
   fi
 
   if [ $1 = 0 ];then
@@ -503,20 +503,20 @@ fi
 
 # posttrans code is the last thing executed in a install/upgrade
 %posttrans
-if [ -f %{_sysconfdir}/systemd/system/wazuh-agent.service ]; then
-  rm -rf %{_sysconfdir}/systemd/system/wazuh-agent.service
+if [ -f %{_sysconfdir}/systemd/system/cyb3rhq-agent.service ]; then
+  rm -rf %{_sysconfdir}/systemd/system/cyb3rhq-agent.service
   systemctl daemon-reload > /dev/null 2>&1
 fi
 
-if [ -f %{_localstatedir}/tmp/wazuh.restart ]; then
-  rm -f %{_localstatedir}/tmp/wazuh.restart
+if [ -f %{_localstatedir}/tmp/cyb3rhq.restart ]; then
+  rm -f %{_localstatedir}/tmp/cyb3rhq.restart
   if command -v systemctl > /dev/null 2>&1 && systemctl > /dev/null 2>&1 ; then
     systemctl daemon-reload > /dev/null 2>&1
-    systemctl restart wazuh-agent.service > /dev/null 2>&1
+    systemctl restart cyb3rhq-agent.service > /dev/null 2>&1
   elif command -v service > /dev/null 2>&1; then
-    service wazuh-agent restart > /dev/null 2>&1
+    service cyb3rhq-agent restart > /dev/null 2>&1
   else
-    %{_localstatedir}/bin/wazuh-control restart > /dev/null 2>&1
+    %{_localstatedir}/bin/cyb3rhq-control restart > /dev/null 2>&1
   fi
 fi
 
@@ -538,34 +538,34 @@ rm -fr %{buildroot}
 
 %files
 %defattr(-,root,root)
-%config(missingok) %{_initrddir}/wazuh-agent
-%attr(640, root, wazuh) %verify(not md5 size mtime) %ghost %{_sysconfdir}/ossec-init.conf
-/usr/lib/systemd/system/wazuh-agent.service
-%dir %attr(750, root, wazuh) %{_localstatedir}
-%attr(750, root, wazuh) %{_localstatedir}/agentless
-%dir %attr(770, root, wazuh) %{_localstatedir}/.ssh
-%dir %attr(750, root, wazuh) %{_localstatedir}/active-response
-%dir %attr(750, root, wazuh) %{_localstatedir}/active-response/bin
-%attr(750, root, wazuh) %{_localstatedir}/active-response/bin/*
+%config(missingok) %{_initrddir}/cyb3rhq-agent
+%attr(640, root, cyb3rhq) %verify(not md5 size mtime) %ghost %{_sysconfdir}/ossec-init.conf
+/usr/lib/systemd/system/cyb3rhq-agent.service
+%dir %attr(750, root, cyb3rhq) %{_localstatedir}
+%attr(750, root, cyb3rhq) %{_localstatedir}/agentless
+%dir %attr(770, root, cyb3rhq) %{_localstatedir}/.ssh
+%dir %attr(750, root, cyb3rhq) %{_localstatedir}/active-response
+%dir %attr(750, root, cyb3rhq) %{_localstatedir}/active-response/bin
+%attr(750, root, cyb3rhq) %{_localstatedir}/active-response/bin/*
 %dir %attr(750, root, root) %{_localstatedir}/bin
 %attr(750, root, root) %{_localstatedir}/bin/*
-%dir %attr(750, root, wazuh) %{_localstatedir}/backup
-%dir %attr(770, wazuh, wazuh) %{_localstatedir}/etc
-%attr(640, root, wazuh) %config(noreplace) %{_localstatedir}/etc/client.keys
-%attr(640, root, wazuh) %{_localstatedir}/etc/internal_options*
-%attr(640, root, wazuh) %{_localstatedir}/etc/localtime
-%attr(640, root, wazuh) %config(noreplace) %{_localstatedir}/etc/local_internal_options.conf
-%attr(660, root, wazuh) %config(noreplace) %{_localstatedir}/etc/ossec.conf
-%attr(640, root, wazuh) %{_localstatedir}/etc/wpk_root.pem
-%dir %attr(770, root, wazuh) %{_localstatedir}/etc/shared
-%attr(660, root, wazuh) %config(missingok,noreplace) %{_localstatedir}/etc/shared/*
-%dir %attr(750, root, wazuh) %{_localstatedir}/lib
-%attr(750, root, wazuh) %{_localstatedir}/lib/*
-%dir %attr(770, wazuh, wazuh) %{_localstatedir}/logs
-%attr(660, wazuh, wazuh) %ghost %{_localstatedir}/logs/active-responses.log
-%attr(660, root, wazuh) %ghost %{_localstatedir}/logs/ossec.log
-%attr(660, root, wazuh) %ghost %{_localstatedir}/logs/ossec.json
-%dir %attr(750, wazuh, wazuh) %{_localstatedir}/logs/wazuh
+%dir %attr(750, root, cyb3rhq) %{_localstatedir}/backup
+%dir %attr(770, cyb3rhq, cyb3rhq) %{_localstatedir}/etc
+%attr(640, root, cyb3rhq) %config(noreplace) %{_localstatedir}/etc/client.keys
+%attr(640, root, cyb3rhq) %{_localstatedir}/etc/internal_options*
+%attr(640, root, cyb3rhq) %{_localstatedir}/etc/localtime
+%attr(640, root, cyb3rhq) %config(noreplace) %{_localstatedir}/etc/local_internal_options.conf
+%attr(660, root, cyb3rhq) %config(noreplace) %{_localstatedir}/etc/ossec.conf
+%attr(640, root, cyb3rhq) %{_localstatedir}/etc/wpk_root.pem
+%dir %attr(770, root, cyb3rhq) %{_localstatedir}/etc/shared
+%attr(660, root, cyb3rhq) %config(missingok,noreplace) %{_localstatedir}/etc/shared/*
+%dir %attr(750, root, cyb3rhq) %{_localstatedir}/lib
+%attr(750, root, cyb3rhq) %{_localstatedir}/lib/*
+%dir %attr(770, cyb3rhq, cyb3rhq) %{_localstatedir}/logs
+%attr(660, cyb3rhq, cyb3rhq) %ghost %{_localstatedir}/logs/active-responses.log
+%attr(660, root, cyb3rhq) %ghost %{_localstatedir}/logs/ossec.log
+%attr(660, root, cyb3rhq) %ghost %{_localstatedir}/logs/ossec.json
+%dir %attr(750, cyb3rhq, cyb3rhq) %{_localstatedir}/logs/cyb3rhq
 %dir %attr(750, root, root) %config(missingok) %{_localstatedir}/packages_files
 %dir %attr(750, root, root) %config(missingok) %{_localstatedir}/packages_files/agent_installation_scripts
 %attr(750, root, root) %config(missingok) %{_localstatedir}/packages_files/agent_installation_scripts/add_localfiles.sh
@@ -576,99 +576,99 @@ rm -fr %{buildroot}
 %attr(750, root, root) %config(missingok) %{_localstatedir}/packages_files/agent_installation_scripts/etc/templates/config/sles/*
 %attr(750, root, root) %config(missingok) %{_localstatedir}/packages_files/agent_installation_scripts/etc/templates/config/suse/*
 %attr(750, root, root) %config(missingok) %{_localstatedir}/packages_files/agent_installation_scripts/src/*
-%dir %attr(750, root, wazuh) %{_localstatedir}/queue
-%dir %attr(770, wazuh, wazuh) %{_localstatedir}/queue/sockets
-%dir %attr(750, wazuh, wazuh) %{_localstatedir}/queue/diff
-%dir %attr(750, wazuh, wazuh) %{_localstatedir}/queue/fim
-%dir %attr(750, wazuh, wazuh) %{_localstatedir}/queue/fim/db
-%dir %attr(750, wazuh, wazuh) %{_localstatedir}/queue/syscollector
-%dir %attr(750, wazuh, wazuh) %{_localstatedir}/queue/syscollector/db
-%attr(640, root, wazuh) %{_localstatedir}/queue/syscollector/norm_config.json
-%dir %attr(770, wazuh, wazuh) %{_localstatedir}/queue/alerts
-%dir %attr(750, wazuh, wazuh) %{_localstatedir}/queue/rids
-%dir %attr(750, wazuh, wazuh) %{_localstatedir}/queue/logcollector
-%dir %attr(750, root, wazuh) %{_localstatedir}/ruleset/
-%dir %attr(750, root, wazuh) %{_localstatedir}/ruleset/sca
-%attr(750, root, wazuh) %{_localstatedir}/lib/libdbsync.so
-%attr(750, root, wazuh) %{_localstatedir}/lib/librsync.so
-%attr(750, root, wazuh) %{_localstatedir}/lib/libsyscollector.so
-%attr(750, root, wazuh) %{_localstatedir}/lib/libsysinfo.so
-%attr(750, root, wazuh) %{_localstatedir}/lib/libstdc++.so.6
-%attr(750, root, wazuh) %{_localstatedir}/lib/libgcc_s.so.1
-%attr(750, root, wazuh) %{_localstatedir}/lib/libfimdb.so
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/generic
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/generic/*
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/amzn
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/amzn/1
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/amzn/1/*
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/amzn/2
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/amzn/2/*
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/amzn/2023
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/amzn/2023/*
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/centos
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/centos/sca.files
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/centos/5
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/centos/5/*
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/centos/6
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/centos/6/*
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/centos/7
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/centos/7/*
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/centos/8
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/centos/8/*
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/ol/9
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/ol/9/*
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel/sca.files
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel/5
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel/5/*
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel/6
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel/6/*
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel/7
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel/7/*
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel/8
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel/8/*
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel/9
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel/9/*
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/sles
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/sles/sca.files
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/sles/11
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/sles/11/*
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/sles/12
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/sles/12/*
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/sles/15
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/sles/15/*
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/suse/sca.files
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/suse/11
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/suse/11/*
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/suse/12
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/suse/12/*
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/amazon
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/amazon/*
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/fedora
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/fedora/*
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/almalinux
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/almalinux/*
-%dir %attr(750, wazuh, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rocky
-%attr(640, root, wazuh) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rocky/*
-%dir %attr(1770, root, wazuh) %{_localstatedir}/tmp
-%dir %attr(750, root, wazuh) %{_localstatedir}/var
-%dir %attr(770, root, wazuh) %{_localstatedir}/var/incoming
-%dir %attr(770, root, wazuh) %{_localstatedir}/var/run
-%dir %attr(770, root, wazuh) %{_localstatedir}/var/selinux
-%attr(640, root, wazuh) %{_localstatedir}/var/selinux/*
-%dir %attr(770, root, wazuh) %{_localstatedir}/var/upgrade
-%dir %attr(770, root, wazuh) %{_localstatedir}/var/wodles
-%dir %attr(750, root, wazuh) %{_localstatedir}/wodles
-%attr(750, root, wazuh) %{_localstatedir}/wodles/*
-%dir %attr(750, root, wazuh) %{_localstatedir}/wodles/aws
-%attr(750, root, wazuh) %{_localstatedir}/wodles/aws/*
-%dir %attr(750, root, wazuh) %{_localstatedir}/wodles/azure
-%attr(750, root, wazuh) %{_localstatedir}/wodles/azure/*
-%dir %attr(750, root, wazuh) %{_localstatedir}/wodles/docker
-%attr(750, root, wazuh) %{_localstatedir}/wodles/docker/*
-%dir %attr(750, root, wazuh) %{_localstatedir}/wodles/gcloud
-%attr(750, root, wazuh) %{_localstatedir}/wodles/gcloud/*
+%dir %attr(750, root, cyb3rhq) %{_localstatedir}/queue
+%dir %attr(770, cyb3rhq, cyb3rhq) %{_localstatedir}/queue/sockets
+%dir %attr(750, cyb3rhq, cyb3rhq) %{_localstatedir}/queue/diff
+%dir %attr(750, cyb3rhq, cyb3rhq) %{_localstatedir}/queue/fim
+%dir %attr(750, cyb3rhq, cyb3rhq) %{_localstatedir}/queue/fim/db
+%dir %attr(750, cyb3rhq, cyb3rhq) %{_localstatedir}/queue/syscollector
+%dir %attr(750, cyb3rhq, cyb3rhq) %{_localstatedir}/queue/syscollector/db
+%attr(640, root, cyb3rhq) %{_localstatedir}/queue/syscollector/norm_config.json
+%dir %attr(770, cyb3rhq, cyb3rhq) %{_localstatedir}/queue/alerts
+%dir %attr(750, cyb3rhq, cyb3rhq) %{_localstatedir}/queue/rids
+%dir %attr(750, cyb3rhq, cyb3rhq) %{_localstatedir}/queue/logcollector
+%dir %attr(750, root, cyb3rhq) %{_localstatedir}/ruleset/
+%dir %attr(750, root, cyb3rhq) %{_localstatedir}/ruleset/sca
+%attr(750, root, cyb3rhq) %{_localstatedir}/lib/libdbsync.so
+%attr(750, root, cyb3rhq) %{_localstatedir}/lib/librsync.so
+%attr(750, root, cyb3rhq) %{_localstatedir}/lib/libsyscollector.so
+%attr(750, root, cyb3rhq) %{_localstatedir}/lib/libsysinfo.so
+%attr(750, root, cyb3rhq) %{_localstatedir}/lib/libstdc++.so.6
+%attr(750, root, cyb3rhq) %{_localstatedir}/lib/libgcc_s.so.1
+%attr(750, root, cyb3rhq) %{_localstatedir}/lib/libfimdb.so
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/generic
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/generic/*
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/amzn
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/amzn/1
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/amzn/1/*
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/amzn/2
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/amzn/2/*
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/amzn/2023
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/amzn/2023/*
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/centos
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/centos/sca.files
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/centos/5
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/centos/5/*
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/centos/6
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/centos/6/*
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/centos/7
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/centos/7/*
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/centos/8
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/centos/8/*
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/ol/9
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/ol/9/*
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel/sca.files
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel/5
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel/5/*
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel/6
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel/6/*
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel/7
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel/7/*
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel/8
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel/8/*
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel/9
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rhel/9/*
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/sles
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/sles/sca.files
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/sles/11
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/sles/11/*
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/sles/12
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/sles/12/*
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/sles/15
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/sles/15/*
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/suse/sca.files
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/suse/11
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/suse/11/*
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/suse/12
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/suse/12/*
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/amazon
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/amazon/*
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/fedora
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/fedora/*
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/almalinux
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/almalinux/*
+%dir %attr(750, cyb3rhq, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rocky
+%attr(640, root, cyb3rhq) %config(missingok) %{_localstatedir}/tmp/sca-%{version}-%{release}-tmp/rocky/*
+%dir %attr(1770, root, cyb3rhq) %{_localstatedir}/tmp
+%dir %attr(750, root, cyb3rhq) %{_localstatedir}/var
+%dir %attr(770, root, cyb3rhq) %{_localstatedir}/var/incoming
+%dir %attr(770, root, cyb3rhq) %{_localstatedir}/var/run
+%dir %attr(770, root, cyb3rhq) %{_localstatedir}/var/selinux
+%attr(640, root, cyb3rhq) %{_localstatedir}/var/selinux/*
+%dir %attr(770, root, cyb3rhq) %{_localstatedir}/var/upgrade
+%dir %attr(770, root, cyb3rhq) %{_localstatedir}/var/wodles
+%dir %attr(750, root, cyb3rhq) %{_localstatedir}/wodles
+%attr(750, root, cyb3rhq) %{_localstatedir}/wodles/*
+%dir %attr(750, root, cyb3rhq) %{_localstatedir}/wodles/aws
+%attr(750, root, cyb3rhq) %{_localstatedir}/wodles/aws/*
+%dir %attr(750, root, cyb3rhq) %{_localstatedir}/wodles/azure
+%attr(750, root, cyb3rhq) %{_localstatedir}/wodles/azure/*
+%dir %attr(750, root, cyb3rhq) %{_localstatedir}/wodles/docker
+%attr(750, root, cyb3rhq) %{_localstatedir}/wodles/docker/*
+%dir %attr(750, root, cyb3rhq) %{_localstatedir}/wodles/gcloud
+%attr(750, root, cyb3rhq) %{_localstatedir}/wodles/gcloud/*
 
 %changelog
 * Wed Jul 10 2024 support <info@wazuh.com> - 4.9.0
@@ -894,6 +894,6 @@ rm -fr %{buildroot}
 - Fixed compile errors on macOS.
 - Fixed option -V for Integrator.
 - Exclude symbolic links to directories when sending FIM diffs (by Stephan Joerrens).
-- Fixed daemon list for service reloading at wazuh-control.
+- Fixed daemon list for service reloading at cyb3rhq-control.
 - Fixed socket waiting issue on Windows agents.
 - Fixed PCI_DSS definitions grouping issue at Rootcheck controls.

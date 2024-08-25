@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -12,7 +12,7 @@
 #define EXECD_H
 
 #ifndef ARGV0
-#define ARGV0 "wazuh-execd"
+#define ARGV0 "cyb3rhq-execd"
 #endif
 
 /* Arguments for the commands */
@@ -53,7 +53,7 @@ void ExecdRun(char *exec_msg);
 void ExecdTimeoutRun();
 void ExecdShutdown();
 #else
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 void ExecdStart(int q);
 #else
 void ExecdStart(int q) __attribute__((noreturn));

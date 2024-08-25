@@ -1,4 +1,4 @@
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, Cyb3rhq Inc.
 #
 # This program is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public
@@ -6,7 +6,7 @@
 # Foundation.
 
 #include wrappers
-include(${SRC_FOLDER}/unit_tests/wrappers/wazuh/shared/shared.cmake)
+include(${SRC_FOLDER}/unit_tests/wrappers/cyb3rhq/shared/shared.cmake)
 
 # Tests list and flags
 list(APPEND tests_names "test_wm_github")
@@ -28,9 +28,9 @@ list(APPEND use_shared_libs 1)
 list(APPEND shared_libs "../scheduling/wmodules_scheduling_helpers.h")
 list(APPEND shared_libs "../scheduling/wmodules_scheduling_helpers.c")
 
-# Generate wazuh modules library
-file(GLOB github ../../../wazuh_modules/*.o)
-list(REMOVE_ITEM github ../../../wazuh_modules/main.o)
+# Generate cyb3rhq modules library
+file(GLOB github ../../../cyb3rhq_modules/*.o)
+list(REMOVE_ITEM github ../../../cyb3rhq_modules/main.o)
 
 add_library(GITHUB_O STATIC ${github})
 
@@ -47,7 +47,7 @@ set_target_properties(
   LINKER_LANGUAGE C
   )
 
-target_link_libraries(GITHUB_O ${WAZUHLIB} ${WAZUHEXT} -lpthread)
+target_link_libraries(GITHUB_O ${CYB3RHQLIB} ${CYB3RHQEXT} -lpthread)
 
 if(${TARGET} STREQUAL "winagent")
     link_directories(${SRC_FOLDER}/syscheckd/build/bin)
@@ -70,8 +70,8 @@ foreach(counter RANGE ${count})
     if(${TARGET} STREQUAL "server")
         target_link_libraries(
             ${test_name}
-            ${WAZUHLIB}
-            ${WAZUHEXT}
+            ${CYB3RHQLIB}
+            ${CYB3RHQEXT}
             GITHUB_O
             -lcmocka
             -ldl

@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * Copyright (C) 2009 Trend Micro Inc.
  * All rights reserved.
  *
@@ -22,7 +22,7 @@
 #include <openssl/md5.h>
 #include <openssl/sha.h>
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 #include "../../../unit_tests/wrappers/windows/winreg_wrappers.h"
 extern int _base_line;
 #else
@@ -902,7 +902,7 @@ void fim_read_values(HKEY key_handle,
         arch_string = (arch == ARCH_32BIT) ? "[x32]" : "[x64]";
 
         // Hash containing "value", arch, key path and value name
-        // Index used in wazuh manager DB
+        // Index used in cyb3rhq manager DB
         OS_SHA1_strings(hash_full_path, "value", arch_string, new.registry_entry.value->path,
                         new.registry_entry.value->name, NULL);
         new.registry_entry.value->hash_full_path = hash_full_path;
@@ -1050,7 +1050,7 @@ void fim_open_key(HKEY root_key_handle,
     arch_string = (arch == ARCH_32BIT) ? "[x32]" : "[x64]";
 
     // Hash containing "key", arch and key path
-    // Index used in wazuh manager DB
+    // Index used in cyb3rhq manager DB
     OS_SHA1_strings(hash_full_path, "key", arch_string, new.registry_entry.key->path, NULL);
     new.registry_entry.key->hash_full_path = hash_full_path;
 

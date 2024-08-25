@@ -1,14 +1,14 @@
 # Data Provider Testing Tool
 ## Index
 1. [Purpose](#purpose)
-2. [Compile Wazuh](#compile-wazuh)
+2. [Compile Cyb3rhq](#compile-cyb3rhq)
 3. [How to use the tool](#how-to-use-the-tool)
 
 ## Purpose
 The Data Provider Testing Tool was created to test and validate the data obtained by the module's execution. This tool works as a black box where an user will be able execute it and analyze the output data as desired.
 
-## Compile Wazuh
-In order compile the solution on a specific wazuh target, the project needs to be built either in release or debug mode.
+## Compile Cyb3rhq
+In order compile the solution on a specific cyb3rhq target, the project needs to be built either in release or debug mode.
 ```
 make TARGET=server|agent <DEBUG=1>
 ```

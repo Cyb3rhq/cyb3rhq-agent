@@ -1,6 +1,6 @@
 /*
  * Utils Agent Messages Adapter
- * Copyright (C) 2015, Wazuh Inc.
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * Dec 29, 2022.
  *
  * This program is free software; you can redistribute it

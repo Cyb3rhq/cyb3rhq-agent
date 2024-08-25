@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 ###
-# Integration of Wazuh agent with Microsoft Azure
-# Copyright (C) 2015, Wazuh Inc.
+# Integration of Cyb3rhq agent with Microsoft Azure
+# Copyright (C) 2015, Cyb3rhq Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

@@ -1,6 +1,6 @@
 /*
- * Wazuh Syscheck
- * Copyright (C) 2022, Wazuh Inc.
+ * Cyb3rhq Syscheck
+ * Copyright (C) 2022, Cyb3rhq Inc.
  * March 6, 2022.
  *
  * This program is free software; you can redistribute it

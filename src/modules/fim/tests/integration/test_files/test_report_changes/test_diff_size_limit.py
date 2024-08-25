@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Cyb3rhq Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Cyb3rhq, Inc. <info@wazuh.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -11,7 +11,7 @@ brief: File Integrity Monitoring (FIM) system watches selected files and trigger
        these files are modified. Specifically, these tests will check if FIM limits the size of
        'diff' information to generate from the file monitored when the 'diff_size_limit' and
        the 'report_changes' options are enabled.
-       The FIM capability is managed by the 'wazuh-syscheckd' daemon, which checks configured
+       The FIM capability is managed by the 'cyb3rhq-syscheckd' daemon, which checks configured
        files for changes to the checksums, permissions, and ownership.
 
 components:
@@ -23,7 +23,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - cyb3rhq-syscheckd
 
 os_platform:
     - linux
@@ -67,13 +67,13 @@ from pathlib import Path
 
 import pytest
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.modules.fim.configuration import SYSCHECK_DEBUG
-from wazuh_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
-from wazuh_testing.modules.fim.patterns import DIFF_MAXIMUM_FILE_SIZE, ERROR_MSG_MAXIMUM_FILE_SIZE_EVENT, ERROR_MSG_WRONG_VALUE_MAXIMUM_FILE_SIZE
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from cyb3rhq_testing.constants.paths.logs import CYB3RHQ_LOG_PATH
+from cyb3rhq_testing.modules.fim.configuration import SYSCHECK_DEBUG
+from cyb3rhq_testing.modules.agentd.configuration import AGENTD_WINDOWS_DEBUG
+from cyb3rhq_testing.modules.fim.patterns import DIFF_MAXIMUM_FILE_SIZE, ERROR_MSG_MAXIMUM_FILE_SIZE_EVENT, ERROR_MSG_WRONG_VALUE_MAXIMUM_FILE_SIZE
+from cyb3rhq_testing.tools.monitors.file_monitor import FileMonitor
+from cyb3rhq_testing.utils.callbacks import generate_callback
+from cyb3rhq_testing.utils.configuration import get_test_cases_data, load_configuration_template
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
 
@@ -96,16 +96,16 @@ local_internal_options = {SYSCHECK_DEBUG: 2, AGENTD_WINDOWS_DEBUG: '2'}
 # Tests
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
 def test_diff_size_limit(test_configuration, test_metadata, configure_local_internal_options,
-                                    truncate_monitored_files, set_wazuh_configuration, daemons_handler):
+                                    truncate_monitored_files, set_cyb3rhq_configuration, daemons_handler):
     '''
-    description: Check if the 'wazuh-syscheckd' daemon limits the size of 'diff' information to generate from
+    description: Check if the 'cyb3rhq-syscheckd' daemon limits the size of 'diff' information to generate from
                  the value set in the 'diff_size_limit' attribute when the global 'file_size' tag is different.
                  For this purpose, the test will monitor a directory and, once the FIM is started, it will wait
                  for the FIM event related to the maximum file size to generate 'diff' information. Finally,
                  the test will verify that the value gotten from that FIM event corresponds with the one set
                  in the 'diff_size_limit'.
 
-    wazuh_min_version: 4.6.0
+    cyb3rhq_min_version: 4.6.0
 
     tier: 1
 
@@ -122,12 +122,12 @@ def test_diff_size_limit(test_configuration, test_metadata, configure_local_inte
         - truncate_monitored_files:
             type: fixture
             brief: Reset the 'ossec.log' file and start a new monitor.
-        - set_wazuh_configuration:
+        - set_cyb3rhq_configuration:
             type: fixture
             brief: Configure a custom environment for testing.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Cyb3rhq daemons.
 
     assertions:
         - Verify that an FIM event is generated indicating the size limit of 'diff' information to generate
@@ -146,8 +146,8 @@ def test_diff_size_limit(test_configuration, test_metadata, configure_local_inte
         - realtime
         - who_data
     '''
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
-    wazuh_log_monitor.start(generate_callback(DIFF_MAXIMUM_FILE_SIZE), timeout=30)
-    callback_result = wazuh_log_monitor.callback_result
+    cyb3rhq_log_monitor = FileMonitor(CYB3RHQ_LOG_PATH)
+    cyb3rhq_log_monitor.start(generate_callback(DIFF_MAXIMUM_FILE_SIZE), timeout=30)
+    callback_result = cyb3rhq_log_monitor.callback_result
     assert callback_result, ERROR_MSG_MAXIMUM_FILE_SIZE_EVENT
-    assert str(wazuh_log_monitor.callback_result[0]) == test_metadata.get('diff_size_limit_kb'), ERROR_MSG_WRONG_VALUE_MAXIMUM_FILE_SIZE
+    assert str(cyb3rhq_log_monitor.callback_result[0]) == test_metadata.get('diff_size_limit_kb'), ERROR_MSG_WRONG_VALUE_MAXIMUM_FILE_SIZE

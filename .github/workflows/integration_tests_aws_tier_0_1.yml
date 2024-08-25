@@ -33,14 +33,14 @@ jobs:
       # Download and install integration tests framework.
       - name: Download and install integration tests framework
         run: |
-          if [ "X`git ls-remote https://github.com/wazuh/qa-integration-framework.git ${BRANCH_BASE}`" != "X" ]; then
+          if [ "X`git ls-remote https://github.com/cyb3rhq/qa-integration-framework.git ${BRANCH_BASE}`" != "X" ]; then
               QA_BRANCH=${BRANCH_BASE}
-          elif [ "X`git ls-remote https://github.com/wazuh/qa-integration-framework.git ${QA_IT_FW_BRANCH}`" != "X" ]; then
+          elif [ "X`git ls-remote https://github.com/cyb3rhq/qa-integration-framework.git ${QA_IT_FW_BRANCH}`" != "X" ]; then
               QA_BRANCH=${QA_IT_FW_BRANCH}
           else
               QA_BRANCH="main"
           fi
-          git clone -b ${QA_BRANCH} --single-branch https://github.com/wazuh/qa-integration-framework.git
+          git clone -b ${QA_BRANCH} --single-branch https://github.com/cyb3rhq/qa-integration-framework.git
           sudo pip install qa-integration-framework/
           sudo rm -rf qa-integration-framework/
       - name: Set AWS credentials file
@@ -48,13 +48,13 @@ jobs:
           sudo aws configure set aws_access_key_id ${{ secrets.IT_AWS_KEY_ID }} --profile default
           sudo aws configure set aws_secret_access_key ${{ secrets.IT_AWS_SECRET_ACCESS_KEY }} --profile default
           sudo aws configure set default.region ${AWS_DEFAULT_REGION} --profile default
-      # Build wazuh server for linux.
-      - name: Build wazuh server for linux
+      # Build cyb3rhq server for linux.
+      - name: Build cyb3rhq server for linux
         run: |
           make deps -C src TARGET=server -j2
           make -C src TARGET=server -j2
-      # Install wazuh server for linux.
-      - name: Install wazuh server for linux
+      # Install cyb3rhq server for linux.
+      - name: Install cyb3rhq server for linux
         run: |
           echo 'USER_LANGUAGE="en"' > ./etc/preloaded-vars.conf
           echo "" >> ./etc/preloaded-vars.conf
@@ -93,8 +93,8 @@ jobs:
         run: |
           cd tests/integration
           sudo python3 -m pytest --tier 0 --tier 1 test_aws/test_parser.py
-      - name: Run every test due to base WazuhIntegration class change or manual dispatch
-        if: contains(steps.get_modified_files.outputs.files, 'wodles/aws/wazuh_integration.py') ||
+      - name: Run every test due to base Cyb3rhqIntegration class change or manual dispatch
+        if: contains(steps.get_modified_files.outputs.files, 'wodles/aws/cyb3rhq_integration.py') ||
             ${{ github.event_name == 'workflow_dispatch' }}
         run: |
           cd tests/integration

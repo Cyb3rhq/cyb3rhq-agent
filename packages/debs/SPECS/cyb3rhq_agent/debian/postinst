@@ -1,6 +1,6 @@
 #!/bin/sh
-# postinst script for wazuh-agent
-# Wazuh, Inc 2015
+# postinst script for cyb3rhq-agent
+# Cyb3rhq, Inc 2015
 
 set -e
 
@@ -10,17 +10,17 @@ case "$1" in
     OS=$(lsb_release -si)
     VER=$(lsb_release -sr)
     DIR="/var/ossec"
-    USER="wazuh"
-    GROUP="wazuh"
-    WAZUH_GLOBAL_TMP_DIR="${DIR}/packages_files"
-    WAZUH_TMP_DIR="${WAZUH_GLOBAL_TMP_DIR}/agent_config_files"
-    SCRIPTS_DIR="${WAZUH_GLOBAL_TMP_DIR}/agent_installation_scripts"
+    USER="cyb3rhq"
+    GROUP="cyb3rhq"
+    CYB3RHQ_GLOBAL_TMP_DIR="${DIR}/packages_files"
+    CYB3RHQ_TMP_DIR="${CYB3RHQ_GLOBAL_TMP_DIR}/agent_config_files"
+    SCRIPTS_DIR="${CYB3RHQ_GLOBAL_TMP_DIR}/agent_installation_scripts"
     SCA_BASE_DIR="${SCRIPTS_DIR}/sca"
 
     OSMYSHELL="/sbin/nologin"
 
     if [ -d /run/systemd/system ]; then
-        rm -f /etc/init.d/wazuh-agent
+        rm -f /etc/init.d/cyb3rhq-agent
     fi
 
     if [ ! -f ${OSMYSHELL} ]; then
@@ -36,7 +36,7 @@ case "$1" in
         adduser --system --home ${DIR} --shell ${OSMYSHELL} --ingroup ${GROUP} ${USER} > /dev/null 2>&1
     fi
 
-    if [ -z "$2" ] || [ -f ${WAZUH_TMP_DIR}/create_conf ] ; then
+    if [ -z "$2" ] || [ -f ${CYB3RHQ_TMP_DIR}/create_conf ] ; then
 
         ${SCRIPTS_DIR}/gen_ossec.sh conf agent ${OS} ${VER} ${DIR} > ${DIR}/etc/ossec.conf
         ${SCRIPTS_DIR}/add_localfiles.sh ${DIR} >> ${DIR}/etc/ossec.conf
@@ -53,16 +53,16 @@ case "$1" in
     fi
 
     # Restore the local rules, client.keys and local_decoder
-    if [ -f ${WAZUH_TMP_DIR}/client.keys ]; then
-        cp ${WAZUH_TMP_DIR}/client.keys ${DIR}/etc/client.keys
+    if [ -f ${CYB3RHQ_TMP_DIR}/client.keys ]; then
+        cp ${CYB3RHQ_TMP_DIR}/client.keys ${DIR}/etc/client.keys
     fi
     # Restore ossec.conf configuration
-    if [ -f ${WAZUH_TMP_DIR}/ossec.conf ]; then
-        mv ${WAZUH_TMP_DIR}/ossec.conf ${DIR}/etc/ossec.conf
+    if [ -f ${CYB3RHQ_TMP_DIR}/ossec.conf ]; then
+        mv ${CYB3RHQ_TMP_DIR}/ossec.conf ${DIR}/etc/ossec.conf
     fi
     # Restore internal options configuration
-    if [ -f ${WAZUH_TMP_DIR}/local_internal_options.conf ]; then
-        mv ${WAZUH_TMP_DIR}/local_internal_options.conf ${DIR}/etc/local_internal_options.conf
+    if [ -f ${CYB3RHQ_TMP_DIR}/local_internal_options.conf ]; then
+        mv ${CYB3RHQ_TMP_DIR}/local_internal_options.conf ${DIR}/etc/local_internal_options.conf
     fi
 
     # Install the SCA files
@@ -106,26 +106,26 @@ case "$1" in
     fi
 
     # Restore group files
-    if [ -d ${WAZUH_TMP_DIR}/group ]; then
-        for file in ${WAZUH_TMP_DIR}/group/* ; do
+    if [ -d ${CYB3RHQ_TMP_DIR}/group ]; then
+        for file in ${CYB3RHQ_TMP_DIR}/group/* ; do
             mv ${file} ${DIR}/etc/shared/
         done
-        rm -rf ${WAZUH_TMP_DIR}/group
+        rm -rf ${CYB3RHQ_TMP_DIR}/group
     fi
 
     touch ${DIR}/logs/active-responses.log
-    chown wazuh:wazuh ${DIR}/logs/active-responses.log
+    chown cyb3rhq:cyb3rhq ${DIR}/logs/active-responses.log
     chmod 0660 ${DIR}/logs/active-responses.log
 
     # Check if SELinux is installed and enabled
     if command -v getenforce > /dev/null 2>&1 && command -v semodule > /dev/null 2>&1; then
         if [ $(getenforce) !=  "Disabled" ]; then
-            semodule -i ${DIR}/var/selinux/wazuh.pp
-            semodule -e wazuh
+            semodule -i ${DIR}/var/selinux/cyb3rhq.pp
+            semodule -e cyb3rhq
         fi
     fi
 
-    # Register and configure agent if Wazuh environment variables are defined
+    # Register and configure agent if Cyb3rhq environment variables are defined
     if [ -z "$2" ] ; then
         ${SCRIPTS_DIR}/src/init/register_configure_agent.sh ${DIR} > /dev/null || :
     fi
@@ -133,8 +133,8 @@ case "$1" in
     # Restoring file permissions
     ${SCRIPTS_DIR}/restore-permissions.sh > /dev/null 2>&1 || :
 
-    if [ -f /etc/systemd/system/wazuh-agent.service ]; then
-        rm -f /etc/systemd/system/wazuh-agent.service
+    if [ -f /etc/systemd/system/cyb3rhq-agent.service ]; then
+        rm -f /etc/systemd/system/cyb3rhq-agent.service
         if command -v systemctl > /dev/null 2>&1 && systemctl > /dev/null 2>&1; then
             systemctl daemon-reload > /dev/null 2>&1
         fi
@@ -142,17 +142,17 @@ case "$1" in
 
     # Remove old ossec user and group if exists and change ownwership of files
     if getent group ossec > /dev/null 2>&1; then
-        find ${DIR}/ -group ossec -user root -exec chown root:wazuh {} \; > /dev/null 2>&1 || true
+        find ${DIR}/ -group ossec -user root -exec chown root:cyb3rhq {} \; > /dev/null 2>&1 || true
         if getent passwd ossec > /dev/null 2>&1; then
-            find ${DIR}/ -group ossec -user ossec -exec chown wazuh:wazuh {} \; > /dev/null 2>&1 || true
+            find ${DIR}/ -group ossec -user ossec -exec chown cyb3rhq:cyb3rhq {} \; > /dev/null 2>&1 || true
             deluser ossec > /dev/null 2>&1
         fi
         if getent passwd ossecm > /dev/null 2>&1; then
-            find ${DIR}/ -group ossec -user ossecm -exec chown wazuh:wazuh {} \; > /dev/null 2>&1 || true
+            find ${DIR}/ -group ossec -user ossecm -exec chown cyb3rhq:cyb3rhq {} \; > /dev/null 2>&1 || true
             deluser ossecm > /dev/null 2>&1
         fi
         if getent passwd ossecr > /dev/null 2>&1; then
-            find ${DIR}/ -group ossec -user ossecr -exec chown wazuh:wazuh {} \; > /dev/null 2>&1 || true
+            find ${DIR}/ -group ossec -user ossecr -exec chown cyb3rhq:cyb3rhq {} \; > /dev/null 2>&1 || true
             deluser ossecr > /dev/null 2>&1
         fi
         if getent group ossec > /dev/null 2>&1; then
@@ -164,14 +164,14 @@ case "$1" in
     find ${DIR} -nouser -exec chown ${USER} {} \; > /dev/null 2>&1
 
     if [ ! -z "$2" ]; then
-        if [ -f ${WAZUH_TMP_DIR}/wazuh.restart ] ; then
+        if [ -f ${CYB3RHQ_TMP_DIR}/cyb3rhq.restart ] ; then
             if command -v systemctl > /dev/null 2>&1 && systemctl > /dev/null 2>&1; then
                 systemctl daemon-reload > /dev/null 2>&1
-                systemctl restart wazuh-agent.service > /dev/null 2>&1
+                systemctl restart cyb3rhq-agent.service > /dev/null 2>&1
             elif command -v service > /dev/null 2>&1 ; then
-                service wazuh-agent restart > /dev/null 2>&1
+                service cyb3rhq-agent restart > /dev/null 2>&1
             else
-                ${DIR}/bin/wazuh-control restart > /dev/null 2>&1
+                ${DIR}/bin/cyb3rhq-control restart > /dev/null 2>&1
             fi
         fi
     fi
@@ -187,13 +187,13 @@ case "$1" in
     fi
 
     # Delete tmp directory
-    if [ -d ${WAZUH_TMP_DIR} ]; then
-        rm -rf ${WAZUH_TMP_DIR}
+    if [ -d ${CYB3RHQ_TMP_DIR} ]; then
+        rm -rf ${CYB3RHQ_TMP_DIR}
     fi
 
     # If the parent directory is empty, delete it
-    if [ -z "$(ls -A ${WAZUH_GLOBAL_TMP_DIR})" ]; then
-        rm -rf ${WAZUH_GLOBAL_TMP_DIR}
+    if [ -z "$(ls -A ${CYB3RHQ_GLOBAL_TMP_DIR})" ]; then
+        rm -rf ${CYB3RHQ_GLOBAL_TMP_DIR}
     fi
 
     ;;

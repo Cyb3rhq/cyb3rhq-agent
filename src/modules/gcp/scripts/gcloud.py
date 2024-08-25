@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 #
-# Copyright (C) 2015, Wazuh Inc.
-# Created by Wazuh, Inc. <info@wazuh.com>.
+# Copyright (C) 2015, Cyb3rhq Inc.
+# Created by Cyb3rhq, Inc. <info@wazuh.com>.
 # This program is free software; you can redistribute
 # it and/or modify it under the terms of GPLv2
 
@@ -13,7 +13,7 @@ import exceptions
 from sys import exit
 from os import cpu_count
 from buckets.access_logs import GCSAccessLogs
-from pubsub.subscriber import WazuhGCloudSubscriber
+from pubsub.subscriber import Cyb3rhqGCloudSubscriber
 from concurrent.futures import ThreadPoolExecutor
 
 
@@ -61,7 +61,7 @@ def main():
                 futures = []
 
                 # check permissions
-                subscriber_client = WazuhGCloudSubscriber(credentials_file, project, logger, subscription_id)
+                subscriber_client = Cyb3rhqGCloudSubscriber(credentials_file, project, logger, subscription_id)
                 logger.debug("Checking credentials")
                 subscriber_client.check_permissions()
                 messages_per_thread = max_messages // n_threads
@@ -70,7 +70,7 @@ def main():
 
                 if messages_per_thread > 0:
                     for _ in range(n_threads - 1):
-                        client = WazuhGCloudSubscriber(credentials_file, project, logger, subscription_id)
+                        client = Cyb3rhqGCloudSubscriber(credentials_file, project, logger, subscription_id)
                         futures.append(executor.submit(client.process_messages, messages_per_thread))
 
             num_processed_messages = sum([future.result() for future in futures])
@@ -93,9 +93,9 @@ def main():
         else:
             raise exceptions.GCloudError(1002, integration_type=arguments.integration_type)
 
-    except exceptions.WazuhIntegrationException as gcloud_exception:
+    except exceptions.Cyb3rhqIntegrationException as gcloud_exception:
         logging_func = logger.critical if \
-            isinstance(gcloud_exception, exceptions.WazuhIntegrationInternalError) else \
+            isinstance(gcloud_exception, exceptions.Cyb3rhqIntegrationInternalError) else \
             logger.error
 
         logging_func(f'An exception happened while running the wodle: {gcloud_exception}', exc_info=log_level == 1)

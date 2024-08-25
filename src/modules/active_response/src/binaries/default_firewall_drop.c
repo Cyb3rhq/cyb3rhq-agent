@@ -1,4 +1,4 @@
-/* Copyright (C) 2015, Wazuh Inc.
+/* Copyright (C) 2015, Cyb3rhq Inc.
  * All right reserved.
  *
  * This program is free software; you can redistribute it
@@ -263,7 +263,7 @@ int main (int argc, char **argv) {
         }
 
         if (action == ADD_COMMAND) {
-            char *exec_cmd1[18] = { genfilt_path, "-v", "4", "-a", "D", "-s", (char *)srcip, "-m", "255.255.255.255", "-d", "0.0.0.0", "-M", "0.0.0.0", "-w", "B", "-D", "\"Access Denied by WAZUH\"", NULL };
+            char *exec_cmd1[18] = { genfilt_path, "-v", "4", "-a", "D", "-s", (char *)srcip, "-m", "255.255.255.255", "-d", "0.0.0.0", "-M", "0.0.0.0", "-w", "B", "-D", "\"Access Denied by CYB3RHQ\"", NULL };
 
             wfd = wpopenv(genfilt_path, exec_cmd1, W_BIND_STDERR);
             if (!wfd) {

@@ -1,6 +1,6 @@
 /*
- * Wazuh Module for Security Configuration Assessment
- * Copyright (C) 2015, Wazuh Inc.
+ * Cyb3rhq Module for Security Configuration Assessment
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * January 25, 2019.
  *
  * This program is free software; you can redistribute it
@@ -28,7 +28,7 @@
 #define mdebug1(msg, ...) _mtdebug1(WM_SCA_LOGTAG, __FILE__, __LINE__, __func__, msg, ##__VA_ARGS__)
 #define mdebug2(msg, ...) _mtdebug2(WM_SCA_LOGTAG, __FILE__, __LINE__, __func__, msg, ##__VA_ARGS__)
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 /* Remove static qualifier when testing */
 #define static
 #endif
@@ -283,7 +283,7 @@ static int wm_sca_send_alert(wm_sca_t * data,cJSON *json_alert)
     return (0);
 }
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 __attribute__((weak))
 #endif
 static void wm_sca_send_policies_scanned(wm_sca_t * data) {

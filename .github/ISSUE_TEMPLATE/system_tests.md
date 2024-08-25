@@ -1,7 +1,7 @@
 ---
 name: Release Candidate - System tests
 about: Report the results after running system tests.
-title: Release [WAZUH VERSION] - [STAGE] - System tests
+title: Release [CYB3RHQ VERSION] - [STAGE] - System tests
 labels: level/task, type/test
 assignees: ''
 
@@ -33,9 +33,9 @@ To run tests in an AWS EC2 virtual environment, the following requirements will 
 |Basic_environment             |Ubuntu 22.04.2 LTS T3.Large 30GB SSD       |
 
 
-These requirements should be requested to the @wazuh/devel-devops team via https://github.com/wazuh/internal-devel-requests.
+These requirements should be requested to the @cyb3rhq/devel-devops team via https://github.com/cyb3rhq/internal-devel-requests.
 
-For further information, check https://github.com/wazuh/wazuh-qa/tree/master/tests/system/README.md
+For further information, check https://github.com/cyb3rhq/cyb3rhq-qa/tree/master/tests/system/README.md
 
 ## Test report procedure
 All individual test checks must be marked as:
@@ -77,4 +77,4 @@ The definition of done for this one is the validation of the conclusions and the
 
 All checks from below must be accepted in order to close this issue.
 
-- [ ] @wazuh/devel-qa-release
+- [ ] @cyb3rhq/devel-qa-release

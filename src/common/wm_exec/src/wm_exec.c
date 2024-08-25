@@ -1,6 +1,6 @@
 /*
- * Wazuh Module Manager
- * Copyright (C) 2015, Wazuh Inc.
+ * Cyb3rhq Module Manager
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * April 25, 2016.
  *
  * This program is free software; you can redistribute it
@@ -11,7 +11,7 @@
 
 #include "wmodules.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 // Remove STATIC qualifier from tests
 #define STATIC
 #else
@@ -23,7 +23,7 @@
 #include <mach/mach.h>
 #endif
 
-#if defined(WAZUH_UNIT_TESTING) && defined(WIN32)
+#if defined(CYB3RHQ_UNIT_TESTING) && defined(WIN32)
 #include "../../unit_tests/wrappers/windows/processthreadsapi_wrappers.h"
 #include "../../unit_tests/wrappers/windows/handleapi_wrappers.h"
 #include "../../unit_tests/wrappers/windows/libc/kernel32_wrappers.h"

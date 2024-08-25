@@ -1,6 +1,6 @@
 /*
- * Wazuh Module for Agent Upgrading
- * Copyright (C) 2015, Wazuh Inc.
+ * Cyb3rhq Module for Agent Upgrading
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * July 30, 2020.
  *
  * This program is free software; you can redistribute it
@@ -8,7 +8,7 @@
  * License (version 2) as published by the FSF - Free Software
  * Foundation.
  */
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 // Remove static qualifier when unit testing
 #define STATIC
 
@@ -24,7 +24,7 @@
 #include "external/zlib/zlib.h"
 #include "os_crypto/sha1/sha1_op.h"
 #include "os_crypto/signature/signature.h"
-#include "wazuh_modules/wmodules.h"
+#include "cyb3rhq_modules/wmodules.h"
 #include "wm_agent_upgrade_agent.h"
 
 /**

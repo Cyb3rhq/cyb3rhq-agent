@@ -1,7 +1,7 @@
 '''
-copyright: Copyright (C) 2015-2024, Wazuh Inc.
+copyright: Copyright (C) 2015-2024, Cyb3rhq Inc.
 
-           Created by Wazuh, Inc. <info@wazuh.com>.
+           Created by Cyb3rhq, Inc. <info@wazuh.com>.
 
            This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 
@@ -11,7 +11,7 @@ brief: File Integrity Monitoring (FIM) system watches selected files and trigger
        when these files are modified. Specifically, these tests will check if FIM detects
        moving files from one directory using the 'whodata' monitoring mode to another using
        the 'realtime' monitoring mode and vice versa.
-       The FIM capability is managed by the 'wazuh-syscheckd' daemon, which checks configured
+       The FIM capability is managed by the 'cyb3rhq-syscheckd' daemon, which checks configured
        files for changes to the checksums, permissions, and ownership.
 
 components:
@@ -23,7 +23,7 @@ targets:
     - agent
 
 daemons:
-    - wazuh-syscheckd
+    - cyb3rhq-syscheckd
 
 os_platform:
     - linux
@@ -61,13 +61,13 @@ from pathlib import Path
 
 import pytest
 
-from wazuh_testing.constants.paths.logs import WAZUH_LOG_PATH
-from wazuh_testing.modules.fim.patterns import EVENT_TYPE_DELETED, EVENT_TYPE_ADDED
-from wazuh_testing.modules.fim.configuration import SYSCHECK_DEBUG
-from wazuh_testing.tools.monitors.file_monitor import FileMonitor
-from wazuh_testing.utils.callbacks import generate_callback
-from wazuh_testing.utils.configuration import get_test_cases_data, load_configuration_template
-from wazuh_testing.modules.fim.utils import get_fim_event_data
+from cyb3rhq_testing.constants.paths.logs import CYB3RHQ_LOG_PATH
+from cyb3rhq_testing.modules.fim.patterns import EVENT_TYPE_DELETED, EVENT_TYPE_ADDED
+from cyb3rhq_testing.modules.fim.configuration import SYSCHECK_DEBUG
+from cyb3rhq_testing.tools.monitors.file_monitor import FileMonitor
+from cyb3rhq_testing.utils.callbacks import generate_callback
+from cyb3rhq_testing.utils.configuration import get_test_cases_data, load_configuration_template
+from cyb3rhq_testing.modules.fim.utils import get_fim_event_data
 
 from . import TEST_CASES_PATH, CONFIGS_PATH
 
@@ -88,17 +88,17 @@ local_internal_options = {SYSCHECK_DEBUG: 2}
 
 # Test
 @pytest.mark.parametrize('test_configuration, test_metadata', zip(test_configuration, test_metadata), ids=cases_ids)
-def test_moving_file_to_whodata(test_configuration, test_metadata, set_wazuh_configuration, truncate_monitored_files,
+def test_moving_file_to_whodata(test_configuration, test_metadata, set_cyb3rhq_configuration, truncate_monitored_files,
                                 configure_local_internal_options, create_paths_files, daemons_handler, start_monitoring):
     '''
-    description: Check if the 'wazuh-syscheckd' daemon detects events when moving files from a directory
+    description: Check if the 'cyb3rhq-syscheckd' daemon detects events when moving files from a directory
                  monitored by 'whodata' to another monitored by 'realtime' and vice versa. For this purpose,
                  the test will monitor two folders using both FIM monitoring modes and create a testing file
                  inside each one. Then, it will rename the testing file of the target folder using the name
                  of the one inside the source folder. Finally, the test will verify that the FIM events
                  generated to match the monitoring mode used in the folders.
 
-    wazuh_min_version: 4.2.0
+    cyb3rhq_min_version: 4.2.0
 
     tier: 1
 
@@ -109,7 +109,7 @@ def test_moving_file_to_whodata(test_configuration, test_metadata, set_wazuh_con
         - test_metadata:
             type: dict
             brief: Test case data.
-        - set_wazuh_configuration:
+        - set_cyb3rhq_configuration:
             type: fixture
             brief: Set ossec.conf configuration.
         - truncate_monitored_files:
@@ -123,7 +123,7 @@ def test_moving_file_to_whodata(test_configuration, test_metadata, set_wazuh_con
             brief: Create the required directory or file to edit.
         - daemons_handler:
             type: fixture
-            brief: Handler of Wazuh daemons.
+            brief: Handler of Cyb3rhq daemons.
         - start_monitoring:
             type: fixture
             brief: Wait FIM to start.
@@ -135,7 +135,7 @@ def test_moving_file_to_whodata(test_configuration, test_metadata, set_wazuh_con
           in the target folder of moved files.
 
     input_description: A test case is contained in external YAML files (configuration_moving_files.yaml, cases_moving_files.yaml)
-                       which includes configuration settings for the 'wazuh-syscheckd' daemon and, these are
+                       which includes configuration settings for the 'cyb3rhq-syscheckd' daemon and, these are
                        combined with the testing directories to be monitored defined in the module.
 
     expected_output:
@@ -151,12 +151,12 @@ def test_moving_file_to_whodata(test_configuration, test_metadata, set_wazuh_con
     mod_del_event = test_metadata.get('mod_del_event')
     mod_add_event = test_metadata.get('mod_add_event')
 
-    wazuh_log_monitor = FileMonitor(WAZUH_LOG_PATH)
+    cyb3rhq_log_monitor = FileMonitor(CYB3RHQ_LOG_PATH)
     os.rename(os.path.join(dirsrc, filename), os.path.join(dirdst, filename))
 
     # Check event 'delete'
-    wazuh_log_monitor.start(generate_callback(EVENT_TYPE_DELETED), timeout=60)
-    callback_result = wazuh_log_monitor.callback_result
+    cyb3rhq_log_monitor.start(generate_callback(EVENT_TYPE_DELETED), timeout=60)
+    callback_result = cyb3rhq_log_monitor.callback_result
     assert callback_result
 
     event_data = get_fim_event_data(callback_result)
@@ -165,8 +165,8 @@ def test_moving_file_to_whodata(test_configuration, test_metadata, set_wazuh_con
     assert event_data.get('mode') == mod_del_event, 'FIM mode not equal'
 
     # Check event 'add'
-    wazuh_log_monitor.start(generate_callback(EVENT_TYPE_ADDED), timeout=60)
-    callback_result = wazuh_log_monitor.callback_result
+    cyb3rhq_log_monitor.start(generate_callback(EVENT_TYPE_ADDED), timeout=60)
+    callback_result = cyb3rhq_log_monitor.callback_result
     assert callback_result
 
     event_data = get_fim_event_data(callback_result)

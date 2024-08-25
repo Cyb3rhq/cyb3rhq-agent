@@ -1,4 +1,4 @@
-# Copyright (C) 2015, Wazuh Inc.
+# Copyright (C) 2015, Cyb3rhq Inc.
 # July 4, 2018.
 #
 # This program is free software; you can redistribute it
@@ -6,7 +6,7 @@
 # License (version 2) as published by the FSF - Free Software
 # Foundation.
 
-module wazuh 1.3;
+module cyb3rhq 1.3;
 
 require {
 	type audisp_t;

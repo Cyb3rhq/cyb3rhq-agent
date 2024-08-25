@@ -1,6 +1,6 @@
 /*
- * Wazuh Module for AWS S3 integration
- * Copyright (C) 2015, Wazuh Inc.
+ * Cyb3rhq Module for AWS S3 integration
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * January 08, 2018.
  *
  * Updated by Jeremy Phillips <jeremy@uranusbytes.com>
@@ -13,7 +13,7 @@
 
 #include "wmodules.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 /* Remove static qualifier when testing */
 #define static
 #endif
@@ -360,7 +360,7 @@ void wm_aws_check() {
 }
 
 // Run a bucket parsing
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 __attribute__((weak))
 #endif
 void wm_aws_run_s3(wm_aws *aws_config, wm_aws_bucket *exec_bucket) {

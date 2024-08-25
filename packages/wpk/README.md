@@ -21,7 +21,7 @@ It is required to use -k or --aws-wpk-key, --aws-wpk-cert parameters
     --tag <name>                   [Optional] Tag to use with the docker image.
     -h,   --help                   Show this help.
 
-Please, visit the following link for the full WPK packages building documentation: [Generate Wazuh WPK packages automatically.](https://documentation.wazuh.com/current/development/packaging/generate-wpk-package.html)
+Please, visit the following link for the full WPK packages building documentation: [Generate Cyb3rhq WPK packages automatically.](https://documentation.wazuh.com/current/development/packaging/generate-wpk-package.html)
 
 ## Workflows
 
@@ -36,12 +36,12 @@ It is responsible for building and uploading the images necessary for the WPK sc
           If using a custom tag, use only '-', '_', '.' and alphanumeric characters.
           Default is 'auto'.
   - source_reference:
-          Branch from wazuh/wazuh repository to use.
+          Branch from cyb3rhq/cyb3rhq repository to use.
 
 - packages-build-wpk.yml
 It is responsible for generating the WPKs for each system using the generate_wpk_package script. The parameters it accepts are:
   - source_reference:
-          Branch/tag of wazuh/wazuh to generate WPKs.
+          Branch/tag of cyb3rhq/cyb3rhq to generate WPKs.
   - docker_image_tag:
           Specify the docker tag used to build the package.
           Use 'developer' to set branch name as tag.
@@ -60,9 +60,9 @@ It is responsible for generating the WPKs for each system using the generate_wpk
 
 ## Contribute
 
-If you want to contribute to our project please don't hesitate to send a pull request. You can also join our users [mailing list](https://groups.google.com/d/forum/wazuh) by sending an email to [wazuh+subscribe@googlegroups.com](mailto:wazuh+subscribe@googlegroups.com)or join to our Slack channel by filling this [form](https://wazuh.com/community/join-us-on-slack/) to ask questions and participate in discussions.
+If you want to contribute to our project please don't hesitate to send a pull request. You can also join our users [mailing list](https://groups.google.com/d/forum/cyb3rhq) by sending an email to [cyb3rhq+subscribe@googlegroups.com](mailto:cyb3rhq+subscribe@googlegroups.com)or join to our Slack channel by filling this [form](https://wazuh.com/community/join-us-on-slack/) to ask questions and participate in discussions.
 
 ## License and copyright
 
-WAZUH
-Copyright (C) 2015 Wazuh Inc.  (License GPLv2)
+CYB3RHQ
+Copyright (C) 2015 Cyb3rhq Inc.  (License GPLv2)

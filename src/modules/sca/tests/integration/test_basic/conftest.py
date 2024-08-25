@@ -1,6 +1,6 @@
 """
- Copyright (C) 2015-2024, Wazuh Inc.
- Created by Wazuh, Inc. <info@wazuh.com>.
+ Copyright (C) 2015-2024, Cyb3rhq Inc.
+ Created by Cyb3rhq, Inc. <info@wazuh.com>.
  This program is free software; you can redistribute it and/or modify it under the terms of GPLv2
 """
 import os
@@ -9,10 +9,10 @@ import sys
 import subprocess
 from pathlib import Path
 
-from wazuh_testing.constants.paths.ruleset import CIS_RULESET_PATH
-from wazuh_testing.utils.file import copy, remove_file, copy_files_in_folder, delete_path_recursively
-from wazuh_testing.constants.paths import TEMP_FILE_PATH
-from wazuh_testing.constants.platforms import WINDOWS
+from cyb3rhq_testing.constants.paths.ruleset import CIS_RULESET_PATH
+from cyb3rhq_testing.utils.file import copy, remove_file, copy_files_in_folder, delete_path_recursively
+from cyb3rhq_testing.constants.paths import TEMP_FILE_PATH
+from cyb3rhq_testing.constants.platforms import WINDOWS
 
 from . import TEST_DATA_PATH
 

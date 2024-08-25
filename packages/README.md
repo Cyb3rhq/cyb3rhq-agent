@@ -1,6 +1,6 @@
-## Wazuh Package Builder Script
+## Cyb3rhq Package Builder Script
 
-This script automates the process of building Wazuh packages (manager or agent) for various architectures within a Docker container.
+This script automates the process of building Cyb3rhq packages (manager or agent) for various architectures within a Docker container.
 
 **Features:**
 
@@ -20,7 +20,7 @@ This script automates the process of building Wazuh packages (manager or agent) 
 
 **Usage:**
 ```
-wazuh# cd packages
+cyb3rhq# cd packages
 ./generate_package.sh [OPTIONS]
 ```
 
@@ -39,7 +39,7 @@ wazuh# cd packages
 | -l, --legacy | Build package for CentOS 5 (RPM only) (optional)        | no                     |
 | --dont-build-docker | Use a locally built Docker image (optional)      | no   |
 | --tag        | Tag to use with the Docker image (optional)             | -                     |
-| *--sources    | Path containing local Wazuh source code (optional)       | script path            |
+| *--sources    | Path containing local Cyb3rhq source code (optional)       | script path            |
 | **--is_stage | Use release name in package (optional)               | no                     |
 | --src        | Generate the source package (optional)                 | no                     |
 | --system | Package format to build (optional): rpm, deb (default)| deb                    |
@@ -53,16 +53,16 @@ wazuh# cd packages
 **Example Usage:**
 
 1. Build a manager package for amd64 architecture:
-./wazuh_package_builder.sh -t manager -a amd64 -s /tmp --system rpm
+./cyb3rhq_package_builder.sh -t manager -a amd64 -s /tmp --system rpm
 
 2. Build a debug agent package for i386 architecture with checksum generation:
-./wazuh_package_builder.sh -t agent -a i386 -s /tmp -d -c --system rpm
+./cyb3rhq_package_builder.sh -t agent -a i386 -s /tmp -d -c --system rpm
 
 3. Build a legacy RPM package for CentOS 5 (agent):
-./wazuh_package_builder.sh -t agent -l -s /tmp --system rpm
+./cyb3rhq_package_builder.sh -t agent -l -s /tmp --system rpm
 
-4. Build a package using local Wazuh source code:
-./wazuh_package_builder.sh -t manager -a amd64 --sources /path/to/wazuh/source --system rpm
+4. Build a package using local Cyb3rhq source code:
+./cyb3rhq_package_builder.sh -t manager -a amd64 --sources /path/to/cyb3rhq/source --system rpm
 
 
 **Notes:**
@@ -77,13 +77,13 @@ wazuh# cd packages
 ## Generate and push builder images to GH
 
 ```bash
-curl -L -X POST -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GH_WORKFLOW_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" --data-binary "@$(pwd)/wazuh-agent-test-amd64-rpm.json" "https://api.github.com/repos/wazuh/wazuh/actions/workflows/packages-upload-agent-images-amd.yml/dispatches"
+curl -L -X POST -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GH_WORKFLOW_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" --data-binary "@$(pwd)/cyb3rhq-agent-test-amd64-rpm.json" "https://api.github.com/repos/cyb3rhq/cyb3rhq/actions/workflows/packages-upload-agent-images-amd.yml/dispatches"
 ```
 
 Where the JSON looks like this:
 
 ```json
-# cat wazuh-agent-test-amd64-rpm.json
+# cat cyb3rhq-agent-test-amd64-rpm.json
 {
     "ref":"4.9.0",
     "inputs":
@@ -101,12 +101,12 @@ Where the JSON looks like this:
 ## Generate packages
 
 ```json
-curl -L -X POST -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GH_WORKFLOW_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" --data-binary "@$(pwd)/wazuh-agent-test-amd64-rpm.json" "https://api.github.com/repos/wazuh/wazuh/actions/workflows/packages-build-linux-agent-amd.yml/dispatches"
+curl -L -X POST -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GH_WORKFLOW_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" --data-binary "@$(pwd)/cyb3rhq-agent-test-amd64-rpm.json" "https://api.github.com/repos/cyb3rhq/cyb3rhq/actions/workflows/packages-build-linux-agent-amd.yml/dispatches"
 ```
 
 Where the JSON looks like this:
 ```json
-# cat wazuh-agent-test-amd64-rpm.json
+# cat cyb3rhq-agent-test-amd64-rpm.json
 {
     "ref":"4.9.0",
     "inputs":

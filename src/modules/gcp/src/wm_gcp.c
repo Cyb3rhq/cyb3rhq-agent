@@ -1,6 +1,6 @@
 /*
- * Wazuh Module for Security Configuration Assessment
- * Copyright (C) 2015, Wazuh Inc.
+ * Cyb3rhq Module for Security Configuration Assessment
+ * Copyright (C) 2015, Cyb3rhq Inc.
  * January 25, 2019.
  *
  * This program is free software; you can redistribute it
@@ -15,7 +15,7 @@
 #include "os_crypto/sha256/sha256_op.h"
 #include "shared.h"
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 /* Remove static qualifier when testing */
 #define static
 #endif
@@ -114,7 +114,7 @@ const wm_context WM_GCP_BUCKET_CONTEXT = {
     .query = NULL,
 };
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 // Replace pthread_exit for testing purposes
 #define pthread_exit(a) return a
 #endif
@@ -232,7 +232,7 @@ void* wm_gcp_bucket_main(wm_gcp_bucket_base *data) {
 #endif
 }
 
-#ifdef WAZUH_UNIT_TESTING
+#ifdef CYB3RHQ_UNIT_TESTING
 /* Replace pthread_exit for testing purposes */
 #undef pthread_exit
 #define pthread_exit(a) return
